@@ -1,0 +1,45 @@
+body {
+  font-family: sans-serif;
+}
+
+.card-group {
+  display: flex;
+  font-family: sans-serif;
+}
+.number {
+  margin: 0 auto;
+  border-radius: 3px;
+  box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.2);
+  padding: 1em;
+  width: 5em;
+  text-align: center;
+}
+.number.green {
+  background-color: rgb(0, 255, 0);
+}
+.number.blue {
+  background-color: rgb(0, 255, 255);
+}
+.number.red {
+  background-color: rgb(255, 0, 0);
+}
+
+.card {
+  margin: 0 auto;
+  border-radius: 3px;
+  box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.2);
+  padding: 1em;
+  width: 5em;
+}
+
+.card > div {
+  text-align: center;
+}
+
+.card.use {
+  background-color: rgb(177, 206, 177);
+}
+
+.card.pick {
+  background-color: rgb(248, 248, 9);
+}
