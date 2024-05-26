@@ -5,6 +5,10 @@ body {
 .card-group {
   display: flex;
   font-family: sans-serif;
+  width: 40em;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  justify-content: center
 }
 .number {
   margin: 0 auto;
