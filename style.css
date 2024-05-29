@@ -2,6 +2,12 @@ body {
   font-family: sans-serif;
 }
 
+.score-grid {
+  display: grid;
+  grid-template-columns: 5em 5em 5em 5em 5em 5em 5em;
+  text-align: center;
+}
+
 .card-group {
   display: flex;
   font-family: sans-serif;
