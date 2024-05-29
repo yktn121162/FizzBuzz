@@ -135,8 +135,7 @@ function genExam() {
   } else if (colorGenerator === 2) {
     color = 'blue';
   }
-    
-  scorehis.splice(0, scorehis.length );
+  
   
   startTime = new Date();
   displayTime();
@@ -159,8 +158,66 @@ function genExam() {
     renderTarget.innerText = ''; // 描画内容をクリア
     
     const titleElem = document.createElement('h1');
+    titleElem.id = 'title';
     titleElem.innerText = `Asender's FizzBuzz`;
     renderTarget.appendChild(titleElem);
+    
+    const hsElem = document.createElement('div');
+    hsElem.id = 'highscore';
+    hsElem.innerText = `HighScore: ${highscore}`;
+    renderTarget.appendChild(hsElem);
+    
+    if (state.phase === 'play' || state.phase === 'done') {
+      const scoreGrid = document.createElement('div');
+      scoreGrid.classList.add('score-grid');
+      
+      const telm = document.createElement('div');
+      telm.innerText = 'Turn';
+      scoreGrid.appendChild(telm);
+      
+      const t1elm = document.createElement('div');
+      t1elm.innerText = '1';
+      scoreGrid.appendChild(t1elm);
+      const t2elm = document.createElement('div');
+      t2elm.innerText = '2';
+      scoreGrid.appendChild(t2elm);
+      const t3elm = document.createElement('div');
+      t3elm.innerText = '3';
+      scoreGrid.appendChild(t3elm);
+      const t4elm = document.createElement('div');
+      t4elm.innerText = '4';
+      scoreGrid.appendChild(t4elm);
+      const t5elm = document.createElement('div');
+      t5elm.innerText = '5';
+      scoreGrid.appendChild(t5elm);
+      
+      const htotalelm = document.createElement('div');
+      htotalelm.innerText = 'Total';
+      scoreGrid.appendChild(htotalelm);
+      
+      const selm = document.createElement('div');
+      selm.innerText = 'Score';
+      scoreGrid.appendChild(selm);
+      
+      let total = 0;
+      for(let i = 0; i < 5 ; i++) {
+        let elm = document.createElement('div');
+        if(i >= scorehis.length) {
+          elm.innerText = '';
+        } else {
+          elm.innerText = scorehis[i].toFixed(2);
+          total = total + scorehis[i];
+        }
+        scoreGrid.appendChild(elm);
+      }
+      const totalelm = document.createElement('div');
+      totalelm.innerText = total.toFixed(2);
+      scoreGrid.appendChild(totalelm);
+      
+      renderTarget.appendChild(scoreGrid);
+    }
+    
+    
     
     if (state.phase !== 'play' && state.phase !== 'pick' && state.phase !== 'done' && state.phase !== 'expick') {
       //state.phase = 'play';
@@ -261,6 +318,7 @@ function genExam() {
         
         genExam();
         cards = deck.deal(maxinplay).map((c) => ({ isUse: false, ...c }));
+        scorehis.splice(0, scorehis.length );
         render(renderTarget, {
           cardList: cards,
           pickList: state.pickList,
