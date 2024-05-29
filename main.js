@@ -156,7 +156,7 @@ function genExam() {
   // stateは現在の状態（手札のリストとゲームフェーズ）です
   (function render(renderTarget, state) {
 
-    if (state.phase !== 'play' && state.phase !== 'pick' && state.phase !== 'done') {
+    if (state.phase !== 'play' && state.phase !== 'pick' && state.phase !== 'done' && state.phase !== 'expick') {
       state.phase = 'play';
     }
     renderTarget.innerText = ''; // 描画内容をクリア
@@ -169,7 +169,7 @@ function genExam() {
     const numContainer = document.createElement('div');
     numContainer.classList.add('num-group');
     renderTarget.appendChild(numContainer);
-    if (state.phase === 'pick') {
+    if (state.phase === 'pick' || state.phase === 'expick') {
       numContainer.appendChild(createNumElement('pick', 'none'));
     } else {
       numContainer.appendChild(createNumElement(targetnum, color));
@@ -183,8 +183,9 @@ function genExam() {
     renderTarget.appendChild(container);
 
 
+    //if (state.phase === `pick` || state.phase === `expick`) {
     if (state.phase === `pick`) {
-      alert(typeof state.pickList);
+      //alert(typeof state.pickList);
 
       for (const card of state.pickList) {
         const cardElem = createCardElement(card);
@@ -198,35 +199,59 @@ function genExam() {
 
         container.appendChild(cardElem);
       }
+      
+      // pick実行ボタン表示
+      const nextGameButton = document.createElement('button');
+      nextGameButton.innerText = 'ピック';
+      nextGameButton.addEventListener('click', () => {
+        
+        render(renderTarget, {
+          cardList: state.cardList,
+          pickList: state.pickList,
+          phase: 'expick'
+        });
+      });
+      renderTarget.appendChild(nextGameButton);
+      
+    }
+
+    if (state.phase === `expick`) {
+      //alert(typeof state.pickList);
+
 
       // 1つだけピックされているとき
       // playへ移動するボタンの表示
-      var count = 0;
+      // 何枚でもピックできるようにしてしまう。このゲームではプレイヤーは基本的に自由
+      const pickContainer = document.createElement('div');
+      
       for(const card of state.pickList){
-        if(card.isPick) count++;
-      }
-      //if (count === 1) {
-      {
-        const nextGameButton = document.createElement('button');
-        nextGameButton.innerText = 'ゲームへ';
-        nextGameButton.addEventListener('click', () => {
-          // ここでカードの処理
-          ///alert('new deal');
+        if(card.isPick) {
+          deck.pick(card);
           
-          genExam();
-          cards = deck.deal(maxinplay).map((c) => ({ isUse: false, ...c }));
-          render(renderTarget, {
-            cardList: cards,
-            pickList: state.pickList,
-            phase: 'play'
-          });
-        });
-        renderTarget.appendChild(nextGameButton);
+          const cardelm = document.createElement('div');
+          cardelm.innerText = `pick: ${card.label}`;
+          pickContainer.appendChild(cardelm);
+        }
       }
-
-
-
-
+      
+      
+      const nextGameButton = document.createElement('button');
+      nextGameButton.innerText = 'ゲームへ';
+      nextGameButton.addEventListener('click', () => {
+        // ここでカードの処理
+        ///alert('new deal');
+        
+        genExam();
+        cards = deck.deal(maxinplay).map((c) => ({ isUse: false, ...c }));
+        render(renderTarget, {
+          cardList: cards,
+          pickList: state.pickList,
+          phase: 'play'
+        });
+      });
+      renderTarget.appendChild(nextGameButton);
+      
+      renderTarget.appendChild(pickContainer);
     }
 
     //alert('hoge');
@@ -272,7 +297,7 @@ function genExam() {
         nextGameButton.innerText = 'ピックへ';
         nextGameButton.addEventListener('click', () => {
           // ここでピックリストの生成
-          //pickCards = ;
+          let pickCards = getPickOption(maxpick).map((c) => ({ isPick: false, ...c }));
           render(renderTarget, {
             cardList: state.cardList,
             pickList: pickCards,
