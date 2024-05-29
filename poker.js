@@ -126,7 +126,7 @@ const getScore = (list,random,color) =>{
 
     if(v.type === "red" && v.count > 0){
       if(isRed(color)){
-        score++;
+        score = score * (2 + (v.count -1) * 0.1);
       }else{
         score--;
       }
@@ -134,7 +134,7 @@ const getScore = (list,random,color) =>{
 
     if(v.type === "green" && v.count > 0){
       if(isGreen(color)){
-        score++;
+        score = score * (2 + (v.count -1) * 0.1);
       }else{
         score--;
       }
@@ -142,7 +142,7 @@ const getScore = (list,random,color) =>{
 
     if(v.type === "blue" && v.count > 0){
       if(isBlue(color)){
-        score++;
+        score = score * (2 + (v.count -1) * 0.1);
       }else{
         score--;
       }
