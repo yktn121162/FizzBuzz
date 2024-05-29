@@ -1,11 +1,22 @@
 const cardMst = [
-    {type: 'fizz'   , label: 'FIZZ'   , no: '1' },
-    {type: 'buzz'   , label: 'BUZZ'   , no: '2' },
-    {type: 'prime'  , label: 'Prime'  , no: '50'},
+    {type: 'fizz'   , label: 'FIZZ'   , no: '1'  },
+    {type: 'buzz'   , label: 'BUZZ'   , no: '2'  },
+    {type: '7'      , label: '7'      , no: '3'  },
+    {type: '11'     , label: 'ELEVEN' , no: '4'  },
+    {type: '13'     , label: 'Jason'  , no: '5'  },
+    {type: '17'     , label: 'Gauss'  , no: '6'  },
+    {type: 'odd'    , label: 'ODD'    , no: '11' },
+    {type: 'even'   , label: 'EVEN'   , no: '12' },
+    {type: 'prime'  , label: 'Prime'  , no: '50' },
+    {type: 'perfect', label: 'Perfect', no: '51' },
+    {type: 'sq'     , label: 'Square' , no: '52' },
+    {type: 'cubic'  , label: 'Cubic'  , no: '53' },
     {type: 'red'    , label: 'Red'    , no: '100'},
     {type: 'green'  , label: 'Green'  , no: '101'},
     {type: 'blue'   , label: 'Blue'   , no: '102'},
-    
+    {type: 'yellow' , label: 'Yellow' , no: '103'},
+    {type: 'cyan'   , label: 'Cyan'   , no: '104'},
+    {type: 'magenta', label: 'Magenta', no: '105'},
 ];
 
 const getCrad = (type) => {
@@ -219,25 +230,77 @@ const add2Deck = (card) => {
 
 const getPickOption =  (n) => {
   let list = new Array();
+  
+  
   for(let i = 0; i < n ; i++) {
-    let randomNum = Math.floor(Math.random() * 6);
-    if(randomNum === 0) {
-      list.push( getCrad('fizz') );
-    }
-    if(randomNum === 1) {
-      list.push( getCrad('buzz') );
-    }
-    if(randomNum === 2) {
-      list.push( getCrad('prime') );
-    }
-    if(randomNum === 3) {
-      list.push( getCrad('red') );
-    }
-    if(randomNum === 4) {
-      list.push( getCrad('green') );
-    }
-    if(randomNum === 5) {
-      list.push( getCrad('blue') );
+    // 1枚目はアンモンが出るかも
+    let randomG = Math.floor(Math.random() * 100);
+    if(i == 0 && randomG < 50) {
+      let randomNum = Math.floor(Math.random() * 5);
+      
+      switch(randomNum) {
+      case 0:
+        list.push( getCrad('17') );
+        break;
+      case 1:
+        list.push( getCrad('cubic') );
+        break;
+      case 2:
+        list.push( getCrad('yellow') );
+        break;
+      case 3:
+        list.push( getCrad('cyan') );
+        break;
+      case 4:
+        list.push( getCrad('magenta') );
+        break;
+      }
+    } else {
+      let randomNum = Math.floor(Math.random() * 14);
+      switch(randomNum) {
+      case 0:
+        list.push( getCrad('fizz') );
+        break;
+      case 1:
+        list.push( getCrad('buzz') );
+        break;
+      case 2:
+        list.push( getCrad('prime') );
+        break;
+      case 3:
+        list.push( getCrad('red') );
+        break;
+      case 4:
+        list.push( getCrad('green') );
+        break;
+      case 5:
+        list.push( getCrad('blue') );
+        break;
+      case 6:
+        list.push( getCrad('odd') );
+        break;
+      case 7:
+        list.push( getCrad('even') );
+        break;
+      case 8:
+        list.push( getCrad('7') );
+        break;
+      case 9:
+        list.push( getCrad('11') );
+        break;
+      case 10:
+        list.push( getCrad('13') );
+        break;
+      case 11:
+        list.push( getCrad('17') );
+        break;
+      case 12:
+        list.push( getCrad('sq') );
+        break;
+      case 13:
+        list.push( getCrad('perfect') );
+        break;
+      }
     }
   }
   return list;
