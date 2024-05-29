@@ -205,13 +205,13 @@ function genExam() {
         if(i >= scorehis.length) {
           elm.innerText = '';
         } else {
-          elm.innerText = String(scorehis[i]).padEnd(8);
+          elm.innerText = scorehis[i].toFixed(2);
           total = total + scorehis[i];
         }
         scoreGrid.appendChild(elm);
       }
       const totalelm = document.createElement('div');
-      totalelm.innerText = total;
+      totalelm.innerText = total.toFixed(2);
       scoreGrid.appendChild(totalelm);
       
       renderTarget.appendChild(scoreGrid);
