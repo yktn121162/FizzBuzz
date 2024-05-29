@@ -149,17 +149,35 @@ function genExam() {
 (function startGame() {
 
 
-  genExam();
+  //genExam();
 
   // カードを描画する
   // renderTargetは描画対象（ここではdocument.bodyにしておきます）
   // stateは現在の状態（手札のリストとゲームフェーズ）です
   (function render(renderTarget, state) {
 
-    if (state.phase !== 'play' && state.phase !== 'pick' && state.phase !== 'done' && state.phase !== 'expick') {
-      state.phase = 'play';
-    }
     renderTarget.innerText = ''; // 描画内容をクリア
+    
+    const titleElem = document.createElement('h1');
+    titleElem.innerText = `Asender's FizzBuzz`;
+    renderTarget.appendChild(titleElem);
+    
+    if (state.phase !== 'play' && state.phase !== 'pick' && state.phase !== 'done' && state.phase !== 'expick') {
+      //state.phase = 'play';
+      const GameStartButton = document.createElement('button');
+      GameStartButton.innerText = 'ゲームスタート';
+      GameStartButton.addEventListener('click', () => {
+        genExam();
+        render(renderTarget, {
+          cardList: state.cardList,
+          pickList: state.pickList,
+          phase: 'play'
+        });
+      });
+      renderTarget.appendChild(GameStartButton);
+      
+      return;
+    }
     
     const timeElem = document.createElement('div');
     arrangeTimeElement(timeElem);
