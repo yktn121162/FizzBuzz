@@ -45,6 +45,36 @@ const createNumElement = (number, color) => {
 }
 
 
+// グルーバルスコープに置くと良い気がした
+// カード情報作成
+  const deck = new Deck({ includesJoker: true });
+  let cards = deck.deal(5).map((c) => ({ isUse: false, ...c }));
+  let pickCards = getPickOption(5).map((c) => ({ isPick: false, ...c }));
+  //alert(typeof pickCards);
+  let turn = 1;
+  const maxturn = 5;
+  let cycle = 1;
+  let scorehis = [];
+  let highscore = 0;
+  
+  let targetnum = 0;
+  let color = 'none';
+
+// お題作成
+function genExam() {
+    targetnum = Math.floor(Math.random() * 100 + 1);
+    let colorGenerator = Math.floor(Math.random() * 3);
+    if (colorGenerator === 0) {
+      color = 'red';
+    } else if (colorGenerator === 1) {
+      color = 'green';
+    } else if (colorGenerator === 2) {
+      color = 'blue';
+    }
+    
+    scorehis.splice(0, scorehis.length )
+  }
+
 //
 // メイン処理
 //
@@ -52,27 +82,7 @@ const createNumElement = (number, color) => {
 (function startGame() {
 
 
-
-  // カード情報作成
-  const deck = new Deck({ includesJoker: true });
-  const cards = deck.deal(5).map((c) => ({ isUse: false, ...c }));
-  const pickCards = getPickOption(5).map((c) => ({ isPick: false, ...c }));
-  alert(typeof pickCards);
-
-
-  //乱数の生成
-  var random = Math.floor(Math.random() * 100 + 1);
-  var colorGenerator = Math.floor(Math.random() * 3);
-
-  var color = 'red';
-  if (colorGenerator === 0) {
-    color = 'red';
-  } else if (colorGenerator === 1) {
-    color = 'green';
-  } else if (colorGenerator === 2) {
-    color = 'blue';
-  }
-
+  genExam();
 
   // カードを描画する
   // renderTargetは描画対象（ここではdocument.bodyにしておきます）
@@ -83,15 +93,16 @@ const createNumElement = (number, color) => {
       state.phase = 'play';
     }
     renderTarget.innerText = ''; // 描画内容をクリア
+    
 
     //数字を表示するためのコンテナを作成
     const numContainer = document.createElement('div');
     numContainer.classList.add('num-group');
     renderTarget.appendChild(numContainer);
     if (state.phase === 'pick') {
-      numContainer.appendChild(createNumElement('pick', color));
+      numContainer.appendChild(createNumElement('pick', 'none'));
     } else {
-      numContainer.appendChild(createNumElement(random, color));
+      numContainer.appendChild(createNumElement(targetnum, color));
     }
 
 
@@ -124,12 +135,18 @@ const createNumElement = (number, color) => {
       for(const card of state.pickList){
         if(card.isPick) count++;
       }
-      if (count === 1) {
+      //if (count === 1) {
+      {
         const nextGameButton = document.createElement('button');
         nextGameButton.innerText = 'ゲームへ';
         nextGameButton.addEventListener('click', () => {
+          // ここでカードの処理
+          ///alert('new deal');
+          
+          genExam();
+          cards = deck.deal(5).map((c) => ({ isUse: false, ...c }));
           render(renderTarget, {
-            cardList: state.cardList,
+            cardList: cards,
             pickList: state.pickList,
             phase: 'play'
           });
@@ -166,22 +183,49 @@ const createNumElement = (number, color) => {
     // 現在のゲームフェーズを見て処理を変える
     if (state.phase === 'done') {
       // 役の表示
-      const score = getScore(state.cardList, random, color);
+      const score = getScore(state.cardList, targetnum, color);
       const scoreLabel = document.createElement('div');
       scoreLabel.innerText = score;
       renderTarget.appendChild(scoreLabel);
+      
+      scorehis.push(score);
+      if( score > highscore ) {
+        highscore = score;
+      }
 
-      // ピックへ移動するボタンの表示
-      const nextGameButton = document.createElement('button');
-      nextGameButton.innerText = 'ピックへ';
-      nextGameButton.addEventListener('click', () => {
-        render(renderTarget, {
-          cardList: state.cardList,
-          pickList: state.pickList,
-          phase: 'pick'
+      if(cycle >= 5) {
+        cycle = 0;
+        // ピックへ移動するボタンの表示
+        const nextGameButton = document.createElement('button');
+        nextGameButton.innerText = 'ピックへ';
+        nextGameButton.addEventListener('click', () => {
+          // ここでピックリストの生成
+          //pickCards = ;
+          render(renderTarget, {
+            cardList: state.cardList,
+            pickList: pickCards,
+            phase: 'pick'
+          });
         });
-      });
-      renderTarget.appendChild(nextGameButton);
+        renderTarget.appendChild(nextGameButton);
+      } else {
+        cycle = cycle + 1;
+        const nextGameButton = document.createElement('button');
+        nextGameButton.innerText = 'Next turn';
+        nextGameButton.addEventListener('click', () => {
+          // ここでカードの処理
+          //alert('new deal');
+          
+          genExam();
+          cards = deck.deal(5).map((c) => ({ isUse: false, ...c }));
+          render(renderTarget, {
+            cardList: cards,
+            pickList: state.pickList,
+            phase: 'play'
+          });
+        });
+        renderTarget.appendChild(nextGameButton);
+      }
     } else if (state.phase === 'play') {
       // カード交換ボタン
       // クリックすると保持フラグのついていないカードを交換し
