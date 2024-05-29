@@ -59,21 +59,82 @@ const createNumElement = (number, color) => {
   
   let targetnum = 0;
   let color = 'none';
+  
+  let startTime = Date.now();
+  let limitTime = 10;
+
+  let timeoutID = null;
+  let examtimeoutID = null;
+  
+  let doneFunction;
+
+
+function CalcDiff() {
+  let targetTime = new Date( startTime );
+  targetTime.setSeconds( targetTime.getSeconds() + limitTime );
+  const now = new Date();
+  const diff = targetTime.getTime() - now.getTime();
+  
+  return diff;
+}
+
+function genTime() {
+  const diff = CalcDiff();
+  if( diff > 0 ){
+    
+    const calcSec = Math.floor(diff / 1000) % 60;
+    const calcMSec = diff % 1000;
+  
+    const s = String(calcSec).padStart(2, '0');
+    const ms = String(calcMSec).padStart(3, '0');
+  
+    const timeText = `00:${s}.${ms}`;
+  
+    return timeText;
+  } else {
+    const timeText = `00:00.000`;
+  
+    return timeText;
+  }
+}
+
+function arrangeTimeElement(elem) {
+  elem.innerText = genTime();
+  elem.id = 'time';
+}
+
+function displayTime() {
+  const time = document.getElementById('time');
+  if(time != null) {
+    arrangeTimeElement(time);
+    
+    const diff = CalcDiff();
+    if( diff <= 0 ) {
+      doneFunction();
+      
+      return;
+    }
+  }
+  timeoutID = setTimeout(displayTime, 10);
+}
 
 // お題作成
 function genExam() {
-    targetnum = Math.floor(Math.random() * 100 + 1);
-    let colorGenerator = Math.floor(Math.random() * 3);
-    if (colorGenerator === 0) {
-      color = 'red';
-    } else if (colorGenerator === 1) {
-      color = 'green';
-    } else if (colorGenerator === 2) {
-      color = 'blue';
-    }
-    
-    scorehis.splice(0, scorehis.length )
+  targetnum = Math.floor(Math.random() * 100 + 1);
+  let colorGenerator = Math.floor(Math.random() * 3);
+  if (colorGenerator === 0) {
+    color = 'red';
+  } else if (colorGenerator === 1) {
+    color = 'green';
+  } else if (colorGenerator === 2) {
+    color = 'blue';
   }
+    
+  scorehis.splice(0, scorehis.length );
+  
+  startTime = new Date();
+  displayTime();
+}
 
 //
 // メイン処理
@@ -94,6 +155,9 @@ function genExam() {
     }
     renderTarget.innerText = ''; // 描画内容をクリア
     
+    const timeElem = document.createElement('div');
+    arrangeTimeElement(timeElem);
+    renderTarget.appendChild(timeElem);
 
     //数字を表示するためのコンテナを作成
     const numContainer = document.createElement('div');
@@ -182,6 +246,8 @@ function genExam() {
 
     // 現在のゲームフェーズを見て処理を変える
     if (state.phase === 'done') {
+      clearTimeout(timeoutID);
+      
       // 役の表示
       const score = getScore(state.cardList, targetnum, color);
       const scoreLabel = document.createElement('div');
@@ -241,6 +307,14 @@ function genExam() {
         });
       });
       renderTarget.appendChild(changeButton);
+      
+      doneFunction = () => {
+
+        render(renderTarget, {
+          cardList: state.cardList,
+          pickList: state.pickList,
+          phase: 'done'
+        }); };
     }
   })(document.body, { cardList: cards, pickList: pickCards });
 })();
