@@ -27,6 +27,9 @@ body {
 .number.red {
   color: rgb(255, 0, 0);
 }
+.number.none {
+  color: rgb(0, 0, 0);
+}
 
 .card {
   margin: 0 auto;
