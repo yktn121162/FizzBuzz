@@ -64,33 +64,33 @@ const isBlue = (color) => {
 
 
 //スコアを計算する
-const getScore = (cardList,random,color) =>{
-  let score = 0;
+const getScore = (list,random,color) =>{
+  let cardList = cardListParser(list);
+  let score = random;
   let FIZZflag = false;
   let BUZZflag = false;
 
-  //使用するカードのリストを作成する
-  const useCardList =  cardList.filter((c) => c.isUse);
+
 
   //使用するカードごとに条件に一致しているか確認する
-  for(const v of useCardList) {
-    if(v.type === "fizz"){
+  for(const v of cardList) {
+    if(v.type === "fizz" && v.count > 0){
       FIZZflag = true;
       if(isFIZZ(random)){
-        score++;
+        score = score *(3 + (v.count -1) * 0.1);
       }else{
         score--;
       }
     }
-    if(v.type === "buzz"){
+    if(v.type === "buzz" && v.count > 0){
       BUZZflag = true;
       if(isBUZZ(random)){
-        score++;
+        score = score *(5 + (v.count -1) * 0.1);
       }else{
         score--;
       }
     }
-    if(v.type === "prime"){
+    if(v.type === "prime" && v.count > 0){
       if(isPrime(random)){
         score++;
       }else{
@@ -98,7 +98,7 @@ const getScore = (cardList,random,color) =>{
       }
     }
 
-    if(v.type === "red"){
+    if(v.type === "red" && v.count > 0){
       if(isRed(color)){
         score++;
       }else{
@@ -106,7 +106,7 @@ const getScore = (cardList,random,color) =>{
       }
     }
 
-    if(v.type === "green"){
+    if(v.type === "green" && v.count > 0){
       if(isGreen(color)){
         score++;
       }else{
@@ -114,7 +114,7 @@ const getScore = (cardList,random,color) =>{
       }
     }
 
-    if(v.type === "blue"){
+    if(v.type === "blue" && v.count > 0){
       if(isBlue(color)){
         score++;
       }else{
@@ -163,7 +163,6 @@ const add2Deck = (card) => {
 const getPickOption =  (n) => {
   let list = new Array();
   let randomNum = Math.floor(Math.random() * 6);
-  randomNum = 3;
   for(let i = 0; i < n ; i++) {
     if(randomNum === 0) {
       list.push({type: 'fizz', label: 'FIZZ' });
@@ -185,6 +184,30 @@ const getPickOption =  (n) => {
     }
   }
   return list;
+}
+
+const cardListParser = (list) => {
+  //使用するカードのリストを作成する
+  const useCardList =  cardList.filter((c) => c.isUse);
+  //使用するカードをカウントするためのリストを作成する
+  let countList =  [
+    {type: 'fizz', count: 0 },
+    {type: 'buzz', count: 0 },
+    {type: 'prime', count: 0},
+    {type: 'red', count: 0},
+    {type: 'green', count: 0},
+    {type: 'blue', count: 0},
+  ]
+
+  //使用するカードをカウントする
+  for(const card of useCardList){
+    for(const cList of countList){
+      if(card.type === cList.type){
+        cList.count++;
+      }
+    }
+  }
+  return countList;
 }
 
 
