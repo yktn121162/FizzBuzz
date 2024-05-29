@@ -47,9 +47,14 @@ const createNumElement = (number, color) => {
 
 // グルーバルスコープに置くと良い気がした
 // カード情報作成
+
+  let maxtargetnum = 100;
+  let maxinplay = 5;
+  let maxpick = 5;
+  
   const deck = new Deck({ includesJoker: true });
-  let cards = deck.deal(5).map((c) => ({ isUse: false, ...c }));
-  let pickCards = getPickOption(5).map((c) => ({ isPick: false, ...c }));
+  let cards = deck.deal(maxinplay).map((c) => ({ isUse: false, ...c }));
+  let pickCards = getPickOption(maxpick).map((c) => ({ isPick: false, ...c }));
   //alert(typeof pickCards);
   let turn = 1;
   const maxturn = 5;
@@ -67,6 +72,7 @@ const createNumElement = (number, color) => {
   let examtimeoutID = null;
   
   let doneFunction;
+  
 
 
 function CalcDiff() {
@@ -120,7 +126,7 @@ function displayTime() {
 
 // お題作成
 function genExam() {
-  targetnum = Math.floor(Math.random() * 100 + 1);
+  targetnum = Math.floor(Math.random() * maxtargetnum + 1);
   let colorGenerator = Math.floor(Math.random() * 3);
   if (colorGenerator === 0) {
     color = 'red';
@@ -208,7 +214,7 @@ function genExam() {
           ///alert('new deal');
           
           genExam();
-          cards = deck.deal(5).map((c) => ({ isUse: false, ...c }));
+          cards = deck.deal(maxinplay).map((c) => ({ isUse: false, ...c }));
           render(renderTarget, {
             cardList: cards,
             pickList: state.pickList,
@@ -283,7 +289,7 @@ function genExam() {
           //alert('new deal');
           
           genExam();
-          cards = deck.deal(5).map((c) => ({ isUse: false, ...c }));
+          cards = deck.deal(maxinplay).map((c) => ({ isUse: false, ...c }));
           render(renderTarget, {
             cardList: cards,
             pickList: state.pickList,
