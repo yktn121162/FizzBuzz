@@ -1,18 +1,34 @@
+const cardMst = [
+    {type: 'fizz'   , label: 'FIZZ'   , no: '1' },
+    {type: 'buzz'   , label: 'BUZZ'   , no: '2' },
+    {type: 'prime'  , label: 'Prime'  , no: '50'},
+    {type: 'red'    , label: 'Red'    , no: '100'},
+    {type: 'green'  , label: 'Green'  , no: '101'},
+    {type: 'blue'   , label: 'Blue'   , no: '102'},
+    
+];
+
+const getCrad = (type) => {
+  for (const card of cardMst) {
+    if(card.type === type) {
+      let newCard = { type : card.type, label : card.label, no : card.no };
+      return newCard;
+    }
+  }
+  return cardMst[0];
+}
+
 var cardList = [
-  
-  {type: 'fizz', label: 'FIZZ' },
-  {type: 'buzz', label: 'BUZZ' },
-  {type: 'fizz', label: 'FIZZ' },
-  {type: 'buzz', label: 'BUZZ' },
-  {type: 'prime', label: 'Prime'},
-  {type: 'fizz', label: 'FIZZ' },
-  {type: 'buzz', label: 'BUZZ' },
-  {type: 'fizz', label: 'FIZZ' },
-  {type: 'buzz', label: 'BUZZ' },
-  {type: 'prime', label: 'Prime'},
-  {type: 'red', label: 'Red'},
-  {type: 'green', label: 'Green'},
-  {type: 'blue', label: 'Blue'},
+  getCrad('fizz'),
+  getCrad('buzz'),
+  getCrad('fizz'),
+  getCrad('fizz'),
+  getCrad('buzz'),
+  getCrad('fizz'),
+  getCrad('fizz'),
+  getCrad('buzz'),
+  getCrad('fizz'),
+  getCrad('buzz'),
 ];
 
 
@@ -54,6 +70,21 @@ class Deck {
     //alert('deck' + this._deck.length + 'inplay' + this._inplay.length + 'trash' + this._trash.length);
     
     return this._inplay;
+  }
+  
+  // カードピック
+  pick(card) {
+    if(false) {
+      // なんか特別なことをやる時用
+    } else {
+      this._trash.push( getCrad(card.type) );
+    }
+  }
+  
+  newCycle() {
+    this._deck.push( ...this._inplay.splice(0, this._inplay.length ) );
+    this._deck.push( ...this._trash.splice(0, this._trash.length ) );
+    this._deck.sort((a, b) => Math.random() - 0.5);
   }
 }
 
@@ -188,25 +219,25 @@ const add2Deck = (card) => {
 
 const getPickOption =  (n) => {
   let list = new Array();
-  let randomNum = Math.floor(Math.random() * 6);
   for(let i = 0; i < n ; i++) {
+    let randomNum = Math.floor(Math.random() * 6);
     if(randomNum === 0) {
-      list.push({type: 'fizz', label: 'FIZZ' });
+      list.push( getCrad('fizz') );
     }
     if(randomNum === 1) {
-      list.push({type: 'buzz', label: 'BUZZ'});
+      list.push( getCrad('buzz') );
     }
     if(randomNum === 2) {
-      list.push({type: 'prime', label: 'Prime'});
+      list.push( getCrad('prime') );
     }
     if(randomNum === 3) {
-      list.push({type: 'red', label: 'Red'});
+      list.push( getCrad('red') );
     }
     if(randomNum === 4) {
-      list.push({type: 'green', label: 'Green'});
+      list.push( getCrad('green') );
     }
     if(randomNum === 5) {
-      list.push({type: 'blue', label: 'blue'});
+      list.push( getCrad('blue') );
     }
   }
   return list;
