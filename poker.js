@@ -11,18 +11,18 @@ const cardMst = [
     {type: 'perfect', label: 'Perfect', no: '51' , cardtext: '完全数', ratetext: '出題され得る最大の数倍' },
     {type: 'sq'     , label: 'Square' , no: '52' , cardtext: '正方数', ratetext: 'スコア2乗' },
     {type: 'cubic'  , label: 'Cubic'  , no: '53' , cardtext: '立法数', ratetext: 'スコア3乗' },
-    {type: 'red'    , label: 'Red'    , no: '100', cardtext: '赤を含む', ratetext: 'スコア2倍' },
-    {type: 'green'  , label: 'Green'  , no: '101', cardtext: '緑を含む', ratetext: 'スコア2倍' },
-    {type: 'blue'   , label: 'Blue'   , no: '102', cardtext: '青を含む', ratetext: 'スコア2倍' },
-    {type: 'yellow' , label: 'Yellow' , no: '103', cardtext: '赤か緑を含む', ratetext: 'スコア2倍。両方含むなら4倍' },
-    {type: 'cyan'   , label: 'Cyan'   , no: '104', cardtext: '緑か青を含む', ratetext: 'スコア2倍。両方含むなら4倍' },
-    {type: 'magenta', label: 'Magenta', no: '105', cardtext: '青か赤を含む', ratetext: 'スコア2倍。両方含むなら4倍' },
+    {type: 'red'    , label: 'Red'    , no: '100', cardtext: '赤を含む色', ratetext: 'スコア2倍' },
+    {type: 'green'  , label: 'Green'  , no: '101', cardtext: '緑を含む色', ratetext: 'スコア2倍' },
+    {type: 'blue'   , label: 'Blue'   , no: '102', cardtext: '青を含む色', ratetext: 'スコア2倍' },
+    {type: 'yellow' , label: 'Yellow' , no: '103', cardtext: '赤か緑を含む色', ratetext: 'スコア2倍。両方含むなら4倍' },
+    {type: 'cyan'   , label: 'Cyan'   , no: '104', cardtext: '緑か青を含む色', ratetext: 'スコア2倍。両方含むなら4倍' },
+    {type: 'magenta', label: 'Magenta', no: '105', cardtext: '青か赤を含む色', ratetext: 'スコア2倍。両方含むなら4倍' },
 ];
 
 const getCrad = (type) => {
   for (const card of cardMst) {
     if(card.type === type) {
-      let newCard = { type : card.type, label : card.label, no : card.no };
+      let newCard = { type : card.type, label : card.label, no : card.no, cardtext : card.cardtext, ratetext : card.ratetext };
       return newCard;
     }
   }
