@@ -59,7 +59,7 @@ body {
 .card {
   margin: 0 auto;
   border-radius: 3px;
-  box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.2);
+  //box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.2);
   padding: 1em;
   width: 5em;
 }
@@ -67,10 +67,11 @@ body {
 .ontextcard {
   margin: 0 auto;
   border-radius: 3px;
-  box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.2);
+  //box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.2);
   padding: 1em;
   width: 10em;
 }
+
 
 .card > div {
   text-align: center;
@@ -82,4 +83,22 @@ body {
 
 .card.pick {
   background-color: rgb(248, 248, 9);
+}
+
+.ontextcard.use {
+  background-color: rgb(177, 206, 177);
+}
+
+.ontextcard.pick {
+  background-color: rgb(248, 248, 9);
+}
+
+.common {
+  box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.2);
+}
+.rare {
+  box-shadow: 0 0 3px 1px rgba(255, 215, 0, 1);
+}
+.system {
+  box-shadow: 0 0 3px 1px rgba(0, 0, 0, 1);
 }

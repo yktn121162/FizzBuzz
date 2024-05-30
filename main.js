@@ -8,6 +8,13 @@ const createCardElement = (card, puttext) => {
   } else {
     elem.classList.add('card');
   }
+  if(card.rarity === 'R') {
+    elem.classList.add('rare');
+  } else if(card.rarity === 'S') {
+    elem.classList.add('system');
+  } else {
+    elem.classList.add('common');
+  }
 
   // 「♣️K」のような表示を作る
   const cardLabel = document.createElement('div');
@@ -16,12 +23,18 @@ const createCardElement = (card, puttext) => {
   
   if(puttext) {
   // カードテキスト
-    const cardText = document.createElement('div');
-    cardText.innerText = `条件：${card.cardtext}`;
-    elem.appendChild(cardText);
-    const cardRate = document.createElement('div');
-    cardRate.innerText = `倍率：${card.ratetext}`;
-    elem.appendChild(cardRate);
+    if(card.rarity === 'S') {
+      const cardText = document.createElement('div');
+      cardText.innerText = `効果：${card.cardtext}`;
+      elem.appendChild(cardText);
+    } else {
+      const cardText = document.createElement('div');
+      cardText.innerText = `条件：${card.cardtext}`;
+      elem.appendChild(cardText);
+      const cardRate = document.createElement('div');
+      cardRate.innerText = `倍率：${card.ratetext}`;
+      elem.appendChild(cardRate);
+    }
   }
   
 
