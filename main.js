@@ -1,19 +1,29 @@
 
 
 // カードを表す要素を作成する関数
-const createCardElement = (card) => {
+const createCardElement = (card, puttext) => {
   const elem = document.createElement('div');
-  elem.classList.add('card');
+  if(puttext) {
+    elem.classList.add('ontextcard');
+  } else {
+    elem.classList.add('card');
+  }
 
   // 「♣️K」のような表示を作る
   const cardLabel = document.createElement('div');
   cardLabel.innerText = `${card.label}`;
   elem.appendChild(cardLabel);
   
+  if(puttext) {
   // カードテキスト
-  const cardText = document.createElement('div');
-  cardText.innerText = '3の倍数。スコア3倍';
-  elem.appendChild(cardText);
+    const cardText = document.createElement('div');
+    cardText.innerText = `条件：${card.cardtext}`;
+    elem.appendChild(cardText);
+    const cardRate = document.createElement('div');
+    cardRate.innerText = `倍率：${card.ratetext}`;
+    elem.appendChild(cardRate);
+  }
+  
 
   // isUseフラグがあれば、「USE」表示を追加し、
   // 要素にUSEクラスを追加する
@@ -294,7 +304,11 @@ function genExam() {
 
     // カードの組を表示するコンテナを作成
     const container = document.createElement('div');
-    container.classList.add('card-group');
+    if (state.phase === `pick` || state.phase === `expick`) {
+      container.classList.add('pickcard-group');
+    } else {
+      container.classList.add('card-group');
+    }
     renderTarget.appendChild(container);
 
 
@@ -303,7 +317,7 @@ function genExam() {
       //alert(typeof state.pickList);
 
       for (const card of state.pickList) {
-        const cardElem = createCardElement(card);
+        const cardElem = createCardElement(card, true);
 
         // カードをクリックすると使用状態を切り替え
         // 全体を再描画する
@@ -376,7 +390,7 @@ function genExam() {
     if (state.phase !== 'pick' && state.phase !== 'expick') {
       // 各カードの内容をコンテナに詰め込む
       for (const card of state.cardList) {
-        const cardElem = createCardElement(card);
+        const cardElem = createCardElement(card, false);
 
         // カードをクリックすると使用状態を切り替え
         // 全体を再描画する

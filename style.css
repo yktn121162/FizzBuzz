@@ -25,6 +25,16 @@ body {
   flex-wrap: wrap;
   justify-content: center
 }
+
+.pickcard-group {
+  display: flex;
+  font-family: sans-serif;
+//  width: 40em;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  justify-content: center
+}
+
 .number {
   margin: 1em auto;
   border-radius: 3px;
@@ -52,6 +62,14 @@ body {
   box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.2);
   padding: 1em;
   width: 5em;
+}
+
+.ontextcard {
+  margin: 0 auto;
+  border-radius: 3px;
+  box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.2);
+  padding: 1em;
+  width: 10em;
 }
 
 .card > div {
