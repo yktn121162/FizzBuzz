@@ -115,6 +115,15 @@ const isFIZZBUZZ = (number) => {
 }
 
 const isPrime = (number) => {
+
+  //2は素数
+  if(number === 2) return true;
+  //偶数はfalse
+  if(number % 2 === 0) return false;
+  //奇数で割り切れるならfalse
+  for(let i = 3; i < number; i = i + 2){
+    if(number % i === 0) return false;
+  }
   return true;
 }
 
