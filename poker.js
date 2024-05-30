@@ -115,9 +115,60 @@ const isFIZZBUZZ = (number) => {
 }
 
 const isPrime = (number) => {
+
+  //2は素数
+  if(number === 2) return true;
+  //偶数はfalse
+  if(number % 2 === 0) return false;
+  //奇数で割り切れるならfalse
+  for(let i = 3; i < number; i = i + 2){
+    if(number % i === 0) return false;
+  }
   return true;
 }
 
+const isSeven = (number) => {
+  return (number % 7 === 0);
+}
+
+const isEleven = (number) => {
+  return (number % 11 === 0);
+}
+
+const isJason = (number) => {
+  return (number % 13 === 0);e;
+}
+
+const isGauss = (number) => {
+  return (number % 17 === 0);
+}
+
+const isOdd = (number) => {
+  return (number % 2 === 1);
+}
+
+const isEven = (number) => {
+  return (number % 2 === 0);
+}
+
+const isPerfect = (number) => {
+  //少なすぎるので一旦直書きで
+  if(number === 6 || number === 28 || number === 496) {
+    return true;
+  }else{
+    return false;
+  }
+}
+
+const isSquare = (number) => {
+  //誤差を想定していない
+  return Number.isInteger(Math.sqrt(number));
+}
+
+const isCubic = (number) => {
+  //誤差を想定していない
+  return Number.isInteger(Math.cbrt(number));
+}
 
 //色の判定
 const isRed = (color) => {
@@ -132,7 +183,7 @@ const isBlue = (color) => {
 
 
 //スコアを計算する
-const getScore = (list,random,color) =>{
+const getScore = (list, random, color) =>{
   let cardList = cardListParser(list);
   let score = random;
   let FIZZflag = false;
@@ -146,47 +197,81 @@ const getScore = (list,random,color) =>{
       FIZZflag = true;
       if(isFIZZ(random)){
         score = score * (3 + (v.count -1) * 0.1);
-      }else{
-        score--;
       }
     }
     if(v.type === "buzz" && v.count > 0){
       BUZZflag = true;
       if(isBUZZ(random)){
         score = score * (5 + (v.count -1) * 0.1);
-      }else{
-        score--;
+      }
+    }
+    if(v.type === "7" && v.count > 0){
+      if(isSeven(random)){
+        score = score * (7 + (v.count -1) * 0.1);
+      }
+    }
+    if(v.type === "11" && v.count > 0){
+      if(isEleven(random)){
+        score = score * (11 + (v.count -1) * 0.1);
+      }
+    }
+    if(v.type === "13" && v.count > 0){
+      if(isSeven(random)){
+        score = score * (13 + (v.count -1) * 0.1);
+      }
+    }
+    if(v.type === "17" && v.count > 0){
+      if(isSeven(random)){
+        score = score * (17 + (v.count -1) * 0.1);
+      }
+    }
+    if(v.type === "odd" && v.count > 0){
+      if(isOdd(random)){
+        score = score * (2 + (v.count -1) * 0.1);
+      }
+    }
+    if(v.type === "even" && v.count > 0){
+      if(isEleven(random)){
+        score = score * (2 + (v.count -1) * 0.1);
       }
     }
     if(v.type === "prime" && v.count > 0){
       if(isPrime(random)){
         score++;
-      }else{
-        score--;
       }
     }
+    if(v.type === "perfect" && v.count > 0){
+      if(isPerfect(random)){
+        score = score * (random + (v.count -1) * 0.1);
+      }
+    }
+    if(v.type === "sq" && v.count > 0){
+      if(isSquare(random)){
+        score = score * (random + (v.count -1) * 0.1);
+      }
+    }
+    if(v.type === "cubic" && v.count > 0){
+      if(isSeven(random)){
+        score = score * (random + (v.count -1) * 0.1);
+      }
+    }
+
 
     if(v.type === "red" && v.count > 0){
       if(isRed(color)){
         score = score * (2 + (v.count -1) * 0.1);
-      }else{
-        score--;
       }
     }
 
     if(v.type === "green" && v.count > 0){
       if(isGreen(color)){
         score = score * (2 + (v.count -1) * 0.1);
-      }else{
-        score--;
       }
     }
 
     if(v.type === "blue" && v.count > 0){
       if(isBlue(color)){
         score = score * (2 + (v.count -1) * 0.1);
-      }else{
-        score--;
       }
     }
 
@@ -201,6 +286,7 @@ const getScore = (list,random,color) =>{
       score= score - 100;
     }
   }
+
 
   return score;
 }
@@ -312,7 +398,17 @@ const cardListParser = (list) => {
   let countList =  [
     {type: 'fizz', count: 0 },
     {type: 'buzz', count: 0 },
+    {type: '7', count: 0},
+    {type: '11', count: 0},
+    {type: '13', count: 0},
+    {type: '17', count: 0},
+    {type: 'odd', count: 0},
+    {type: 'even', count: 0},
     {type: 'prime', count: 0},
+    {type: 'perfect', count: 0},
+    {type: 'sq', count: 0},
+    {type: 'cubic', count: 0},
+
     {type: 'red', count: 0},
     {type: 'green', count: 0},
     {type: 'blue', count: 0},
@@ -331,5 +427,95 @@ const cardListParser = (list) => {
   return countList;
 }
 
+const isMistake = (list, random, color) =>{
+  let cardList = cardListParser(list);
+
+  //使用するカードごとに条件に一致しているか確認する
+  for(const v of cardList) {
+    if(v.type === "fizz" && v.count > 0){
+      if(! isFIZZ(random)){
+        return true;
+      }
+    }
+    if(v.type === "buzz" && v.count > 0){
+      if(! isBUZZ(random)){
+        return true;
+      }
+    }
+    if(v.type === "7" && v.count > 0){
+      if(! isSeven(random)){
+        return true;
+      }
+    }
+    if(v.type === "11" && v.count > 0){
+      if(! isEleven(random)){
+        return true;
+      }
+    }
+    if(v.type === "13" && v.count > 0){
+      if(! isJason(random)){
+        return true;
+      }
+    }
+    if(v.type === "17" && v.count > 0){
+      if(! isGauss(random)){
+        return true;
+      }
+    }
+    if(v.type === "odd" && v.count > 0){
+      if(! isOdd(random)){
+        return true;
+      }
+    }
+    if(v.type === "even" && v.count > 0){
+      if(! isEven(random)){
+        return true;
+      }
+    }
+    if(v.type === "prime" && v.count > 0){
+      if(! isPrime(random)){
+        return true;
+      }
+    }
+    if(v.type === "perfect" && v.count > 0){
+      if(! isPerfect(random)){
+        return true;
+      }
+    }
+    if(v.type === "sq" && v.count > 0){
+      if(! isSquare(random)){
+        return true;
+      }
+    }
+    if(v.type === "cubic" && v.count > 0){
+      if(! isCubic(random)){
+        return true;
+      }
+    }
+
+    if(v.type === "red" && v.count > 0){
+      if(! isRed(color)){
+        return true;
+      }
+    }
+
+    if(v.type === "green" && v.count > 0){
+      if(! isGreen(color)){
+        return true;
+      }
+    }
+
+    if(v.type === "blue" && v.count > 0){
+      if(! isBlue(color)){
+        return true;
+      }
+    }
+
+
+  }
+
+    //誤りがないならfalseを返す
+    return false;
+}
 
 

@@ -51,6 +51,7 @@ const createNumElement = (number, color) => {
   let maxtargetnum = 100;
   let maxinplay = 5;
   let maxpick = 5;
+  let life = 3;
   
   const deck = new Deck({ includesJoker: true });
   let cards = deck.deal(maxinplay).map((c) => ({ isUse: false, ...c }));
@@ -185,6 +186,11 @@ function genExam() {
     hsElem.id = 'highscore';
     hsElem.innerText = `HighScore: ${highscore.toFixed(2)}`;
     renderTarget.appendChild(hsElem);
+
+    const lifeElem = document.createElement('div');
+    lifeElem.id = 'life';
+    hsElem.innerText = `Life: ${life}`;
+    renderTarget.appendChild(lifeElem);
     
     if (state.phase === 'play' || state.phase === 'done') {
       const scoreGrid = document.createElement('div');
@@ -392,6 +398,11 @@ function genExam() {
       renderTarget.appendChild(scoreLabel);
       
 
+
+      //ライフの更新
+      if(isMistake(state.cardList, targetnum, color)){
+        life--;
+      }
       if(cycle >= 5) {
         cycle = 1;
         // ピックへ移動するボタンの表示
