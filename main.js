@@ -374,12 +374,9 @@ function genExam() {
 
 
       //ライフの更新
-      if(isMistake){
+      if(isMistake(state.cardList, targetnum, color)){
         life--;
-      }else{
-        life++;
       }
-
       if(cycle >= 5) {
         cycle = 0;
         // ピックへ移動するボタンの表示

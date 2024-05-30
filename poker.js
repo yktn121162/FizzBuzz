@@ -323,48 +323,44 @@ const cardListParser = (list) => {
 const isMistake = (list, random, color) =>{
   let cardList = cardListParser(list);
 
-  //使用するカードそれぞれが正しいかをチェックし，誤っているならtrueを返す
-  for(const card of list){
-    if(card.isUse){
-      if(card.type === "fizz"){
-        if(!isFIZZ(random)){
-          return true;
-        }
+  //使用するカードごとに条件に一致しているか確認する
+  for(const v of cardList) {
+    if(v.type === "fizz" && v.count > 0){
+      if(! isFIZZ(random)){
+        return true;
       }
-      if(v.type === "buzz" && v.count > 0){
-        BUZZflag = true;
-        if(isBUZZ(random)){
-          return true;
-        }
-      }
-      if(v.type === "prime" && v.count > 0){
-        if(isPrime(random)){
-          return true;
-        }
-      }
-  
-      if(v.type === "red" && v.count > 0){
-        if(isRed(color)){
-          return true;
-        }
-      }
-  
-      if(v.type === "green" && v.count > 0){
-        if(isGreen(color)){
-          return true;
-        }
-      }
-  
-      if(v.type === "blue" && v.count > 0){
-        if(isBlue(color)){
-          return true;
-        }
-      }
-      
     }
-  
+    if(v.type === "buzz" && v.count > 0){
+      if(! isBUZZ(random)){
+        return true;
+      }
+    }
+    if(v.type === "prime" && v.count > 0){
+      if(! isPrime(random)){
+        return true;
+      }
+    }
+
+    if(v.type === "red" && v.count > 0){
+      if(! isRed(color)){
+        return true;
+      }
+    }
+
+    if(v.type === "green" && v.count > 0){
+      if(! isGreen(color)){
+        return true;
+      }
+    }
+
+    if(v.type === "blue" && v.count > 0){
+      if(! isBlue(color)){
+        return true;
+      }
+    }
+
+
   }
-    
 
     //誤りがないならfalseを返す
     return false;
