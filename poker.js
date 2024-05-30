@@ -1,22 +1,22 @@
 const cardMst = [
-    {type: 'fizz'   , label: 'FIZZ'   , no: '1'  },
-    {type: 'buzz'   , label: 'BUZZ'   , no: '2'  },
-    {type: '7'      , label: '7'      , no: '3'  },
-    {type: '11'     , label: 'ELEVEN' , no: '4'  },
-    {type: '13'     , label: 'Jason'  , no: '5'  },
-    {type: '17'     , label: 'Gauss'  , no: '6'  },
-    {type: 'odd'    , label: 'ODD'    , no: '11' },
-    {type: 'even'   , label: 'EVEN'   , no: '12' },
-    {type: 'prime'  , label: 'Prime'  , no: '50' },
-    {type: 'perfect', label: 'Perfect', no: '51' },
-    {type: 'sq'     , label: 'Square' , no: '52' },
-    {type: 'cubic'  , label: 'Cubic'  , no: '53' },
-    {type: 'red'    , label: 'Red'    , no: '100'},
-    {type: 'green'  , label: 'Green'  , no: '101'},
-    {type: 'blue'   , label: 'Blue'   , no: '102'},
-    {type: 'yellow' , label: 'Yellow' , no: '103'},
-    {type: 'cyan'   , label: 'Cyan'   , no: '104'},
-    {type: 'magenta', label: 'Magenta', no: '105'},
+    {type: 'fizz'   , label: 'FIZZ'   , no: '1'  , cardtext: '3の倍数', ratetext: 'スコア3倍' },
+    {type: 'buzz'   , label: 'BUZZ'   , no: '2'  , cardtext: '5の倍数', ratetext: 'スコア5倍' },
+    {type: '7'      , label: '7'      , no: '3'  , cardtext: '7の倍数', ratetext: 'スコア7倍' },
+    {type: '11'     , label: 'ELEVEN' , no: '4'  , cardtext: '11の倍数', ratetext: 'スコア11倍' },
+    {type: '13'     , label: 'Jason'  , no: '5'  , cardtext: '13の倍数', ratetext: 'スコア13倍' },
+    {type: '17'     , label: 'Gauss'  , no: '6'  , cardtext: '17の倍数', ratetext: 'スコア17倍' },
+    {type: 'odd'    , label: 'ODD'    , no: '11' , cardtext: '奇数', ratetext: 'スコア2倍' },
+    {type: 'even'   , label: 'EVEN'   , no: '12' , cardtext: '偶数', ratetext: 'スコア2倍' },
+    {type: 'prime'  , label: 'Prime'  , no: '50' , cardtext: '素数', ratetext: '出題され得る最大の素数倍' },
+    {type: 'perfect', label: 'Perfect', no: '51' , cardtext: '完全数', ratetext: '出題され得る最大の数倍' },
+    {type: 'sq'     , label: 'Square' , no: '52' , cardtext: '正方数', ratetext: 'スコア2乗' },
+    {type: 'cubic'  , label: 'Cubic'  , no: '53' , cardtext: '立法数', ratetext: 'スコア3乗' },
+    {type: 'red'    , label: 'Red'    , no: '100', cardtext: '赤を含む', ratetext: 'スコア2倍' },
+    {type: 'green'  , label: 'Green'  , no: '101', cardtext: '緑を含む', ratetext: 'スコア2倍' },
+    {type: 'blue'   , label: 'Blue'   , no: '102', cardtext: '青を含む', ratetext: 'スコア2倍' },
+    {type: 'yellow' , label: 'Yellow' , no: '103', cardtext: '赤か緑を含む', ratetext: 'スコア2倍。両方含むなら4倍' },
+    {type: 'cyan'   , label: 'Cyan'   , no: '104', cardtext: '緑か青を含む', ratetext: 'スコア2倍。両方含むなら4倍' },
+    {type: 'magenta', label: 'Magenta', no: '105', cardtext: '青か赤を含む', ratetext: 'スコア2倍。両方含むなら4倍' },
 ];
 
 const getCrad = (type) => {
@@ -378,12 +378,9 @@ const getPickOption =  (n) => {
         list.push( getCrad('13') );
         break;
       case 11:
-        list.push( getCrad('17') );
-        break;
-      case 12:
         list.push( getCrad('sq') );
         break;
-      case 13:
+      case 12:
         list.push( getCrad('perfect') );
         break;
       }
