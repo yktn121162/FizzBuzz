@@ -9,6 +9,11 @@ const createCardElement = (card) => {
   const cardLabel = document.createElement('div');
   cardLabel.innerText = `${card.label}`;
   elem.appendChild(cardLabel);
+  
+  // カードテキスト
+  const cardText = document.createElement('div');
+  cardText.innerText = '3の倍数。スコア3倍';
+  elem.appendChild(cardText);
 
   // isUseフラグがあれば、「USE」表示を追加し、
   // 要素にUSEクラスを追加する
@@ -189,7 +194,7 @@ function genExam() {
 
     const lifeElem = document.createElement('div');
     lifeElem.id = 'life';
-    hsElem.innerText = `Life: ${life}`;
+    lifeElem.innerText = `Life: ${life}`;
     renderTarget.appendChild(lifeElem);
     
     if (state.phase === 'play' || state.phase === 'done') {
