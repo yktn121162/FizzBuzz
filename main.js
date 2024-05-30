@@ -369,7 +369,33 @@ function genExam() {
       
       for(const card of state.pickList){
         if(card.isPick) {
-          deck.pick(card);
+          if(card.rarity === 'S') {
+            switch(card.type) {
+            case 'base100':
+              maxtargetnum = maxtargetnum + 100;
+              break;
+            case 'base200':
+              maxtargetnum = maxtargetnum + 200;
+              break;
+            case 'base500':
+              maxtargetnum = maxtargetnum + 500;
+              break;
+            case 'draw2':
+              maxinplay = maxinplay + 2;
+              break;
+            case 'draw4':
+              maxinplay = maxinplay + 4;
+              break;
+            case 'time1':
+              limitTime = limitTime - 1;
+              break;
+            case 'time2':
+              limitTime = limitTime - 2;
+              break;
+            }
+          } else {
+            deck.pick(card);
+          }
           
           const cardelm = document.createElement('div');
           cardelm.innerText = `pick: ${card.label}`;
