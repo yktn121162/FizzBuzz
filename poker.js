@@ -132,7 +132,7 @@ const isBlue = (color) => {
 
 
 //スコアを計算する
-const getScore = (list,random,color) =>{
+const getScore = (list, random, color) =>{
   let cardList = cardListParser(list);
   let score = random;
   let FIZZflag = false;
@@ -146,47 +146,35 @@ const getScore = (list,random,color) =>{
       FIZZflag = true;
       if(isFIZZ(random)){
         score = score * (3 + (v.count -1) * 0.1);
-      }else{
-        score--;
       }
     }
     if(v.type === "buzz" && v.count > 0){
       BUZZflag = true;
       if(isBUZZ(random)){
         score = score * (5 + (v.count -1) * 0.1);
-      }else{
-        score--;
       }
     }
     if(v.type === "prime" && v.count > 0){
       if(isPrime(random)){
         score++;
-      }else{
-        score--;
       }
     }
 
     if(v.type === "red" && v.count > 0){
       if(isRed(color)){
         score = score * (2 + (v.count -1) * 0.1);
-      }else{
-        score--;
       }
     }
 
     if(v.type === "green" && v.count > 0){
       if(isGreen(color)){
         score = score * (2 + (v.count -1) * 0.1);
-      }else{
-        score--;
       }
     }
 
     if(v.type === "blue" && v.count > 0){
       if(isBlue(color)){
         score = score * (2 + (v.count -1) * 0.1);
-      }else{
-        score--;
       }
     }
 
@@ -201,6 +189,7 @@ const getScore = (list,random,color) =>{
       score= score - 100;
     }
   }
+
 
   return score;
 }
@@ -331,5 +320,54 @@ const cardListParser = (list) => {
   return countList;
 }
 
+const isMistake = (list, random, color) =>{
+  let cardList = cardListParser(list);
+
+  //使用するカードそれぞれが正しいかをチェックし，誤っているならtrueを返す
+  for(const card of list){
+    if(card.isUse){
+      if(card.type === "fizz"){
+        if(!isFIZZ(random)){
+          return true;
+        }
+      }
+      if(v.type === "buzz" && v.count > 0){
+        BUZZflag = true;
+        if(isBUZZ(random)){
+          return true;
+        }
+      }
+      if(v.type === "prime" && v.count > 0){
+        if(isPrime(random)){
+          return true;
+        }
+      }
+  
+      if(v.type === "red" && v.count > 0){
+        if(isRed(color)){
+          return true;
+        }
+      }
+  
+      if(v.type === "green" && v.count > 0){
+        if(isGreen(color)){
+          return true;
+        }
+      }
+  
+      if(v.type === "blue" && v.count > 0){
+        if(isBlue(color)){
+          return true;
+        }
+      }
+      
+    }
+  
+  }
+    
+
+    //誤りがないならfalseを返す
+    return false;
+}
 
 
