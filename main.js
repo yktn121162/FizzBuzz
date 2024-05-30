@@ -95,11 +95,11 @@ function genTime() {
     const s = String(calcSec).padStart(2, '0');
     const ms = String(calcMSec).padStart(3, '0');
   
-    const timeText = `00:${s}.${ms}`;
+    const timeText = `Time 00:${s}.${ms}`;
   
     return timeText;
   } else {
-    const timeText = `00:00.000`;
+    const timeText = `Time 00:00.000`;
   
     return timeText;
   }
@@ -123,6 +123,10 @@ function displayTime() {
     }
   }
   timeoutID = setTimeout(displayTime, 10);
+}
+
+const totalScore = () => {
+  return scorehis.reduce(function(sum, element){ return sum + element; }, 0 );
 }
 
 // お題作成
@@ -155,6 +159,21 @@ function genExam() {
   // renderTargetは描画対象（ここではdocument.bodyにしておきます）
   // stateは現在の状態（手札のリストとゲームフェーズ）です
   (function render(renderTarget, state) {
+  	let score;
+  	if (state.phase === 'done') {
+      
+      // スコア計算だけ先にやる。表示は後
+      score = getScore(state.cardList, targetnum, color);
+      
+      scorehis.push(score);
+      
+      if( cycle >= 5 ) {
+      	const ts = totalScore();
+      	if(ts > highscore) {
+          highscore = ts;
+        }
+      }
+    }
 
     renderTarget.innerText = ''; // 描画内容をクリア
     
@@ -165,7 +184,7 @@ function genExam() {
     
     const hsElem = document.createElement('div');
     hsElem.id = 'highscore';
-    hsElem.innerText = `HighScore: ${highscore}`;
+    hsElem.innerText = `HighScore: ${highscore.toFixed(2)}`;
     renderTarget.appendChild(hsElem);
 
     const lifeElem = document.createElement('div');
@@ -178,36 +197,45 @@ function genExam() {
       scoreGrid.classList.add('score-grid');
       
       const telm = document.createElement('div');
+      telm.classList.add('score-grid-head');
       telm.innerText = 'Turn';
       scoreGrid.appendChild(telm);
       
       const t1elm = document.createElement('div');
+      t1elm.classList.add('score-grid-head');
       t1elm.innerText = '1';
       scoreGrid.appendChild(t1elm);
       const t2elm = document.createElement('div');
+      t2elm.classList.add('score-grid-head');
       t2elm.innerText = '2';
       scoreGrid.appendChild(t2elm);
       const t3elm = document.createElement('div');
+      t3elm.classList.add('score-grid-head');
       t3elm.innerText = '3';
       scoreGrid.appendChild(t3elm);
       const t4elm = document.createElement('div');
+      t4elm.classList.add('score-grid-head');
       t4elm.innerText = '4';
       scoreGrid.appendChild(t4elm);
       const t5elm = document.createElement('div');
+      t5elm.classList.add('score-grid-head');
       t5elm.innerText = '5';
       scoreGrid.appendChild(t5elm);
       
       const htotalelm = document.createElement('div');
+      htotalelm.classList.add('score-grid-head');
       htotalelm.innerText = 'Total';
       scoreGrid.appendChild(htotalelm);
       
       const selm = document.createElement('div');
+      selm.classList.add('score-grid-head');
       selm.innerText = 'Score';
       scoreGrid.appendChild(selm);
       
       let total = 0;
       for(let i = 0; i < 5 ; i++) {
         let elm = document.createElement('div');
+        elm.classList.add('score-grid-data');
         if(i >= scorehis.length) {
           elm.innerText = '';
         } else {
@@ -217,6 +245,7 @@ function genExam() {
         scoreGrid.appendChild(elm);
       }
       const totalelm = document.createElement('div');
+      totalelm.classList.add('score-grid-data');
       totalelm.innerText = total.toFixed(2);
       scoreGrid.appendChild(totalelm);
       
@@ -264,8 +293,8 @@ function genExam() {
     renderTarget.appendChild(container);
 
 
-    //if (state.phase === `pick` || state.phase === `expick`) {
-    if (state.phase === `pick`) {
+    if (state.phase === `pick` || state.phase === `expick`) {
+    //if (state.phase === `pick`) {
       //alert(typeof state.pickList);
 
       for (const card of state.pickList) {
@@ -281,19 +310,20 @@ function genExam() {
         container.appendChild(cardElem);
       }
       
-      // pick実行ボタン表示
-      const nextGameButton = document.createElement('button');
-      nextGameButton.innerText = 'ピック';
-      nextGameButton.addEventListener('click', () => {
+      if (state.phase === `pick`) {
+        // pick実行ボタン表示
+        const nextGameButton = document.createElement('button');
+        nextGameButton.innerText = 'ピック';
+        nextGameButton.addEventListener('click', () => {
         
-        render(renderTarget, {
-          cardList: state.cardList,
-          pickList: state.pickList,
-          phase: 'expick'
+          render(renderTarget, {
+            cardList: state.cardList,
+            pickList: state.pickList,
+            phase: 'expick'
+          });
         });
-      });
-      renderTarget.appendChild(nextGameButton);
-      
+        renderTarget.appendChild(nextGameButton);
+      }
     }
 
     if (state.phase === `expick`) {
@@ -338,7 +368,7 @@ function genExam() {
 
     //alert('hoge');
 
-    if (state.phase !== 'pick') {
+    if (state.phase !== 'pick' && state.phase !== 'expick') {
       // 各カードの内容をコンテナに詰め込む
       for (const card of state.cardList) {
         const cardElem = createCardElement(card);
@@ -361,16 +391,12 @@ function genExam() {
     if (state.phase === 'done') {
       clearTimeout(timeoutID);
       
-      // スコアの表示
-      const score = getScore(state.cardList, targetnum, color);
+      // スコア計算済み
+      //const score = getScore(state.cardList, targetnum, color);
       const scoreLabel = document.createElement('div');
       scoreLabel.innerText = score;
       renderTarget.appendChild(scoreLabel);
       
-      scorehis.push(score);
-      if( score > highscore ) {
-        highscore = score;
-      }
 
 
       //ライフの更新
@@ -378,7 +404,7 @@ function genExam() {
         life--;
       }
       if(cycle >= 5) {
-        cycle = 0;
+        cycle = 1;
         // ピックへ移動するボタンの表示
         const nextGameButton = document.createElement('button');
         nextGameButton.innerText = 'ピックへ';

@@ -1,11 +1,20 @@
 body {
   font-family: sans-serif;
+  background-color: WhiteSmoke;
 }
 
 .score-grid {
   display: grid;
   grid-template-columns: 5em 5em 5em 5em 5em 5em 5em;
   text-align: center;
+}
+
+.score-grid-head {
+  border: 1px solid;
+}
+
+.score-grid-data {
+  border: 1px solid;
 }
 
 .card-group {
@@ -17,7 +26,7 @@ body {
   justify-content: center
 }
 .number {
-  margin: 0 auto;
+  margin: 1em auto;
   border-radius: 3px;
   box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.2);
   padding: 1em;
