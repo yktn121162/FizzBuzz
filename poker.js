@@ -1,32 +1,48 @@
 const cardMst = [
-    {type: 'fizz'   , label: 'FIZZ'   , no: '1'  , cardtext: '3の倍数', ratetext: 'スコア3倍' },
-    {type: 'buzz'   , label: 'BUZZ'   , no: '2'  , cardtext: '5の倍数', ratetext: 'スコア5倍' },
-    {type: '7'      , label: '7'      , no: '3'  , cardtext: '7の倍数', ratetext: 'スコア7倍' },
-    {type: '11'     , label: 'ELEVEN' , no: '4'  , cardtext: '11の倍数', ratetext: 'スコア11倍' },
-    {type: '13'     , label: 'Jason'  , no: '5'  , cardtext: '13の倍数', ratetext: 'スコア13倍' },
-    {type: '17'     , label: 'Gauss'  , no: '6'  , cardtext: '17の倍数', ratetext: 'スコア17倍' },
-    {type: 'odd'    , label: 'ODD'    , no: '11' , cardtext: '奇数', ratetext: 'スコア2倍' },
-    {type: 'even'   , label: 'EVEN'   , no: '12' , cardtext: '偶数', ratetext: 'スコア2倍' },
-    {type: 'prime'  , label: 'Prime'  , no: '50' , cardtext: '素数', ratetext: '出題され得る最大の素数倍' },
-    {type: 'perfect', label: 'Perfect', no: '51' , cardtext: '完全数', ratetext: '出題され得る最大の数倍' },
-    {type: 'sq'     , label: 'Square' , no: '52' , cardtext: '正方数', ratetext: 'スコア2乗' },
-    {type: 'cubic'  , label: 'Cubic'  , no: '53' , cardtext: '立法数', ratetext: 'スコア3乗' },
-    {type: 'red'    , label: 'Red'    , no: '100', cardtext: '赤を含む色', ratetext: 'スコア2倍' },
-    {type: 'green'  , label: 'Green'  , no: '101', cardtext: '緑を含む色', ratetext: 'スコア2倍' },
-    {type: 'blue'   , label: 'Blue'   , no: '102', cardtext: '青を含む色', ratetext: 'スコア2倍' },
-    {type: 'yellow' , label: 'Yellow' , no: '103', cardtext: '赤か緑を含む色', ratetext: 'スコア2倍。両方含むなら4倍' },
-    {type: 'cyan'   , label: 'Cyan'   , no: '104', cardtext: '緑か青を含む色', ratetext: 'スコア2倍。両方含むなら4倍' },
-    {type: 'magenta', label: 'Magenta', no: '105', cardtext: '青か赤を含む色', ratetext: 'スコア2倍。両方含むなら4倍' },
+    {type: 'fizz'   , label: 'FIZZ'   , no: '1'  , rarity: 'C', cardtext: '3の倍数', ratetext: 'スコア3倍' },
+    {type: 'buzz'   , label: 'BUZZ'   , no: '2'  , rarity: 'C', cardtext: '5の倍数', ratetext: 'スコア5倍' },
+    {type: '7'      , label: '7'      , no: '3'  , rarity: 'C', cardtext: '7の倍数', ratetext: 'スコア7倍' },
+    {type: '11'     , label: 'ELEVEN' , no: '4'  , rarity: 'C', cardtext: '11の倍数', ratetext: 'スコア11倍' },
+    {type: '13'     , label: 'Jason'  , no: '5'  , rarity: 'C', cardtext: '13の倍数', ratetext: 'スコア13倍' },
+    {type: '17'     , label: 'Gauss'  , no: '6'  , rarity: 'R', cardtext: '17の倍数', ratetext: 'スコア17倍' },
+    {type: 'odd'    , label: 'ODD'    , no: '11' , rarity: 'C', cardtext: '奇数', ratetext: 'スコア2倍' },
+    {type: 'even'   , label: 'EVEN'   , no: '12' , rarity: 'C', cardtext: '偶数', ratetext: 'スコア2倍' },
+    {type: 'prime'  , label: 'Prime'  , no: '50' , rarity: 'C', cardtext: '素数', ratetext: '出題され得る最大の素数倍' },
+    {type: 'perfect', label: 'Perfect', no: '51' , rarity: 'C', cardtext: '完全数', ratetext: '出題され得る最大の数倍' },
+    {type: 'sq'     , label: 'Square' , no: '52' , rarity: 'C', cardtext: '正方数', ratetext: 'スコア2乗' },
+    {type: 'cubic'  , label: 'Cubic'  , no: '53' , rarity: 'R', cardtext: '立法数', ratetext: 'スコア3乗' },
+    {type: 'red'    , label: 'Red'    , no: '100', rarity: 'C', cardtext: '赤を含む色', ratetext: 'スコア2倍' },
+    {type: 'green'  , label: 'Green'  , no: '101', rarity: 'C', cardtext: '緑を含む色', ratetext: 'スコア2倍' },
+    {type: 'blue'   , label: 'Blue'   , no: '102', rarity: 'C', cardtext: '青を含む色', ratetext: 'スコア2倍' },
+    {type: 'yellow' , label: 'Yellow' , no: '103', rarity: 'R', cardtext: '赤か緑を含む色', ratetext: 'スコア2倍。両方含むなら4倍' },
+    {type: 'cyan'   , label: 'Cyan'   , no: '104', rarity: 'R', cardtext: '緑か青を含む色', ratetext: 'スコア2倍。両方含むなら4倍' },
+    {type: 'magenta', label: 'Magenta', no: '105', rarity: 'R', cardtext: '青か赤を含む色', ratetext: 'スコア2倍。両方含むなら4倍' },
+    {type: 'base100', label: 'Base+100'  , no: '1000', rarity: 'S', cardtext: '出題される数の上限+100', ratetext: '' },
+    {type: 'base200', label: 'Base+200'  , no: '1001', rarity: 'S', cardtext: '出題される数の上限+200', ratetext: '' },
+    {type: 'base500', label: 'Base+500'  , no: '1002', rarity: 'S', cardtext: '出題される数の上限+500', ratetext: '' },
+    {type: 'draw2'  , label: 'Draw+2'    , no: '1010', rarity: 'S', cardtext: '各ターンにカードを追加で2枚引く', ratetext: '' },
+    {type: 'draw4'  , label: 'Draw+4'    , no: '1011', rarity: 'S', cardtext: '各ターンにカードを追加で4枚引く', ratetext: '' },
+    {type: 'time1'  , label: 'Time-1'    , no: '1020', rarity: 'S', cardtext: '制限時間マイナス1秒。残り時間ボーナス+200％', ratetext: '' },
+    {type: 'time2'  , label: 'Time-2'    , no: '1021', rarity: 'S', cardtext: '制限時間マイナス2秒。残り時間ボーナス+400％', ratetext: '' },
 ];
 
 const getCrad = (type) => {
   for (const card of cardMst) {
     if(card.type === type) {
-      let newCard = { type : card.type, label : card.label, no : card.no, cardtext : card.cardtext, ratetext : card.ratetext };
+      let newCard = { type : card.type, label : card.label, no : card.no, rarity: card.rarity, cardtext : card.cardtext, ratetext : card.ratetext };
       return newCard;
     }
   }
   return cardMst[0];
+}
+const getCradList = (rarity) => {
+  const CradList = [];
+  for (const card of cardMst) {
+    if(card.rarity === rarity) {
+      CradList.push( getCrad(card.type) );
+    }
+  }
+  return CradList;
 }
 
 var cardList = [
@@ -317,73 +333,23 @@ const add2Deck = (card) => {
 const getPickOption =  (n) => {
   let list = new Array();
   
+  // 1枚目はシステムカードが出る
+  const sList = getCradList('S');
+  let r = Math.floor(Math.random() * sList.length);
+  list.push( getCrad( sList[r].type ) );
   
-  for(let i = 0; i < n ; i++) {
-    // 1枚目はアンモンが出るかも
+  for(let i = 0; i < n-1 ; i++) {
+    // 2枚目はレアが出るかも
     let randomG = Math.floor(Math.random() * 100);
+    randomG = 0;
     if(i == 0 && randomG < 50) {
-      let randomNum = Math.floor(Math.random() * 5);
-      
-      switch(randomNum) {
-      case 0:
-        list.push( getCrad('17') );
-        break;
-      case 1:
-        list.push( getCrad('cubic') );
-        break;
-      case 2:
-        list.push( getCrad('yellow') );
-        break;
-      case 3:
-        list.push( getCrad('cyan') );
-        break;
-      case 4:
-        list.push( getCrad('magenta') );
-        break;
-      }
+      const rList = getCradList('R');
+      let r = Math.floor(Math.random() * rList.length);
+      list.push( getCrad( rList[r].type ) );
     } else {
-      let randomNum = Math.floor(Math.random() * 14);
-      switch(randomNum) {
-      case 0:
-        list.push( getCrad('fizz') );
-        break;
-      case 1:
-        list.push( getCrad('buzz') );
-        break;
-      case 2:
-        list.push( getCrad('prime') );
-        break;
-      case 3:
-        list.push( getCrad('red') );
-        break;
-      case 4:
-        list.push( getCrad('green') );
-        break;
-      case 5:
-        list.push( getCrad('blue') );
-        break;
-      case 6:
-        list.push( getCrad('odd') );
-        break;
-      case 7:
-        list.push( getCrad('even') );
-        break;
-      case 8:
-        list.push( getCrad('7') );
-        break;
-      case 9:
-        list.push( getCrad('11') );
-        break;
-      case 10:
-        list.push( getCrad('13') );
-        break;
-      case 11:
-        list.push( getCrad('sq') );
-        break;
-      case 12:
-        list.push( getCrad('perfect') );
-        break;
-      }
+      const cList = getCradList('C');
+      let r = Math.floor(Math.random() * cList.length);
+      list.push( getCrad( cList[r].type ) );
     }
   }
   return list;
