@@ -47,11 +47,21 @@ body {
   color: rgb(0, 255, 0);
 }
 .number.blue {
-  color: rgb(0, 255, 255);
+  color: rgb(0, 255, 0);
 }
 .number.red {
   color: rgb(255, 0, 0);
 }
+.number.yellow {
+  color: rgb(255, 255, 0);
+}
+.number.cyan {
+  color: rgb(0, 255, 255);
+}
+.number.magenta {
+  color: rgb(255, 0, 255);
+}
+
 .number.none {
   color: rgb(0, 0, 0);
 }

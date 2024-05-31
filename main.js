@@ -95,6 +95,7 @@ const createNumElement = (number, color) => {
   let cycle = 1;
   let scorehis = [];
   let highscore = 0;
+  let yourscore = 0;
   
   let targetnum = 0;
   let color = 'none';
@@ -165,13 +166,27 @@ const totalScore = () => {
 // お題作成
 function genExam() {
   targetnum = Math.floor(Math.random() * maxtargetnum + 1);
-  let colorGenerator = Math.floor(Math.random() * 3);
-  if (colorGenerator === 0) {
-    color = 'red';
-  } else if (colorGenerator === 1) {
-    color = 'green';
-  } else if (colorGenerator === 2) {
-    color = 'blue';
+  
+  let colorGenerator1 = Math.floor(Math.random() * 3);
+  let colorGenerator2 = Math.floor(Math.random() * 3);
+  if (colorGenerator1 === 0) {
+    color = 'none';
+  } else if (colorGenerator1 === 1) {
+    if (colorGenerator2 === 0) {
+      color = 'red';
+    } else if (colorGenerator2 === 1) {
+      color = 'green';
+    } else if (colorGenerato2r === 2) {
+      color = 'blue';
+    }
+  } else if (colorGenerator1 === 2) {
+    if (colorGenerator2 === 0) {
+      color = 'yellow';
+    } else if (colorGenerator2 === 1) {
+      color = 'cyan';
+    } else if (colorGenerator2 === 2) {
+      color = 'magenta';
+    }
   }
   
   
@@ -191,6 +206,7 @@ function newGame() {
   cycle = 1;
   scorehis = [];
   highscore = 0;
+  yourscore = 0;
   
   targetnum = 0;
   color = 'none';
