@@ -88,6 +88,7 @@ const createNumElement = (number, color, font) => {
 // カード情報作成
 
   let maxtargetnum = 100;
+  let examhis = [];
   let maxinplay = 5;
   let maxpick = 5;
   let life = 20;
@@ -235,6 +236,7 @@ function genExam() {
     }
   }
   
+  examhis.push( { num: targetnum, color: color, font: font } );
   
   startTime = new Date();
   displayTime();
@@ -242,6 +244,7 @@ function genExam() {
 
 function newGame() {
   maxtargetnum = 100;
+  examthis = [];
   maxinplay = 5;
   maxpick = 5;
   life = 3;
@@ -285,6 +288,40 @@ function genDeckList() {
   // renderTargetは描画対象（ここではdocument.bodyにしておきます）
   // stateは現在の状態（手札のリストとゲームフェーズ）です
   (function render(renderTarget, state) {
+    if (state.phase !== 'play' && state.phase !== 'pick' && state.phase !== 'done' && state.phase !== 'expick' && state.phase !== 'gameOver') {
+      state.phase = 'start';
+    }
+    
+    renderTarget.innerText = ''; // 描画内容をクリア
+    
+    const titleElem = document.createElement('h1');
+    titleElem.id = 'title';
+    titleElem.innerText = `Asender's FizzBuzz`;
+    renderTarget.appendChild(titleElem);
+    
+    const rsElem = document.createElement('div');
+    rsElem.id = 'RecordScore';
+    rsElem.innerText = `RecordScore: ${recordscore.toFixed(2)}`;
+    renderTarget.appendChild(rsElem);
+    
+    
+    if (state.phase === 'start') {
+      //state.phase = 'play';
+      const GameStartButton = document.createElement('button');
+      GameStartButton.innerText = 'ゲームスタート';
+      GameStartButton.addEventListener('click', () => {
+        genExam();
+        render(renderTarget, {
+          cardList: state.cardList,
+          pickList: state.pickList,
+          phase: 'play'
+        });
+      });
+      renderTarget.appendChild(GameStartButton);
+      
+      return;
+    }
+    
   	let score;
   	let misstake;
   	let ansTime = 10000;
@@ -315,12 +352,6 @@ function genDeckList() {
       }
     }
 
-    renderTarget.innerText = ''; // 描画内容をクリア
-    
-    const titleElem = document.createElement('h1');
-    titleElem.id = 'title';
-    titleElem.innerText = `Asender's FizzBuzz`;
-    renderTarget.appendChild(titleElem);
     
     const hsElem = document.createElement('div');
     hsElem.id = 'highscore';
@@ -366,6 +397,32 @@ function genDeckList() {
       hTotalelm.classList.add('score-grid-head');
       hTotalelm.innerText = 'Total';
       scoreGrid.appendChild(hTotalelm);
+      
+      const exElm = document.createElement('div');
+      exElm.classList.add('score-grid-head');
+      exElm.innerText = 'Exam';
+      scoreGrid.appendChild(exElm);
+      
+      for(let i = 0; i < 5 ; i++) {
+        
+        if(i >= examhis.length) {
+          let elm = document.createElement('div');
+          elm.classList.add('score-grid-data');
+          elm.innerText = '';
+          scoreGrid.appendChild(elm);
+        } else {
+          let elm = createNumElement(examhis[i].num, examhis[i].color, examhis[i].font);
+          elm.classList.remove('number');
+          elm.classList.add('score-grid-number');
+          scoreGrid.appendChild(elm);
+        }
+        
+      }
+      
+      const noneelm = document.createElement('div');
+      noneelm.classList.add('score-grid-head');
+      noneelm.innerText = '';
+      scoreGrid.appendChild(noneelm);
       
       const sElm = document.createElement('div');
       sElm.classList.add('score-grid-head');
@@ -437,26 +494,6 @@ function genDeckList() {
       renderTarget.appendChild(scoreGrid);
     }
 
-    
-    
-    
-    
-    if (state.phase !== 'play' && state.phase !== 'pick' && state.phase !== 'done' && state.phase !== 'expick' && state.phase !== 'gameOver') {
-      //state.phase = 'play';
-      const GameStartButton = document.createElement('button');
-      GameStartButton.innerText = 'ゲームスタート';
-      GameStartButton.addEventListener('click', () => {
-        genExam();
-        render(renderTarget, {
-          cardList: state.cardList,
-          pickList: state.pickList,
-          phase: 'play'
-        });
-      });
-      renderTarget.appendChild(GameStartButton);
-      
-      return;
-    }
     
     const timeElem = document.createElement('div');
     arrangeTimeElement(timeElem);
@@ -576,6 +613,7 @@ function genDeckList() {
         scorehis.splice(0, scorehis.length );
         timehis.splice(0, timehis.length );
         misshis.splice(0, misshis.length );
+        examhis.splice(0, examhis.length );
         render(renderTarget, {
           cardList: cards,
           pickList: state.pickList,
@@ -656,7 +694,7 @@ function genDeckList() {
           render(renderTarget, {
             cardList: cards,
             pickList: state.pickList,
-            phase: null
+            phase: 'start'
           });
          });
          renderTarget.appendChild(newGameButton);
