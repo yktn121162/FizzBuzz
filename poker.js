@@ -117,6 +117,27 @@ class Deck {
     this._deck.push( ...this._trash.splice(0, this._trash.length ) );
     this._deck.sort((a, b) => Math.random() - 0.5);
   }
+
+  getDeckList() {
+    //カウントするためのリストの作成
+    let countList  = cardMst;
+    countList.map((c) => c.count = 0);
+
+    let wholeCardList =  this._deck;
+    wholeCardList.push( ...this._inplay.splice(0, this._inplay.length ) );
+    wholeCardList.push( ...this._trash.splice(0, this._trash.length ) );
+  
+    //使用するカードをカウントする
+    for(const card of wholeCardList){
+      for(const cList of countList){
+        if(card.type == cList.type){
+          cList.count = cList.count + 1;
+        }
+      }
+    }
+
+    return countList;
+  }
 }
 
 
@@ -136,6 +157,8 @@ const isFIZZBUZZ = (number) => {
 
 const isPrime = (number) => {
 
+  //1は素数でない
+  if(number === 1) return false;
   //2は素数
   if(number === 2) return true;
   //偶数はfalse
@@ -173,7 +196,7 @@ const isEven = (number) => {
 
 const isPerfect = (number) => {
   //少なすぎるので一旦直書きで
-  if(number === 6 || number === 28 || number === 496) {
+  if(number === 6 || number === 28 || number === 496 || number === 8128) {
     return true;
   }else{
     return false;
@@ -213,14 +236,21 @@ const isMagenta = (color) => {
 
 
 
+<<<<<<< yktn-work2
 
+=======
+>>>>>>> main
 //スコアを計算する
 const getScore = (list, random, color, time, timeReduce) =>{
   let cardList = cardListParser(list);
   let score = random;
   let FIZZflag = false;
   let BUZZflag = false;
+<<<<<<< yktn-work2
   let successFlag = false;
+=======
+  let successFlag = true;
+>>>>>>> main
 
 
 
@@ -230,74 +260,133 @@ const getScore = (list, random, color, time, timeReduce) =>{
       FIZZflag = true;
       if(isFIZZ(random)){
         score = score * (3 + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
         successFlag = true;
+=======
+      } else {
+        successFlag = false;
+>>>>>>> main
       }
     }
     if(v.type === "buzz" && v.count > 0){
       BUZZflag = true;
       if(isBUZZ(random)){
         score = score * (5 + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
         successFlag = true;
+=======
+      } else {
+        successFlag = false;
+>>>>>>> main
       }
     }
     if(v.type === "7" && v.count > 0){
       if(isSeven(random)){
         score = score * (7 + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
         successFlag = true;
+=======
+      } else {
+        successFlag = false;
+>>>>>>> main
       }
     }
     if(v.type === "11" && v.count > 0){
       if(isEleven(random)){
         score = score * (11 + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
         successFlag = true;
+=======
+        
+>>>>>>> main
       }
     }
     if(v.type === "13" && v.count > 0){
       if(isSeven(random)){
         score = score * (13 + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
         successFlag = true;
+=======
+      } else {
+        successFlag = false;
+>>>>>>> main
       }
     }
     if(v.type === "17" && v.count > 0){
       if(isSeven(random)){
         score = score * (17 + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
         successFlag = true;
+=======
+      } else {
+        successFlag = false;
+>>>>>>> main
       }
     }
     if(v.type === "odd" && v.count > 0){
       if(isOdd(random)){
         score = score * (2 + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
         successFlag = true;
+=======
+      } else {
+        successFlag = false;
+>>>>>>> main
       }
     }
     if(v.type === "even" && v.count > 0){
       if(isEleven(random)){
         score = score * (2 + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
         successFlag = true;
+=======
+      } else {
+        successFlag = false;
+>>>>>>> main
       }
     }
     if(v.type === "prime" && v.count > 0){
       if(isPrime(random)){
         score++;
+<<<<<<< yktn-work2
         successFlag = true;
+=======
+      } else {
+        successFlag = false;
+>>>>>>> main
       }
     }
     if(v.type === "perfect" && v.count > 0){
       if(isPerfect(random)){
         score = score * (random + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
         successFlag = true;
+=======
+      } else {
+        successFlag = false;
+>>>>>>> main
       }
     }
     if(v.type === "sq" && v.count > 0){
       if(isSquare(random)){
         score = score * (random + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
         successFlag = true;
+=======
+      } else {
+        successFlag = false;
+>>>>>>> main
       }
     }
     if(v.type === "cubic" && v.count > 0){
       if(isSeven(random)){
         score = score * (random + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
         successFlag = true;
+=======
+      } else {
+        successFlag = false;
+>>>>>>> main
       }
     }
 
@@ -305,51 +394,82 @@ const getScore = (list, random, color, time, timeReduce) =>{
     if(v.type === "red" && v.count > 0){
       if(isRed(color)){
         score = score * (2 + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
         successFlag = true;
+=======
+      } else {
+        successFlag = false;
+>>>>>>> main
       }
     }
 
     if(v.type === "green" && v.count > 0){
       if(isGreen(color)){
         score = score * (2 + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
         successFlag = true;
+=======
+      } else {
+        successFlag = false;
+>>>>>>> main
       }
     }
 
     if(v.type === "blue" && v.count > 0){
       if(isBlue(color)){
         score = score * (2 + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
         successFlag = true;
+=======
+      } else {
+        successFlag = false;
+>>>>>>> main
       }
     }
     if(v.type === "yellow" && v.count > 0){
       if(isYellow(color)){
         score = score * (2 + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
         successFlag = true;
+=======
+      } else {
+        successFlag = false;
+>>>>>>> main
       }
     }
     if(v.type === "cyan" && v.count > 0){
       if(isCyan(color)){
         score = score * (2 + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
         successFlag = true;
+=======
+      } else {
+        successFlag = false;
+>>>>>>> main
       }
     }
 
     if(v.type === "yellow" && v.count > 0){
       if(isYellow(color)){
         score = score * (2 + (v.count -1) * 0.1);
+      } else {
+        successFlag = false;
       }
     }
 
     if(v.type === "cyan" && v.count > 0){
       if(isCyan(color)){
         score = score * (2 + (v.count -1) * 0.1);
+      } else {
+        successFlag = false;
       }
     }
 
     if(v.type === "magenta" && v.count > 0){
       if(isMagenta(color)){
         score = score * (2 + (v.count -1) * 0.1);
+      } else {
+        successFlag = false;
       }
     }
 
@@ -426,29 +546,10 @@ const getPickOption =  (n) => {
 }
 
 const cardListParser = (list) => {
-  //使用するカードのリストを作成する
+  
   //使用するカードをカウントするためのリストを作成する
-  let countList =  [
-    {type: 'fizz', count: 0 },
-    {type: 'buzz', count: 0 },
-    {type: '7', count: 0},
-    {type: '11', count: 0},
-    {type: '13', count: 0},
-    {type: '17', count: 0},
-    {type: 'odd', count: 0},
-    {type: 'even', count: 0},
-    {type: 'prime', count: 0},
-    {type: 'perfect', count: 0},
-    {type: 'sq', count: 0},
-    {type: 'cubic', count: 0},
-
-    {type: 'red', count: 0},
-    {type: 'green', count: 0},
-    {type: 'blue', count: 0},
-    {type: 'yellow', count: 0},
-    {type: 'cyan', count: 0},
-    {type: 'magenta', count: 0},
-  ]
+  let countList  = cardMst;
+  countList.map((c) => c.count = 0);
 
   //使用するカードをカウントする
   for(const card of list){
