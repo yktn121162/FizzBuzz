@@ -357,11 +357,6 @@ function genDeckList() {
     hsElem.id = 'highscore';
     hsElem.innerText = `HighScore: ${highscore.toFixed(2)}`;
     renderTarget.appendChild(hsElem);
-
-    const lifeElem = document.createElement('div');
-    lifeElem.id = 'life';
-    lifeElem.innerText = `Life: ${life}`;
-    renderTarget.appendChild(lifeElem);
     
     if (state.phase === 'play' || state.phase === 'done') {
       const scoreGrid = document.createElement('div');
@@ -494,6 +489,11 @@ function genDeckList() {
       renderTarget.appendChild(scoreGrid);
     }
 
+
+    const lifeElem = document.createElement('div');
+    lifeElem.id = 'life';
+    lifeElem.innerText = `Life: ${life}`;
+    renderTarget.appendChild(lifeElem);
     
     const timeElem = document.createElement('div');
     arrangeTimeElement(timeElem);
@@ -656,7 +656,8 @@ function genDeckList() {
       // スコア計算済み
       //const score = getScore(state.cardList, targetnum, color);
       const scoreLabel = document.createElement('div');
-      scoreLabel.innerText = score;
+      scoreLabel.id = 'score';
+      scoreLabel.innerText = score.toFixed(2);
       renderTarget.appendChild(scoreLabel);
       
 
