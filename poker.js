@@ -207,11 +207,12 @@ const isCyan = (color) => {
 
 
 //スコアを計算する
-const getScore = (list, random, color) =>{
+const getScore = (list, random, color, time, timeReduce) =>{
   let cardList = cardListParser(list);
   let score = random;
   let FIZZflag = false;
   let BUZZflag = false;
+  let successFlag = false;
 
 
 
@@ -221,62 +222,74 @@ const getScore = (list, random, color) =>{
       FIZZflag = true;
       if(isFIZZ(random)){
         score = score * (3 + (v.count -1) * 0.1);
+        successFlag = true;
       }
     }
     if(v.type === "buzz" && v.count > 0){
       BUZZflag = true;
       if(isBUZZ(random)){
         score = score * (5 + (v.count -1) * 0.1);
+        successFlag = true;
       }
     }
     if(v.type === "7" && v.count > 0){
       if(isSeven(random)){
         score = score * (7 + (v.count -1) * 0.1);
+        successFlag = true;
       }
     }
     if(v.type === "11" && v.count > 0){
       if(isEleven(random)){
         score = score * (11 + (v.count -1) * 0.1);
+        successFlag = true;
       }
     }
     if(v.type === "13" && v.count > 0){
       if(isSeven(random)){
         score = score * (13 + (v.count -1) * 0.1);
+        successFlag = true;
       }
     }
     if(v.type === "17" && v.count > 0){
       if(isSeven(random)){
         score = score * (17 + (v.count -1) * 0.1);
+        successFlag = true;
       }
     }
     if(v.type === "odd" && v.count > 0){
       if(isOdd(random)){
         score = score * (2 + (v.count -1) * 0.1);
+        successFlag = true;
       }
     }
     if(v.type === "even" && v.count > 0){
       if(isEleven(random)){
         score = score * (2 + (v.count -1) * 0.1);
+        successFlag = true;
       }
     }
     if(v.type === "prime" && v.count > 0){
       if(isPrime(random)){
         score++;
+        successFlag = true;
       }
     }
     if(v.type === "perfect" && v.count > 0){
       if(isPerfect(random)){
         score = score * (random + (v.count -1) * 0.1);
+        successFlag = true;
       }
     }
     if(v.type === "sq" && v.count > 0){
       if(isSquare(random)){
         score = score * (random + (v.count -1) * 0.1);
+        successFlag = true;
       }
     }
     if(v.type === "cubic" && v.count > 0){
       if(isSeven(random)){
         score = score * (random + (v.count -1) * 0.1);
+        successFlag = true;
       }
     }
 
@@ -284,28 +297,33 @@ const getScore = (list, random, color) =>{
     if(v.type === "red" && v.count > 0){
       if(isRed(color)){
         score = score * (2 + (v.count -1) * 0.1);
+        successFlag = true;
       }
     }
 
     if(v.type === "green" && v.count > 0){
       if(isGreen(color)){
         score = score * (2 + (v.count -1) * 0.1);
+        successFlag = true;
       }
     }
 
     if(v.type === "blue" && v.count > 0){
       if(isBlue(color)){
         score = score * (2 + (v.count -1) * 0.1);
+        successFlag = true;
       }
     }
     if(v.type === "yellow" && v.count > 0){
       if(isYellow(color)){
         score = score * (2 + (v.count -1) * 0.1);
+        successFlag = true;
       }
     }
     if(v.type === "cyan" && v.count > 0){
       if(isCyan(color)){
         score = score * (2 + (v.count -1) * 0.1);
+        successFlag = true;
       }
     }
 
@@ -316,12 +334,21 @@ const getScore = (list, random, color) =>{
   if(FIZZflag && BUZZflag){
     if(isFIZZBUZZ(random)){
       score= score + 100;
+      successFlag = true;
     }else{
       score= score - 100;
     }
   }
 
-
+  //残り時間補正の計算
+  if(successFlag){
+    if(time === 0){
+      return score;
+    } else{
+      score = score * (1 + time + timeReduce*2 );
+      return score;
+    }
+  }
   return score;
 }
 

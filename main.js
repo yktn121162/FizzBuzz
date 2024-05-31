@@ -219,7 +219,8 @@ function newGame() {
   	if (state.phase === 'done') {
       
       // スコア計算だけ先にやる。表示は後
-      score = getScore(state.cardList, targetnum, color);
+      const ansTime = +(CalcDiff()/1000).toFixed(1);
+      score = getScore(state.cardList, targetnum, color, ansTime, Math.max(10 - limitTime, 0)); //制限時間を伸ばす可能性を考慮して0と比較しておく
       
       scorehis.push(score);
       
