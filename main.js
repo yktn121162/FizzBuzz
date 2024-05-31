@@ -176,7 +176,7 @@ function genExam() {
       color = 'red';
     } else if (colorGenerator2 === 1) {
       color = 'green';
-    } else if (colorGenerato2r === 2) {
+    } else if (colorGenerator2 === 2) {
       color = 'blue';
     }
   } else if (colorGenerator1 === 2) {
