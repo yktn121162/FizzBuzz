@@ -266,16 +266,13 @@ function genDeckList() {
   	if (state.phase === 'done') {
       
       // スコア計算だけ先にやる。表示は後
-<<<<<<< yktn-work2
+
       clearTimeout(timeoutID);
       ansTime = CalcDiff();
       timehis.push(ansTime)
       const ansTimeS = +(ansTime/1000).toFixed(1);
       score = getScore(state.cardList, targetnum, color, ansTimeS, Math.max(10 - limitTime, 0)); //制限時間を伸ばす可能性を考慮して0と比較しておく
-=======
-      const ansTime = +(CalcDiff()/1000).toFixed(1);
-      score = getScore(state.cardList, targetnum, color, ansTime, Math.max(10 - limitTime, 0)); //制限時間を伸ばす可能性を考慮して0と比較しておく
->>>>>>> main
+
       
       scorehis.push(score);
       
@@ -343,7 +340,7 @@ function genDeckList() {
       hTotalelm.innerText = 'Total';
       scoreGrid.appendChild(hTotalelm);
       
-      const selm = document.createElement('div');
+      const sElm = document.createElement('div');
       sElm.classList.add('score-grid-head');
       sElm.innerText = 'Score';
       scoreGrid.appendChild(sElm);
@@ -418,7 +415,7 @@ function genDeckList() {
     
     const timeElem = document.createElement('div');
     arrangeTimeElement(timeElem);
-    misselm.innerText = genTime(ansTime);
+    timeElem.innerText = genTime(ansTime);
     renderTarget.appendChild(timeElem);
 
     //数字を表示するためのコンテナを作成
@@ -587,7 +584,6 @@ function genDeckList() {
 
       //ライフがないならゲームオーバー
       if(life <= 0){
-<<<<<<< yktn-work2
       	// 最高記録チェック
       	let isRecord = false;
       	if(recordscore < highscore) {
@@ -595,8 +591,6 @@ function genDeckList() {
       	  isRecord = true;
       	}
       	
-=======
->>>>>>> main
         renderTarget.innerText = ''; // 描画内容をクリア
         const gameOverElem = document.createElement('h1');
         gameOverElem.innerText = `Game Over`;
