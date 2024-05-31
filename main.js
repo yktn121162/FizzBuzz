@@ -309,27 +309,6 @@ function newGame() {
     }
 
     
-    //game over時の表示
-    if(state.phase ==='gameOver'){
-      const gameOverElem = document.createElement('h1');
-      gameOverElem.innerText = `Game Over`;
-      renderTarget.appendChild(gameOverElem);
-
-      //ニューゲームボタンの表示
-      const newGameButton = document.createElement('button');
-      newGameButton.innerText = 'ニューゲーム';
-      newGameButton.addEventListener('click', () => {
-        newGame();
-        render(renderTarget, {
-          cardList: cards,
-          pickList: state.pickList,
-          phase: null
-        });
-      
-      });
-      renderTarget.appendChild(newGameButton);
-      return;
-      }
     
     
     
@@ -515,12 +494,30 @@ function newGame() {
 
       //ライフがないならゲームオーバー
       if(life <= 0){
-        render(renderTarget, {
-          cardList: state.cardList,
-          pickList: pickCards,
-          phase: 'gameOver'
-        });
-          return;
+        renderTarget.innerText = ''; // 描画内容をクリア
+        const gameOverElem = document.createElement('h1');
+        gameOverElem.innerText = `Game Over`;
+        renderTarget.appendChild(gameOverElem);
+
+        //リザルトの表示
+        const resultElem = document.createElement('div');
+        resultElem.id = 'result';
+        resultElem.innerText = `High Score: ${highscore.toFixed(2)}`;
+        renderTarget.appendChild(resultElem);
+    
+        //ニューゲームボタンの表示
+        const newGameButton = document.createElement('button');
+        newGameButton.innerText = 'ニューゲーム';
+        newGameButton.addEventListener('click', () => {
+          newGame();
+          render(renderTarget, {
+            cardList: cards,
+            pickList: state.pickList,
+            phase: null
+          });
+         });
+         renderTarget.appendChild(newGameButton);
+        return;
       }
 
       if(cycle >= 5) {
