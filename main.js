@@ -65,7 +65,7 @@ const createCardElement = (card, puttext) => {
 };
 
 // 数字を表す要素を作成する関数
-const createNumElement = (number, color) => {
+const createNumElement = (number, color, font) => {
   const elem = document.createElement('div');
   elem.classList.add('number');
   const numLabel = document.createElement('div');
@@ -99,6 +99,7 @@ const createNumElement = (number, color) => {
   
   let targetnum = 0;
   let color = 'none';
+  let font = 'none';
   
   let startTime = Date.now();
   let limitTime = 10;
@@ -169,6 +170,12 @@ function genExam() {
   
   let colorGenerator1 = Math.floor(Math.random() * 3);
   let colorGenerator2 = Math.floor(Math.random() * 3);
+
+  let fontGenerator1 = Math.floor(Math.random() * 2);
+  let fontGenerator2 = Math.floor(Math.random() * 2);
+
+
+  //色の決定
   if (colorGenerator1 === 0) {
     color = 'none';
   } else if (colorGenerator1 === 1) {
@@ -186,6 +193,18 @@ function genExam() {
       color = 'cyan';
     } else if (colorGenerator2 === 2) {
       color = 'magenta';
+    }
+  }
+
+  //フォントの決定
+  //色の決定
+  if (fontGenerator1 === 0) {
+    font = 'none';
+  } else if (fontGenerator1 === 1) {
+    if (fontGenerator2 === 0) {
+      font = 'italic';
+    } else if (fontGenerator2 === 1) {
+      font = 'bold';
     }
   }
   
@@ -362,7 +381,7 @@ function genDeckList() {
     if (state.phase === 'pick' || state.phase === 'expick') {
       numContainer.appendChild(createNumElement('pick', 'none'));
     } else {
-      numContainer.appendChild(createNumElement(targetnum, color));
+      numContainer.appendChild(createNumElement(targetnum, color, font));
     }
 
 
@@ -609,7 +628,7 @@ function genDeckList() {
         }); };
     }
 
-    
+
      //デッキリストの生成
      const deckTitle = document.createElement('div');
      const deckElem = document.createElement('h2');
