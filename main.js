@@ -463,7 +463,7 @@ function genDeckList() {
        for(const card of deck.getDeckList())  {
         if(card.count > 0){
           const cardelm = document.createElement('div');
-          cardelm.innerText = `${card.type} : ${card.count}`;
+          cardelm.innerText = `${card.label} : ${card.count}`;
           renderTarget.appendChild(cardelm);
         }
        }
