@@ -195,8 +195,6 @@ function newGame() {
 
   timeoutID = null;
   examtimeoutID = null;
-
-alert(maxinplay);
 }
 
 //
