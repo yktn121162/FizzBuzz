@@ -513,6 +513,16 @@ function newGame() {
       }
 
 
+      //ライフがないならゲームオーバー
+      if(life <= 0){
+        render(renderTarget, {
+          cardList: state.cardList,
+          pickList: pickCards,
+          phase: 'gameOver'
+        });
+          return;
+      }
+
       if(cycle >= 5) {
         cycle = 1;
         // ピックへ移動するボタンの表示
@@ -548,15 +558,6 @@ function newGame() {
       }
     } else if (state.phase === 'play') {
 
-
-      //ライフがないならゲームオーバー
-      if(life <= 0){
-        render(renderTarget, {
-          cardList: state.cardList,
-          pickList: pickCards,
-          phase: 'gameOver'
-        });
-      }
 
 
       // カード交換ボタン
