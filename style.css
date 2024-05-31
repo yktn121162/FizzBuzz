@@ -135,6 +135,12 @@ button {
   margin: 1em auto;
 }
 
+#score {
+  font-size: 2rem;
+  margin: 1em auto;
+  text-align: center;
+}
+
 .deckListContainer {
   display: grid;
   grid-template-columns: 200px 200px 200px;
