@@ -81,7 +81,7 @@ const createNumElement = (number, color) => {
   let maxpick = 5;
   let life = 3;
   
-  const deck = new Deck({ includesJoker: true });
+  let deck = new Deck({ includesJoker: true });
   let cards = deck.deal(maxinplay).map((c) => ({ isUse: false, ...c }));
   let pickCards = getPickOption(maxpick).map((c) => ({ isPick: false, ...c }));
   //alert(typeof pickCards);
@@ -172,6 +172,31 @@ function genExam() {
   
   startTime = new Date();
   displayTime();
+}
+
+function newGame() {
+  maxtargetnum = 100;
+  maxinplay = 5;
+  maxpick = 5;
+  life = 3;
+  deck = new Deck({ includesJoker: true });
+  cards = deck.deal(maxinplay).map((c) => ({ isUse: false, ...c }));
+  pickCards = getPickOption(maxpick).map((c) => ({ isPick: false, ...c }));
+  turn = 1;
+  cycle = 1;
+  scorehis = [];
+  highscore = 0;
+  
+  targetnum = 0;
+  color = 'none';
+  
+  startTime = Date.now();
+  limitTime = 10;
+
+  timeoutID = null;
+  examtimeoutID = null;
+
+alert(maxinplay);
 }
 
 //
@@ -291,8 +316,13 @@ function genExam() {
       const newGameButton = document.createElement('button');
       newGameButton.innerText = 'ニューゲーム';
       newGameButton.addEventListener('click', () => {
-
-        
+        newGame();
+        render(renderTarget, {
+          cardList: cards,
+          pickList: state.pickList,
+          phase: null
+        });
+      
       });
       renderTarget.appendChild(newGameButton);
       return;
@@ -525,7 +555,7 @@ function genExam() {
         });
       }
 
-      
+
       // カード交換ボタン
       // クリックすると保持フラグのついていないカードを交換し
       // 再描画する
