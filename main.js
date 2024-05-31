@@ -90,7 +90,7 @@ const createNumElement = (number, color, font) => {
   let maxtargetnum = 100;
   let maxinplay = 5;
   let maxpick = 5;
-  let life = 3;
+  let life = 20;
   let misshis = [];
   
   let deck = new Deck({ includesJoker: true });
@@ -304,6 +304,8 @@ function genDeckList() {
       // ミスチェック
       misstake = setMisstake(state.cardList, targetnum, color);
       misshis.push(misstake);
+      // ミスの数だけライフを減らす
+      life = life - misstake;
       
       if( turn >= 5 ) {
       	const ts = totalScore();
@@ -622,10 +624,9 @@ function genDeckList() {
 
 
       //ライフの更新
-      if(isMistake(state.cardList, targetnum, color)){
-        life--;
-      }
-
+      //if(isMistake(state.cardList, targetnum, color)){
+      //  life--;
+      //}
 
       //ライフがないならゲームオーバー
       if(life <= 0){
