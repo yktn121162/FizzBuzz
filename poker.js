@@ -98,7 +98,7 @@ class Deck {
       this._inplay.push( ...this._deck.splice(0, num ) );
     }
     
-    alert('deck' + this._deck.length + 'inplay' + this._inplay.length + 'trash' + this._trash.length);
+    //alert('deck' + this._deck.length + 'inplay' + this._inplay.length + 'trash' + this._trash.length);
     
     return this._inplay;
   }
