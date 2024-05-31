@@ -60,6 +60,12 @@ const createCardElement = (card, puttext) => {
     elem.appendChild(pickIndicator);
     elem.classList.add('pick');
   }
+  
+  // isMissフラグがあれば、
+  // 要素にMISSクラスを追加する
+  if (card.isMiss) {
+    elem.classList.add('miss');
+  }
 
   return elem;
 };
@@ -88,7 +94,7 @@ const createNumElement = (number, color, font) => {
   let misshis = [];
   
   let deck = new Deck({ includesJoker: true });
-  let cards = deck.deal(maxinplay).map((c) => ({ isUse: false, ...c }));
+  let cards = deck.deal(maxinplay).map((c) => ({ isUse: false, isMiss: false, ...c }));
   let pickCards = getPickOption(maxpick).map((c) => ({ isPick: false, ...c }));
   //alert(typeof pickCards);
   let turn = 1;
@@ -123,27 +129,46 @@ function CalcDiff() {
   return diff;
 }
 
-function genTime(diff) {
-  if( diff > 0 ){
+function genTime(diff, grid) {
+  if(grid) {
+    if( diff > 0 ){
+      const calcMin = Math.floor(diff / 1000 / 60) % 60;;
+      const calcSec = Math.floor(diff / 1000) % 60;
+      const calcMSec = diff % 1000;
     
-    const calcSec = Math.floor(diff / 1000) % 60;
-    const calcMSec = diff % 1000;
-  
-    const s = String(calcSec).padStart(2, '0');
-    const ms = String(calcMSec).padStart(3, '0');
-  
-    const timeText = `Time 00:${s}.${ms}`;
-  
-    return timeText;
+      const m = String(calcMin).padStart(2, '0');
+      const s = String(calcSec).padStart(2, '0');
+      const ms = String(calcMSec).padStart(3, '0');
+    
+      const timeText = `${m}:${s}.${ms}`;
+    
+      return timeText;
+    } else {
+      const timeText = `00:00.000`;
+    
+      return timeText;
+    }
   } else {
-    const timeText = `Time 00:00.000`;
-  
-    return timeText;
+    if( diff > 0 ){
+      const calcSec = Math.floor(diff / 1000) % 60;
+      const calcMSec = diff % 1000;
+    
+      const s = String(calcSec).padStart(2, '0');
+      const ms = String(calcMSec).padStart(3, '0');
+    
+      const timeText = `Time 00:${s}.${ms}`;
+    
+      return timeText;
+    } else {
+      const timeText = `Time 00:00.000`;
+    
+      return timeText;
+    }
   }
 }
 
 function arrangeTimeElement(elem) {
-  elem.innerText = genTime(CalcDiff());
+  elem.innerText = genTime(CalcDiff(), false);
   elem.id = 'time';
 }
 
@@ -220,10 +245,10 @@ function newGame() {
   maxinplay = 5;
   maxpick = 5;
   life = 3;
-  let misshis = [];
+  misshis = [];
   
   deck = new Deck({ includesJoker: true });
-  cards = deck.deal(maxinplay).map((c) => ({ isUse: false, ...c }));
+  cards = deck.deal(maxinplay).map((c) => ({ isUse: false, isMiss: false, ...c }));
   pickCards = getPickOption(maxpick).map((c) => ({ isPick: false, ...c }));
   turn = 1;
   cycle = 1;
@@ -235,8 +260,8 @@ function newGame() {
   color = 'none';
   
   startTime = Date.now();
-  let limitTime = initialLimitTime;
-  let timehis = [];
+  limitTime = initialLimitTime;
+  timehis = [];
 
   timeoutID = null;
   examtimeoutID = null;
@@ -367,20 +392,21 @@ function genDeckList() {
       timeElm.innerText = 'Time';
       scoreGrid.appendChild(timeElm);
       
+      total = 0;
       for(let i = 0; i < 5 ; i++) {
         let elm = document.createElement('div');
         elm.classList.add('score-grid-data');
         if(i >= timehis.length) {
           elm.innerText = '';
         } else {
-          elm.innerText = scorehis[i].toFixed(2);
-          total = total + scorehis[i];
+          elm.innerText = genTime(timehis[i], true);
+          total = total + timehis[i];
         }
         scoreGrid.appendChild(elm);
       }
       const totalTimeElm = document.createElement('div');
       totalTimeElm.classList.add('score-grid-data');
-      totalTimeElm.innerText = total.toFixed(2);
+      totalTimeElm.innerText = genTime(total, true);
       scoreGrid.appendChild(totalTimeElm);
       
       
@@ -388,6 +414,23 @@ function genDeckList() {
       missElm.classList.add('score-grid-head');
       missElm.innerText = 'Miss';
       scoreGrid.appendChild(missElm);
+      
+      total = 0;
+      for(let i = 0; i < 5 ; i++) {
+        let elm = document.createElement('div');
+        elm.classList.add('score-grid-data');
+        if(i >= misshis.length) {
+          elm.innerText = '';
+        } else {
+          elm.innerText = misshis[i].toFixed(0);
+          total = total + misshis[i];
+        }
+        scoreGrid.appendChild(elm);
+      }
+      const totalMissElm = document.createElement('div');
+      totalMissElm.classList.add('score-grid-data');
+      totalMissElm.innerText = total.toFixed(0);
+      scoreGrid.appendChild(totalMissElm);
       
       renderTarget.appendChild(scoreGrid);
     }
@@ -415,7 +458,7 @@ function genDeckList() {
     
     const timeElem = document.createElement('div');
     arrangeTimeElement(timeElem);
-    timeElem.innerText = genTime(ansTime);
+    timeElem.innerText = genTime(ansTime, false);
     renderTarget.appendChild(timeElem);
 
     //数字を表示するためのコンテナを作成
@@ -527,8 +570,10 @@ function genDeckList() {
         ///alert('new deal');
         
         genExam();
-        cards = deck.deal(maxinplay).map((c) => ({ isUse: false, ...c }));
+        cards = deck.deal(maxinplay).map((c) => ({ isUse: false, isMiss: false, ...c }));
         scorehis.splice(0, scorehis.length );
+        timehis.splice(0, timehis.length );
+        misshis.splice(0, misshis.length );
         render(renderTarget, {
           cardList: cards,
           pickList: state.pickList,
@@ -642,7 +687,7 @@ function genDeckList() {
           //alert('new deal');
           
           genExam();
-          cards = deck.deal(maxinplay).map((c) => ({ isUse: false, ...c }));
+          cards = deck.deal(maxinplay).map((c) => ({ isUse: false, isMiss: false, ...c }));
           render(renderTarget, {
             cardList: cards,
             pickList: state.pickList,
