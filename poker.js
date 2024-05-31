@@ -124,8 +124,8 @@ class Deck {
     countList.map((c) => c.count = 0);
 
     let wholeCardList =  this._deck;
-    wholeCardList.push( ...this._inplay.splice(0, this._inplay.length ) );
-    wholeCardList.push( ...this._trash.splice(0, this._trash.length ) );
+    wholeCardList.push( ...this._inplay );
+    wholeCardList.push( ...this._trash );
   
     //使用するカードをカウントする
     for(const card of wholeCardList){
