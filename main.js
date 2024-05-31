@@ -20,6 +20,11 @@ const createCardElement = (card, puttext) => {
   const cardLabel = document.createElement('div');
   cardLabel.innerText = `${card.label}`;
   elem.appendChild(cardLabel);
+  if(card.type === '7') {
+  	  cardLabel.classList.add('SEVEN');
+  } else if(card.type === '11') {
+  	  cardLabel.classList.add('ELEVEN');
+  }
   
   if(puttext) {
   // カードテキスト

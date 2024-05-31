@@ -29,7 +29,7 @@ body {
 .pickcard-group {
   display: flex;
   font-family: sans-serif;
-//  width: 40em;
+/*  width: 40em;*/
   margin: 0 auto;
   flex-wrap: wrap;
   justify-content: center
@@ -57,17 +57,17 @@ body {
 }
 
 .card {
-  margin: 0 auto;
+  margin: 1em auto;
   border-radius: 3px;
-  //box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.2);
+  /*box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.2);*/
   padding: 1em;
   width: 5em;
 }
 
 .ontextcard {
-  margin: 0 auto;
+  margin: 1em auto;
   border-radius: 3px;
-  //box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.2);
+  /*box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.2);*/
   padding: 1em;
   width: 10em;
 }
@@ -101,4 +101,15 @@ body {
 }
 .system {
   box-shadow: 0 0 3px 1px rgba(0, 0, 0, 1);
+}
+
+.SEVEN {
+  color: rgb(255, 0, 0);
+}
+.ELEVEN {
+  color: rgb(0, 255, 0);
+}
+
+button {
+  margin: 1em auto;
 }
