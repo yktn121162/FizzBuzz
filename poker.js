@@ -131,7 +131,9 @@ const isFIZZBUZZ = (number) => {
 }
 
 const isPrime = (number) => {
-
+  
+  //1は素数でない
+  if(number === 1) return false;
   //2は素数
   if(number === 2) return true;
   //偶数はfalse
@@ -169,7 +171,7 @@ const isEven = (number) => {
 
 const isPerfect = (number) => {
   //少なすぎるので一旦直書きで
-  if(number === 6 || number === 28 || number === 496) {
+  if(number === 6 || number === 28 || number === 496 || number === 8128) {
     return true;
   }else{
     return false;
