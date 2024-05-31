@@ -196,6 +196,14 @@ const isGreen = (color) => {
 const isBlue = (color) => {
   return (color === 'blue');
 }
+const isYellow = (color) => {
+  return (color === 'yellow');
+}
+const isCyan = (color) => {
+  return (color === 'cyan');
+}
+
+
 
 
 //スコアを計算する
@@ -287,6 +295,16 @@ const getScore = (list, random, color) =>{
 
     if(v.type === "blue" && v.count > 0){
       if(isBlue(color)){
+        score = score * (2 + (v.count -1) * 0.1);
+      }
+    }
+    if(v.type === "yellow" && v.count > 0){
+      if(isYellow(color)){
+        score = score * (2 + (v.count -1) * 0.1);
+      }
+    }
+    if(v.type === "cyan" && v.count > 0){
+      if(isCyan(color)){
         score = score * (2 + (v.count -1) * 0.1);
       }
     }
@@ -470,6 +488,16 @@ const isMistake = (list, random, color) =>{
 
     if(v.type === "blue" && v.count > 0){
       if(! isBlue(color)){
+        return true;
+      }
+    }
+    if(v.type === "yellow" && v.count > 0){
+      if(! isYellow(color)){
+        return true;
+      }
+    }
+    if(v.type === "cyan" && v.count > 0){
+      if(! isCyan(color)){
         return true;
       }
     }
