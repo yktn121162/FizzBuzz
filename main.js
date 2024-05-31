@@ -85,6 +85,7 @@ const createNumElement = (number, color, font) => {
   let maxinplay = 5;
   let maxpick = 5;
   let life = 3;
+  let misshis = [];
   
   let deck = new Deck({ includesJoker: true });
   let cards = deck.deal(maxinplay).map((c) => ({ isUse: false, ...c }));
@@ -95,14 +96,16 @@ const createNumElement = (number, color, font) => {
   let cycle = 1;
   let scorehis = [];
   let highscore = 0;
-  let yourscore = 0;
+  let recordscore = 0;
   
   let targetnum = 0;
   let color = 'none';
   let font = 'none';
   
   let startTime = Date.now();
-  let limitTime = 10;
+  const initialLimitTime = 10;
+  let limitTime = initialLimitTime;
+  let timehis = [];
 
   let timeoutID = null;
   let examtimeoutID = null;
@@ -120,8 +123,7 @@ function CalcDiff() {
   return diff;
 }
 
-function genTime() {
-  const diff = CalcDiff();
+function genTime(diff) {
   if( diff > 0 ){
     
     const calcSec = Math.floor(diff / 1000) % 60;
@@ -141,7 +143,7 @@ function genTime() {
 }
 
 function arrangeTimeElement(elem) {
-  elem.innerText = genTime();
+  elem.innerText = genTime(CalcDiff());
   elem.id = 'time';
 }
 
@@ -218,6 +220,8 @@ function newGame() {
   maxinplay = 5;
   maxpick = 5;
   life = 3;
+  let misshis = [];
+  
   deck = new Deck({ includesJoker: true });
   cards = deck.deal(maxinplay).map((c) => ({ isUse: false, ...c }));
   pickCards = getPickOption(maxpick).map((c) => ({ isPick: false, ...c }));
@@ -231,7 +235,8 @@ function newGame() {
   color = 'none';
   
   startTime = Date.now();
-  limitTime = 10;
+  let limitTime = initialLimitTime;
+  let timehis = [];
 
   timeoutID = null;
   examtimeoutID = null;
@@ -256,15 +261,29 @@ function genDeckList() {
   // stateは現在の状態（手札のリストとゲームフェーズ）です
   (function render(renderTarget, state) {
   	let score;
+  	let misstake;
+  	let ansTime = 10000;
   	if (state.phase === 'done') {
       
       // スコア計算だけ先にやる。表示は後
+<<<<<<< yktn-work2
+      clearTimeout(timeoutID);
+      ansTime = CalcDiff();
+      timehis.push(ansTime)
+      const ansTimeS = +(ansTime/1000).toFixed(1);
+      score = getScore(state.cardList, targetnum, color, ansTimeS, Math.max(10 - limitTime, 0)); //制限時間を伸ばす可能性を考慮して0と比較しておく
+=======
       const ansTime = +(CalcDiff()/1000).toFixed(1);
       score = getScore(state.cardList, targetnum, color, ansTime, Math.max(10 - limitTime, 0)); //制限時間を伸ばす可能性を考慮して0と比較しておく
+>>>>>>> main
       
       scorehis.push(score);
       
-      if( cycle >= 5 ) {
+      // ミスチェック
+      misstake = setMisstake(state.cardList, targetnum, color);
+      misshis.push(misstake);
+      
+      if( turn >= 5 ) {
       	const ts = totalScore();
       	if(ts > highscore) {
           highscore = ts;
@@ -293,41 +312,41 @@ function genDeckList() {
       const scoreGrid = document.createElement('div');
       scoreGrid.classList.add('score-grid');
       
-      const telm = document.createElement('div');
-      telm.classList.add('score-grid-head');
-      telm.innerText = 'Turn';
-      scoreGrid.appendChild(telm);
+      const tElm = document.createElement('div');
+      tElm.classList.add('score-grid-head');
+      tElm.innerText = 'Turn';
+      scoreGrid.appendChild(tElm);
       
-      const t1elm = document.createElement('div');
-      t1elm.classList.add('score-grid-head');
-      t1elm.innerText = '1';
-      scoreGrid.appendChild(t1elm);
-      const t2elm = document.createElement('div');
-      t2elm.classList.add('score-grid-head');
-      t2elm.innerText = '2';
-      scoreGrid.appendChild(t2elm);
-      const t3elm = document.createElement('div');
-      t3elm.classList.add('score-grid-head');
-      t3elm.innerText = '3';
-      scoreGrid.appendChild(t3elm);
-      const t4elm = document.createElement('div');
-      t4elm.classList.add('score-grid-head');
-      t4elm.innerText = '4';
-      scoreGrid.appendChild(t4elm);
-      const t5elm = document.createElement('div');
-      t5elm.classList.add('score-grid-head');
-      t5elm.innerText = '5';
-      scoreGrid.appendChild(t5elm);
+      const t1Elm = document.createElement('div');
+      t1Elm.classList.add('score-grid-head');
+      t1Elm.innerText = '1';
+      scoreGrid.appendChild(t1Elm);
+      const t2Elm = document.createElement('div');
+      t2Elm.classList.add('score-grid-head');
+      t2Elm.innerText = '2';
+      scoreGrid.appendChild(t2Elm);
+      const t3Elm = document.createElement('div');
+      t3Elm.classList.add('score-grid-head');
+      t3Elm.innerText = '3';
+      scoreGrid.appendChild(t3Elm);
+      const t4Elm = document.createElement('div');
+      t4Elm.classList.add('score-grid-head');
+      t4Elm.innerText = '4';
+      scoreGrid.appendChild(t4Elm);
+      const t5Elm = document.createElement('div');
+      t5Elm.classList.add('score-grid-head');
+      t5Elm.innerText = '5';
+      scoreGrid.appendChild(t5Elm);
       
-      const htotalelm = document.createElement('div');
-      htotalelm.classList.add('score-grid-head');
-      htotalelm.innerText = 'Total';
-      scoreGrid.appendChild(htotalelm);
+      const hTotalelm = document.createElement('div');
+      hTotalelm.classList.add('score-grid-head');
+      hTotalelm.innerText = 'Total';
+      scoreGrid.appendChild(hTotalelm);
       
       const selm = document.createElement('div');
-      selm.classList.add('score-grid-head');
-      selm.innerText = 'Score';
-      scoreGrid.appendChild(selm);
+      sElm.classList.add('score-grid-head');
+      sElm.innerText = 'Score';
+      scoreGrid.appendChild(sElm);
       
       let total = 0;
       for(let i = 0; i < 5 ; i++) {
@@ -341,10 +360,37 @@ function genDeckList() {
         }
         scoreGrid.appendChild(elm);
       }
-      const totalelm = document.createElement('div');
-      totalelm.classList.add('score-grid-data');
-      totalelm.innerText = total.toFixed(2);
-      scoreGrid.appendChild(totalelm);
+      const totalElm = document.createElement('div');
+      totalElm.classList.add('score-grid-data');
+      totalElm.innerText = total.toFixed(2);
+      scoreGrid.appendChild(totalElm);
+      
+      const timeElm = document.createElement('div');
+      timeElm.classList.add('score-grid-head');
+      timeElm.innerText = 'Time';
+      scoreGrid.appendChild(timeElm);
+      
+      for(let i = 0; i < 5 ; i++) {
+        let elm = document.createElement('div');
+        elm.classList.add('score-grid-data');
+        if(i >= timehis.length) {
+          elm.innerText = '';
+        } else {
+          elm.innerText = scorehis[i].toFixed(2);
+          total = total + scorehis[i];
+        }
+        scoreGrid.appendChild(elm);
+      }
+      const totalTimeElm = document.createElement('div');
+      totalTimeElm.classList.add('score-grid-data');
+      totalTimeElm.innerText = total.toFixed(2);
+      scoreGrid.appendChild(totalTimeElm);
+      
+      
+      const missElm = document.createElement('div');
+      missElm.classList.add('score-grid-head');
+      missElm.innerText = 'Miss';
+      scoreGrid.appendChild(missElm);
       
       renderTarget.appendChild(scoreGrid);
     }
@@ -372,6 +418,7 @@ function genDeckList() {
     
     const timeElem = document.createElement('div');
     arrangeTimeElement(timeElem);
+    misselm.innerText = genTime(ansTime);
     renderTarget.appendChild(timeElem);
 
     //数字を表示するためのコンテナを作成
@@ -523,7 +570,6 @@ function genDeckList() {
 
     // 現在のゲームフェーズを見て処理を変える
     if (state.phase === 'done') {
-      clearTimeout(timeoutID);
       
       // スコア計算済み
       //const score = getScore(state.cardList, targetnum, color);
@@ -541,6 +587,16 @@ function genDeckList() {
 
       //ライフがないならゲームオーバー
       if(life <= 0){
+<<<<<<< yktn-work2
+      	// 最高記録チェック
+      	let isRecord = false;
+      	if(recordscore < highscore) {
+      	  recordscore = highscore;
+      	  isRecord = true;
+      	}
+      	
+=======
+>>>>>>> main
         renderTarget.innerText = ''; // 描画内容をクリア
         const gameOverElem = document.createElement('h1');
         gameOverElem.innerText = `Game Over`;
@@ -567,8 +623,9 @@ function genDeckList() {
         return;
       }
 
-      if(cycle >= 5) {
-        cycle = 1;
+      if(turn >= 5) {
+      	turn = 1;
+        cycle = cycle + 1;
         // ピックへ移動するボタンの表示
         const nextGameButton = document.createElement('button');
         nextGameButton.innerText = 'ピックへ';
@@ -583,7 +640,7 @@ function genDeckList() {
         });
         renderTarget.appendChild(nextGameButton);
       } else {
-        cycle = cycle + 1;
+        turn = turn + 1;
         const nextGameButton = document.createElement('button');
         nextGameButton.innerText = 'Next turn';
         nextGameButton.addEventListener('click', () => {

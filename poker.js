@@ -1,3 +1,7 @@
+const xor = (a, b) => {
+	return (a && !b) || (!a && b);
+}
+
 const cardMst = [
     {type: 'fizz'   , label: 'FIZZ'   , no: '1'  , rarity: 'C', cardtext: '3の倍数', ratetext: 'スコア3倍' },
     {type: 'buzz'   , label: 'BUZZ'   , no: '2'  , rarity: 'C', cardtext: '5の倍数', ratetext: 'スコア5倍' },
@@ -232,13 +236,21 @@ const isMagenta = (color) => {
 
 
 
+<<<<<<< yktn-work2
+
+=======
+>>>>>>> main
 //スコアを計算する
 const getScore = (list, random, color, time, timeReduce) =>{
   let cardList = cardListParser(list);
   let score = random;
   let FIZZflag = false;
   let BUZZflag = false;
+<<<<<<< yktn-work2
+  let successFlag = false;
+=======
   let successFlag = true;
+>>>>>>> main
 
 
 
@@ -248,85 +260,133 @@ const getScore = (list, random, color, time, timeReduce) =>{
       FIZZflag = true;
       if(isFIZZ(random)){
         score = score * (3 + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
+        successFlag = true;
+=======
       } else {
         successFlag = false;
+>>>>>>> main
       }
     }
     if(v.type === "buzz" && v.count > 0){
       BUZZflag = true;
       if(isBUZZ(random)){
         score = score * (5 + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
+        successFlag = true;
+=======
       } else {
         successFlag = false;
+>>>>>>> main
       }
     }
     if(v.type === "7" && v.count > 0){
       if(isSeven(random)){
         score = score * (7 + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
+        successFlag = true;
+=======
       } else {
         successFlag = false;
+>>>>>>> main
       }
     }
     if(v.type === "11" && v.count > 0){
       if(isEleven(random)){
         score = score * (11 + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
+        successFlag = true;
+=======
         
+>>>>>>> main
       }
     }
     if(v.type === "13" && v.count > 0){
       if(isSeven(random)){
         score = score * (13 + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
+        successFlag = true;
+=======
       } else {
         successFlag = false;
+>>>>>>> main
       }
     }
     if(v.type === "17" && v.count > 0){
       if(isSeven(random)){
         score = score * (17 + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
+        successFlag = true;
+=======
       } else {
         successFlag = false;
+>>>>>>> main
       }
     }
     if(v.type === "odd" && v.count > 0){
       if(isOdd(random)){
         score = score * (2 + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
+        successFlag = true;
+=======
       } else {
         successFlag = false;
+>>>>>>> main
       }
     }
     if(v.type === "even" && v.count > 0){
       if(isEleven(random)){
         score = score * (2 + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
+        successFlag = true;
+=======
       } else {
         successFlag = false;
+>>>>>>> main
       }
     }
     if(v.type === "prime" && v.count > 0){
       if(isPrime(random)){
         score++;
+<<<<<<< yktn-work2
+        successFlag = true;
+=======
       } else {
         successFlag = false;
+>>>>>>> main
       }
     }
     if(v.type === "perfect" && v.count > 0){
       if(isPerfect(random)){
         score = score * (random + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
+        successFlag = true;
+=======
       } else {
         successFlag = false;
+>>>>>>> main
       }
     }
     if(v.type === "sq" && v.count > 0){
       if(isSquare(random)){
         score = score * (random + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
+        successFlag = true;
+=======
       } else {
         successFlag = false;
+>>>>>>> main
       }
     }
     if(v.type === "cubic" && v.count > 0){
       if(isSeven(random)){
         score = score * (random + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
+        successFlag = true;
+=======
       } else {
         successFlag = false;
+>>>>>>> main
       }
     }
 
@@ -334,38 +394,58 @@ const getScore = (list, random, color, time, timeReduce) =>{
     if(v.type === "red" && v.count > 0){
       if(isRed(color)){
         score = score * (2 + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
+        successFlag = true;
+=======
       } else {
         successFlag = false;
+>>>>>>> main
       }
     }
 
     if(v.type === "green" && v.count > 0){
       if(isGreen(color)){
         score = score * (2 + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
+        successFlag = true;
+=======
       } else {
         successFlag = false;
+>>>>>>> main
       }
     }
 
     if(v.type === "blue" && v.count > 0){
       if(isBlue(color)){
         score = score * (2 + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
+        successFlag = true;
+=======
       } else {
         successFlag = false;
+>>>>>>> main
       }
     }
     if(v.type === "yellow" && v.count > 0){
       if(isYellow(color)){
         score = score * (2 + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
+        successFlag = true;
+=======
       } else {
         successFlag = false;
+>>>>>>> main
       }
     }
     if(v.type === "cyan" && v.count > 0){
       if(isCyan(color)){
         score = score * (2 + (v.count -1) * 0.1);
+<<<<<<< yktn-work2
+        successFlag = true;
+=======
       } else {
         successFlag = false;
+>>>>>>> main
       }
     }
 
@@ -399,6 +479,7 @@ const getScore = (list, random, color, time, timeReduce) =>{
   if(FIZZflag && BUZZflag){
     if(isFIZZBUZZ(random)){
       score= score + 100;
+      successFlag = true;
     }else{
       score= score - 100;
     }
@@ -495,6 +576,74 @@ const cardListParser = (list) => {
     }
   }
   return countList;
+}
+
+function setMisstake(cardlist, random, color) {
+  let misstake = 0;
+  for(const card of cardList) {
+  	  switch(card.type) {
+  	  	case `fizz`:
+  	  	  card.isMiss = xor( card.isUse, isFIZZ(random));
+  	  	  break;
+  	  	case `buzz`:
+  	  	  card.isMiss = xor( card.isUse, isBUZZ(random));
+  	  	  break;
+  	  	case `7`:
+  	  	  card.isMiss = xor( card.isUse, isSeven(random));
+  	  	  break;
+  	  	case `11`:
+  	  	  card.isMiss = xor( card.isUse, isEleven(random));
+  	  	  break;
+  	  	case `13`:
+  	  	  card.isMiss = xor( card.isUse, isJason(random));
+  	  	  break;
+  	  	case `17`:
+  	  	  card.isMiss = xor( card.isUse, isGauss(random));
+  	  	  break;
+  	  	case `odd`:
+  	  	  card.isMiss = xor( card.isUse, isOdd(random));
+  	  	  break;
+  	  	case `even`:
+  	  	  card.isMiss = xor( card.isUse, isEven(random));
+  	  	  break;
+  	  	case `prime`:
+  	  	  card.isMiss = xor( card.isUse, isPrime(random));
+  	  	  break;
+  	  	case `perfect`:
+  	  	  card.isMiss = xor( card.isUse, isPerfect(random));
+  	  	  break;
+  	  	case `sq`:
+  	  	  card.isMiss = xor( card.isUse, isSquare(random));
+  	  	  break;
+  	  	case `cubic`:
+  	  	  card.isMiss = xor( card.isUse, isCubic(random));
+  	  	  break;
+  	  	case `red`:
+  	  	  card.isMiss = xor( card.isUse, isRed(color));
+  	  	  break;
+  	  	case `green`:
+  	  	  card.isMiss = xor( card.isUse, isGreen(color));
+  	  	  break;
+  	  	case `blue`:
+  	  	  card.isMiss = xor( card.isUse, isBlue(color));
+  	  	  break;
+  	  	case `yellow`:
+  	  	  card.isMiss = xor( card.isUse, isYellow(color));
+  	  	  break;
+  	  	case `cyan`:
+  	  	  card.isMiss = xor( card.isUse, isCyan(color));
+  	  	  break;
+  	  	case `magenta`:
+  	  	  card.isMiss = xor( card.isUse, isMagenta(color));
+  	  	  break;
+  	  }
+  	  
+  	  if(card.isMiss) {
+        misstake = misstake + 1;
+  	  }
+  }
+  
+  return misstake;
 }
 
 const isMistake = (list, random, color) =>{
