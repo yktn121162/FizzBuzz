@@ -188,13 +188,22 @@ const isCubic = (number) => {
 
 //色の判定
 const isRed = (color) => {
-  return (color === 'red');
+  return (color === 'red' || color === 'yellow' || color === 'magenta' );
 }
 const isGreen = (color) => {
-  return (color === 'green');
+  return (color === 'green' || color === 'yellow' || color === 'cyan' );
 }
 const isBlue = (color) => {
-  return (color === 'blue');
+  return (color === 'blue' || color === 'cyan' || color === 'magenta' );
+}
+const isYellow = (color) => {
+  return (color === 'yellow' );
+}
+const isCyan = (color) => {
+  return (color === 'cyan' );
+}
+const isMagenta = (color) => {
+  return (color === 'magenta' );
 }
 const isYellow = (color) => {
   return (color === 'yellow');
@@ -327,6 +336,23 @@ const getScore = (list, random, color, time, timeReduce) =>{
       }
     }
 
+    if(v.type === "yellow" && v.count > 0){
+      if(isYellow(color)){
+        score = score * (2 + (v.count -1) * 0.1);
+      }
+    }
+
+    if(v.type === "cyan" && v.count > 0){
+      if(isCyan(color)){
+        score = score * (2 + (v.count -1) * 0.1);
+      }
+    }
+
+    if(v.type === "magenta" && v.count > 0){
+      if(isMagenta(color)){
+        score = score * (2 + (v.count -1) * 0.1);
+      }
+    }
 
   }
 
@@ -420,14 +446,31 @@ const cardListParser = (list) => {
     {type: 'red', count: 0},
     {type: 'green', count: 0},
     {type: 'blue', count: 0},
+    {type: 'yellow', count: 0},
+    {type: 'cyan', count: 0},
+    {type: 'magenta', count: 0},
   ]
 
   //使用するカードをカウントする
   for(const card of list){
     if(card.isUse){
       for(const cList of countList){
-        if(card.type == cList.type){
-          cList.count = cList.count + 1;
+      	if(cList.type === 'red') {
+          if(isRed(card.type)) {
+          	cList.count = cList.count + 1;
+          }
+      	} else if(cList.type === 'green') {
+      	  if(isGreen(card.type)) {
+          	cList.count = cList.count + 1;
+          }
+      	} else if(cList.type === 'blue') {
+      	  if(isBlue(card.type)) {
+          	cList.count = cList.count + 1;
+          }
+      	} else {
+          if(card.type == cList.type){
+            cList.count = cList.count + 1;
+          }
         }
       }
     }
