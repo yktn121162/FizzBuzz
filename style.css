@@ -17,6 +17,12 @@ body {
   border: 1px solid;
 }
 
+.score-grid-number {
+  border: 1px solid;
+  border-color: black;
+  background-color: gray;
+}
+
 .card-group {
   display: flex;
   font-family: sans-serif;
@@ -44,26 +50,26 @@ body {
   text-align: center;
   background-color: gray;
 }
-.number.green {
+.green {
   color: rgb(0, 255, 0);
 }
-.number.blue {
+.blue {
   color: rgb(0, 255, 0);
 }
-.number.red {
+.red {
   color: rgb(255, 0, 0);
 }
-.number.yellow {
+.yellow {
   color: rgb(255, 255, 0);
 }
-.number.cyan {
+.cyan {
   color: rgb(0, 255, 255);
 }
-.number.magenta {
+.magenta {
   color: rgb(255, 0, 255);
 }
 
-.number.none {
+.none {
   color: rgb(0, 0, 0);
 }
 
