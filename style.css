@@ -123,3 +123,15 @@ body {
 button {
   margin: 1em auto;
 }
+
+.deckListContainer {
+  display: grid;
+  grid-template-columns: 200px 200px 200px;
+}
+
+.deckListContainer > div {
+  border-radius: 5px;
+  padding: 10px;
+  background-color: rgb(207 232 220);
+  border: 2px solid rgb(79 185 227);
+}

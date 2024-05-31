@@ -455,18 +455,6 @@ function genDeckList() {
         }
       }
 
-       //デッキリストの生成
-       const deckElem = document.createElement('h2');
-       deckElem.innerText = `Deck List`;
-       renderTarget.appendChild(deckElem);
-       
-       for(const card of deck.getDeckList())  {
-        if(card.count > 0){
-          const cardelm = document.createElement('div');
-          cardelm.innerText = `${card.label} : ${card.count}`;
-          renderTarget.appendChild(cardelm);
-        }
-       }
       
       
       const nextGameButton = document.createElement('button');
@@ -487,6 +475,28 @@ function genDeckList() {
       renderTarget.appendChild(nextGameButton);
       
       renderTarget.appendChild(pickContainer);
+
+
+
+
+       //デッキリストの生成
+       const deckTitle = document.createElement('div');
+       const deckElem = document.createElement('h2');
+       deckElem.innerText = `Deck List`;
+       deckTitle.appendChild(deckElem);
+       renderTarget.appendChild(deckTitle);
+
+       const deckListContainer = document.createElement('div');
+       deckListContainer.classList.add('deckListContainer');
+       for(const card of deck.getDeckList())  {
+        if(card.count > 0){
+          const cardelm = document.createElement('div');
+          cardelm.innerText = `${card.label} : ${card.count} \n ${card.cardtext} \n ${card.ratetext}` ;
+          deckListContainer.appendChild(cardelm);
+        }
+       }
+
+      renderTarget.appendChild(deckListContainer);
     }
 
 
