@@ -279,10 +279,28 @@ function genExam() {
       
       renderTarget.appendChild(scoreGrid);
     }
+
+    
+    //game over時の表示
+    if(state.phase ==='gameOver'){
+      const gameOverElem = document.createElement('h1');
+      gameOverElem.innerText = `Game Over`;
+      renderTarget.appendChild(gameOverElem);
+
+      //ニューゲームボタンの表示
+      const newGameButton = document.createElement('button');
+      newGameButton.innerText = 'ニューゲーム';
+      newGameButton.addEventListener('click', () => {
+
+        
+      });
+      renderTarget.appendChild(newGameButton);
+      return;
+      }
     
     
     
-    if (state.phase !== 'play' && state.phase !== 'pick' && state.phase !== 'done' && state.phase !== 'expick') {
+    if (state.phase !== 'play' && state.phase !== 'pick' && state.phase !== 'done' && state.phase !== 'expick' && state.phase !== 'gameOver') {
       //state.phase = 'play';
       const GameStartButton = document.createElement('button');
       GameStartButton.innerText = 'ゲームスタート';
@@ -424,7 +442,6 @@ function genExam() {
       renderTarget.appendChild(pickContainer);
     }
 
-    //alert('hoge');
 
     if (state.phase !== 'pick' && state.phase !== 'expick') {
       // 各カードの内容をコンテナに詰め込む
@@ -461,6 +478,8 @@ function genExam() {
       if(isMistake(state.cardList, targetnum, color)){
         life--;
       }
+
+
       if(cycle >= 5) {
         cycle = 1;
         // ピックへ移動するボタンの表示
@@ -495,6 +514,18 @@ function genExam() {
         renderTarget.appendChild(nextGameButton);
       }
     } else if (state.phase === 'play') {
+
+
+      //ライフがないならゲームオーバー
+      if(life <= 0){
+        render(renderTarget, {
+          cardList: state.cardList,
+          pickList: pickCards,
+          phase: 'gameOver'
+        });
+      }
+
+      
       // カード交換ボタン
       // クリックすると保持フラグのついていないカードを交換し
       // 再描画する
