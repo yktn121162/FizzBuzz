@@ -115,6 +115,7 @@ class Deck {
   }
 
   getDeckList() {
+    //カウントするためのリストの作成
     let countList  = cardMst;
     countList.map((c) => c.count = 0);
 
@@ -464,29 +465,10 @@ const getPickOption =  (n) => {
 }
 
 const cardListParser = (list) => {
-  //使用するカードのリストを作成する
+  
   //使用するカードをカウントするためのリストを作成する
-  let countList =  [
-    {type: 'fizz', count: 0 },
-    {type: 'buzz', count: 0 },
-    {type: '7', count: 0},
-    {type: '11', count: 0},
-    {type: '13', count: 0},
-    {type: '17', count: 0},
-    {type: 'odd', count: 0},
-    {type: 'even', count: 0},
-    {type: 'prime', count: 0},
-    {type: 'perfect', count: 0},
-    {type: 'sq', count: 0},
-    {type: 'cubic', count: 0},
-
-    {type: 'red', count: 0},
-    {type: 'green', count: 0},
-    {type: 'blue', count: 0},
-    {type: 'yellow', count: 0},
-    {type: 'cyan', count: 0},
-    {type: 'magenta', count: 0},
-  ]
+  let countList  = cardMst;
+  countList.map((c) => c.count = 0);
 
   //使用するカードをカウントする
   for(const card of list){
