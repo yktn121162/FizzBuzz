@@ -243,6 +243,9 @@ const getScore = (list, random, color, time, timeReduce) =>{
   let score = random;
   let FIZZflag = false;
   let BUZZflag = false;
+  let SevenFlag = false;
+  let ElevenFlag = false;
+  let PerfectFlag = false;
 
   let successFlag = true;
 
@@ -252,20 +255,18 @@ const getScore = (list, random, color, time, timeReduce) =>{
   //使用するカードごとに条件に一致しているか確認する
   for(const v of cardList) {
     if(v.type === "fizz" && v.count > 0){
-      FIZZflag = true;
       if(isFIZZ(random)){
+        FIZZflag = true;
         score = score * (3 + (v.count -1) * 0.1);
-
       } else {
         successFlag = false;
 
       }
     }
     if(v.type === "buzz" && v.count > 0){
-      BUZZflag = true;
       if(isBUZZ(random)){
+        BUZZflag = true;
         score = score * (5 + (v.count -1) * 0.1);
-
       } else {
         successFlag = false;
 
@@ -273,8 +274,8 @@ const getScore = (list, random, color, time, timeReduce) =>{
     }
     if(v.type === "7" && v.count > 0){
       if(isSeven(random)){
+        SevenFlag = true;
         score = score * (7 + (v.count -1) * 0.1);
-
       } else {
         successFlag = false;
 
@@ -282,6 +283,7 @@ const getScore = (list, random, color, time, timeReduce) =>{
     }
     if(v.type === "11" && v.count > 0){
       if(isEleven(random)){
+        ElevenFlag = true;
         score = score * (11 + (v.count -1) * 0.1);
     } else {
         successFlag = false;
@@ -438,13 +440,14 @@ const getScore = (list, random, color, time, timeReduce) =>{
 
 
   if(FIZZflag && BUZZflag){
-    if(isFIZZBUZZ(random)){
-      score= score + 100;
-      successFlag = true;
-    }else{
-      score= score - 100;
-    }
+    score= score * 15;
   }
+
+  if(SevenFlag && ElevenFlag){
+    score= score * 711;
+
+
+}
 
   //残り時間補正の計算
   if(successFlag){
