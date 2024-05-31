@@ -539,7 +539,7 @@ const cardListParser = (list) => {
   return countList;
 }
 
-function setMisstake(cardlist, random, color) {
+function setMisstake(cardList, random, color) {
   let misstake = 0;
   for(const card of cardList) {
   	  switch(card.type) {

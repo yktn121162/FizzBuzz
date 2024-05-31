@@ -5,7 +5,7 @@ body {
 
 .score-grid {
   display: grid;
-  grid-template-columns: 5em 5em 5em 5em 5em 5em 5em;
+  grid-template-columns: 5em 10em 10em 10em 10em 10em 10em;
   text-align: center;
 }
 
@@ -42,6 +42,7 @@ body {
   padding: 1em;
   width: 5em;
   text-align: center;
+  background-color: gray;
 }
 .number.green {
   color: rgb(0, 255, 0);
@@ -93,6 +94,10 @@ body {
 
 .card.pick {
   background-color: rgb(248, 248, 9);
+}
+
+.card.miss {
+  background-color: rgb(255, 0, 0);
 }
 
 .ontextcard.use {
