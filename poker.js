@@ -98,7 +98,7 @@ class Deck {
       this._inplay.push( ...this._deck.splice(0, num ) );
     }
     
-    //alert('deck' + this._deck.length + 'inplay' + this._inplay.length + 'trash' + this._trash.length);
+    alert('deck' + this._deck.length + 'inplay' + this._inplay.length + 'trash' + this._trash.length);
     
     return this._inplay;
   }
@@ -120,12 +120,12 @@ class Deck {
 
   getDeckList() {
     //カウントするためのリストの作成
-    let countList  = cardMst;
+    let countList  = structuredClone(cardMst);
     countList.map((c) => c.count = 0);
 
-    let wholeCardList =  this._deck;
+    let wholeCardList =  structuredClone(this._deck);
     wholeCardList.push( ...this._inplay );
-    wholeCardList.push( ...this._trash );
+    wholeCardList.push( ...this._trash);
   
     //使用するカードをカウントする
     for(const card of wholeCardList){
@@ -509,7 +509,7 @@ const getPickOption =  (n) => {
 const cardListParser = (list) => {
   
   //使用するカードをカウントするためのリストを作成する
-  let countList  = cardMst;
+  let countList  = structuredClone(cardMst);
   countList.map((c) => c.count = 0);
 
   //使用するカードをカウントする

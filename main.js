@@ -199,6 +199,7 @@ function genExam() {
   }
 
   //フォントの決定
+
   if (fontGenerator1 === 0) {
     font = 'none';
   } else if (fontGenerator1 === 1) {
@@ -241,6 +242,10 @@ function newGame() {
   examtimeoutID = null;
 }
 
+function genDeckList() {
+  let listText ="Deck List \n hoge";
+  return listText;
+}
 
 //
 // メイン処理
