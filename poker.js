@@ -113,6 +113,45 @@ class Deck {
     this._deck.push( ...this._trash.splice(0, this._trash.length ) );
     this._deck.sort((a, b) => Math.random() - 0.5);
   }
+
+  getDeckList() {
+    let countList  = [
+      {type: 'fizz', count: 0 },
+      {type: 'buzz', count: 0 },
+      {type: '7', count: 0},
+      {type: '11', count: 0},
+      {type: '13', count: 0},
+      {type: '17', count: 0},
+      {type: 'odd', count: 0},
+      {type: 'even', count: 0},
+      {type: 'prime', count: 0},
+      {type: 'perfect', count: 0},
+      {type: 'sq', count: 0},
+      {type: 'cubic', count: 0},
+  
+      {type: 'red', count: 0},
+      {type: 'green', count: 0},
+      {type: 'blue', count: 0},
+      {type: 'yellow', count: 0},
+      {type: 'cyan', count: 0},
+      {type: 'magenta', count: 0},
+    ]
+
+    let wholeCardList =  this._deck;
+    wholeCardList.push( ...this._inplay.splice(0, this._inplay.length ) );
+    wholeCardList.push( ...this._trash.splice(0, this._trash.length ) );
+  
+    //使用するカードをカウントする
+    for(const card of wholeCardList){
+      for(const cList of countList){
+        if(card.type == cList.type){
+          cList.count = cList.count + 1;
+        }
+      }
+    }
+
+    return countList;
+  }
 }
 
 
@@ -131,7 +170,7 @@ const isFIZZBUZZ = (number) => {
 }
 
 const isPrime = (number) => {
-  
+
   //1は素数でない
   if(number === 1) return false;
   //2は素数

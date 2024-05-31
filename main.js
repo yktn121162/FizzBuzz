@@ -218,6 +218,11 @@ function newGame() {
   examtimeoutID = null;
 }
 
+function genDeckList() {
+  let listText ="Deck List \n hoge";
+  return listText;
+}
+
 //
 // メイン処理
 //
@@ -449,6 +454,19 @@ function newGame() {
           pickContainer.appendChild(cardelm);
         }
       }
+
+       //デッキリストの生成
+       const deckElem = document.createElement('h2');
+       deckElem.innerText = `Deck List`;
+       renderTarget.appendChild(deckElem);
+       
+       for(const card of deck.getDeckList())  {
+        if(card.count > 0){
+          const cardelm = document.createElement('div');
+          cardelm.innerText = `${card.type} : ${card.count}`;
+          renderTarget.appendChild(cardelm);
+        }
+       }
       
       
       const nextGameButton = document.createElement('button');
