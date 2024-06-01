@@ -282,7 +282,6 @@ function genExam() {
   
   startTime = new Date();
   displayTime();
-  targetnum = 15;
 }
 
 function newGame() {
