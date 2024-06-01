@@ -177,6 +177,10 @@ button {
   margin: 1em auto;
   text-align: center;
 }
+#scoreText {
+  margin: 1em auto;
+  text-align: center;
+}
 
 #highScore {
   border-size: 3px;

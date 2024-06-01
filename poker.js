@@ -62,7 +62,6 @@ var cardList = [
   getCrad('buzz'),
   getCrad('fizz'),
   getCrad('buzz'),
-  getCrad('bold'),
 ];
 
 
@@ -310,7 +309,7 @@ const getScore = (list, random, color, font, time, timeReduce, maxHand) =>{
       }
     }
     if(v.type === "13" && v.count > 0){
-      if(isSeven(random)){
+      if(isJason(random)){
         score = score * (13 + (v.count -1) * 0.1);
 
       } else {
@@ -319,7 +318,7 @@ const getScore = (list, random, color, font, time, timeReduce, maxHand) =>{
       }
     }
     if(v.type === "17" && v.count > 0){
-      if(isSeven(random)){
+      if(isGauss(random)){
         score = score * (17 + (v.count -1) * 0.1);
 
       } else {
@@ -337,7 +336,7 @@ const getScore = (list, random, color, font, time, timeReduce, maxHand) =>{
       }
     }
     if(v.type === "even" && v.count > 0){
-      if(isEleven(random)){
+      if(isEven(random)){
         score = score * (2 + (v.count -1) * 0.1);
 
       } else {
@@ -374,7 +373,7 @@ const getScore = (list, random, color, font, time, timeReduce, maxHand) =>{
       }
     }
     if(v.type === "cubic" && v.count > 0){
-      if(isSeven(random)){
+      if(isCubic(random)){
         score = score * (random + (v.count -1) * 0.1);
 
       } else {
@@ -507,6 +506,271 @@ const getScore = (list, random, color, font, time, timeReduce, maxHand) =>{
   return score;
 }
 
+const showScore = (list, random, color, font, time, timeReduce, maxHand) =>{
+
+  let scoreText = 'Base' + '(' + random + ')';
+
+  let cardList = cardListParser(list);
+  let addText = '';
+  let FIZZflag = false;
+  let BUZZflag = false;
+  let SevenFlag = false;
+  let ElevenFlag = false;
+  let PerfectFlag = false;
+  let successFlag = true;
+
+  let useCardValue = 0;
+
+  for(const c of cardList) {
+    if(c.count > 0){
+      useCardValue = useCardValue + c.count;
+    }
+  }
+
+
+
+
+  //使用するカードごとに条件に一致しているか確認する
+  for(const v of cardList) {
+    if(v.type === "fizz" && v.count > 0){
+      if(isFIZZ(random)){
+        FIZZflag = true;
+        addText = '* FIZZ(' +  (3 + (v.count -1) * 0.1) +')';
+        scoreText = scoreText + addText;
+      } else {
+        successFlag = false;
+
+      }
+    }
+    if(v.type === "buzz" && v.count > 0){
+      if(isBUZZ(random)){
+        BUZZflag = true;
+        addText = '* BUZZ(' +  (5 + (v.count -1) * 0.1) +')';
+        scoreText = scoreText + addText;
+      } else {
+        successFlag = false;
+
+      }
+    }
+    if(v.type === "7" && v.count > 0){
+      if(isSeven(random)){
+        SevenFlag = true;
+        addText = '* Seven(' +  (7 + (v.count -1) * 0.1) +')';
+        scoreText = scoreText + addText;
+      } else {
+        successFlag = false;
+
+      }
+    }
+    if(v.type === "11" && v.count > 0){
+      if(isEleven(random)){
+        ElevenFlag = true;
+        addText = '* Eleven(' +  (11 + (v.count -1) * 0.1) +')';
+        scoreText = scoreText + addText;
+    } else {
+        successFlag = false;
+
+      }
+    }
+    if(v.type === "13" && v.count > 0){
+      if(isJason(random)){
+        addText = '* Jason(' +  (13 + (v.count -1) * 0.1) +')';
+        scoreText = scoreText + addText;
+
+      } else {
+        successFlag = false;
+
+      }
+    }
+    if(v.type === "17" && v.count > 0){
+      if(isGauss(random)){
+        addText = '* Gauss(' +  (17 + (v.count -1) * 0.1) +')';
+        scoreText = scoreText + addText;
+
+      } else {
+        successFlag = false;
+
+      }
+    }
+    if(v.type === "odd" && v.count > 0){
+      if(isOdd(random)){
+        addText = '* Odd(' +  (2 + (v.count -1) * 0.1) +')';
+        scoreText = scoreText + addText;
+
+      } else {
+        successFlag = false;
+
+      }
+    }
+    if(v.type === "even" && v.count > 0){
+      if(isEven(random)){
+        addText = '* Even(' +  (2 + (v.count -1) * 0.1) +')';
+        scoreText = scoreText + addText;
+
+      } else {
+        successFlag = false;
+
+      }
+    }
+    if(v.type === "prime" && v.count > 0){
+      if(isPrime(random)){
+        addText = '* Prime(' +  (random + (v.count -1) * 0.1) +')';
+        scoreText = scoreText + addText;
+
+      } else {
+        successFlag = false;
+
+      }
+    }
+    if(v.type === "perfect" && v.count > 0){
+      if(isPerfect(random)){
+        PerfectFlag = true;
+        addText = '* Perfect(' +  (random + (v.count -1) * 0.1) +')';
+        scoreText = scoreText + addText;
+
+      } else {
+        successFlag = false;
+
+      }
+    }
+    if(v.type === "sq" && v.count > 0){
+      if(isSquare(random)){
+        addText = '* Square(' +  (random + (v.count -1) * 0.1) +')';
+        scoreText = scoreText + addText;
+
+      } else {
+        successFlag = false;
+
+      }
+    }
+    if(v.type === "cubic" && v.count > 0){
+      if(isCubic(random)){
+        addText = '* Cubic(' +  (random**2 + (v.count -1) * 0.1) +')';
+        scoreText = scoreText + addText;
+
+      } else {
+        successFlag = false;
+
+      }
+    }
+
+
+    if(v.type === "red" && v.count > 0){
+      if(isRed(color)){
+        addText = '* Red(' +  (2 + (v.count -1) * 0.1) +')';
+        scoreText = scoreText + addText;
+
+      } else {
+        successFlag = false;
+
+      }
+    }
+
+    if(v.type === "green" && v.count > 0){
+      if(isGreen(color)){
+        addText = '* Green(' +  (2 + (v.count -1) * 0.1) +')';
+        scoreText = scoreText + addText;
+
+      } else {
+        successFlag = false;
+
+      }
+    }
+
+    if(v.type === "blue" && v.count > 0){
+      if(isBlue(color)){
+        addText = '* Blue(' +  (2 + (v.count -1) * 0.1) +')';
+        scoreText = scoreText + addText;
+
+      } else {
+        successFlag = false;
+
+      }
+    }
+    if(v.type === "yellow" && v.count > 0){
+      if(isYellow(color)){
+        addText = '* Yellow(' +  (2 + (v.count -1) * 0.1) +')';
+        scoreText = scoreText + addText;
+
+      } else {
+        successFlag = false;
+
+      }
+    }
+    if(v.type === "cyan" && v.count > 0){
+      if(isCyan(color)){
+        addText = '* Cyan(' +  (2 + (v.count -1) * 0.1) +')';
+        scoreText = scoreText + addText;
+
+      } else {
+        successFlag = false;
+
+      }
+    }
+
+    if(v.type === "magenta" && v.count > 0){
+      if(isMagenta(color)){
+        addText = '* Magenta(' +  (2 + (v.count -1) * 0.1) +')';
+        scoreText = scoreText + addText;
+      } else {
+        successFlag = false;
+      }
+    }
+
+    if(v.type === "italic" && v.count > 0){
+      if(isItalic(font)){
+        addText = '* Italic(' +  (2 + (v.count -1) * 0.1) +')';
+        scoreText = scoreText + addText;
+      } else {
+        successFlag = false;
+      }
+    }
+
+    if(v.type === "bold" && v.count > 0){
+      if(isBold(font)){
+        addText = '* Bold(' +  (2 + (v.count -1) * 0.1) +')';
+        scoreText = scoreText + addText;
+      } else {
+        successFlag = false;
+      }
+    }
+
+  }
+
+
+  //複合の判定
+  if(FIZZflag && BUZZflag){
+    addText = '* FIZZBUZZ!(15)';
+    scoreText = scoreText + addText;
+  }
+
+  if(SevenFlag && ElevenFlag){
+    addText = '* SEVENELEVEN!(15)';
+    scoreText = scoreText + addText;
+  }
+
+  //全使用の判定
+  if(maxHand == useCardValue){
+    if(successFlag){
+      if(PerfectFlag){
+        addText = '* PERFECT!(' + random + '^ 2';
+        scoreText = scoreText + addText;
+      } else {
+        addText = '* PERFECTNUMBER!(' + random + '^ 3';
+        scoreText = scoreText + addText;
+      }
+    }
+  }
+
+  //残り時間補正の計算
+  if(successFlag){
+    if(time !== 0){
+      addText = '* Time Bonus!(' + (1 + time + timeReduce*2 ) + ')';
+      scoreText = scoreText + addText;
+    }
+  }
+  return scoreText;
+}
 
 const add2Deck = (card) => {
   if(card === 'fizz') {

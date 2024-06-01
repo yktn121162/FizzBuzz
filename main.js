@@ -104,6 +104,7 @@ const createNumElement = (number, color, font) => {
   let scorehis = [];
   let highscore = 0;
   let recordscore = 0;
+  let scoreText = '';
   
   let targetnum = 0;
   let color = 'none';
@@ -335,6 +336,7 @@ function genDeckList() {
       timehis.push(ansTime)
       const ansTimeS = +(ansTime/1000).toFixed(1);
       score = getScore(state.cardList, targetnum, color, font, ansTimeS, Math.max(initialLimitTime - limitTime, 0), maxinplay); //制限時間を伸ばす可能性を考慮して0と比較しておく
+      scoreText = showScore(state.cardList, targetnum, color, font, ansTimeS, Math.max(initialLimitTime - limitTime, 0), maxinplay);
 
       
       scorehis.push(score);
@@ -695,6 +697,12 @@ function genDeckList() {
       scoreLabel.id = 'score';
       scoreLabel.innerText = score.toFixed(2);
       renderTarget.appendChild(scoreLabel);
+
+      scoreTextLabel = document.createElement('div');
+      scoreTextLabel.id = 'scoreText';
+      scoreTextLabel.innerText = scoreText;
+      renderTarget.appendChild(scoreTextLabel);
+
       
 
 
