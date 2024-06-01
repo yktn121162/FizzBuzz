@@ -65,9 +65,6 @@ var cardList = [
   getCrad('buzz'),
   getCrad('fizz'),
   getCrad('buzz'),
-  getCrad('overline'),
-  getCrad('underline'),
-  getCrad('line-through'),
 ];
 
 
