@@ -62,6 +62,8 @@ var cardList = [
   getCrad('buzz'),
   getCrad('fizz'),
   getCrad('buzz'),
+  getCrad('sq'),
+  getCrad('cubic'),
 ];
 
 
@@ -334,13 +336,13 @@ const getScore = (list, random, color, font, time, timeReduce, maxHand) =>{
     }
     if(v.type === "sq" && v.count > 0){
       if(isSquare(random)){
-        score = score * (random + (v.count -1) * 0.1);
+        score = score * (16 + (v.count -1) * 0.1);
 
       }
     }
     if(v.type === "cubic" && v.count > 0){
       if(isCubic(random)){
-        score = score * (random + (v.count -1) * 0.1);
+        score = score * (216 + (v.count -1) * 0.1);
 
       }
     }
@@ -543,13 +545,13 @@ const showScore = (list, random, color, font, time, timeReduce, maxHand) =>{
     }
     if(v.type === "sq" && v.count > 0){
       if(isSquare(random)){
-        addText = '* Square(' +  (random + (v.count -1) * 0.1) +')';
+        addText = '* Square(' +  (16 + (v.count -1) * 0.1) +')';
         scoreText = scoreText + addText;
       }
     }
     if(v.type === "cubic" && v.count > 0){
       if(isCubic(random)){
-        addText = '* Cubic(' +  (random**2 + (v.count -1) * 0.1) +')';
+        addText = '* Cubic(' +  (216 + (v.count -1) * 0.1) +')';
         scoreText = scoreText + addText;
 
       }
@@ -633,7 +635,7 @@ const showScore = (list, random, color, font, time, timeReduce, maxHand) =>{
   if(maxHand == useCardValue){
     if(setMisstake(list, random, color) <= 0){
       if(PerfectFlag){
-        addText = 'PERFECTNUMBER!( ^3)';
+        addText = 'PERFECTNUMBER!(^2)';
         scoreText = '( ' + scoreText + ' )' + addText;
       } else {
         addText = '* PERFECT!(2)';
