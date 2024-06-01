@@ -113,6 +113,8 @@ const createNumElement = (number, color, font, line) => {
   let font = 'none';
   let line = 'none';
   let lineList = [];
+  let colorSw = false;
+  let fontSw = false;
   
   let startTime = Date.now();
   const initialLimitTime = 10;
@@ -215,54 +217,62 @@ function genExam() {
 
 
   //色の決定
-  if (colorGenerator1 === 0) {
+  if(colorSw) {
+    if (colorGenerator1 === 0) {
+      color = 'none';
+    } else if (colorGenerator1 === 1) {
+      if (colorGenerator2 === 0) {
+        color = 'red';
+      } else if (colorGenerator2 === 1) {
+        color = 'green';
+      } else if (colorGenerator2 === 2) {
+        color = 'blue';
+      }
+    } else if (colorGenerator1 === 2) {
+      if (colorGenerator2 === 0) {
+        color = 'yellow';
+      } else if (colorGenerator2 === 1) {
+        color = 'cyan';
+      } else if (colorGenerator2 === 2) {
+        color = 'magenta';
+      }
+    }
+  } else {
     color = 'none';
-  } else if (colorGenerator1 === 1) {
-    if (colorGenerator2 === 0) {
-      color = 'red';
-    } else if (colorGenerator2 === 1) {
-      color = 'green';
-    } else if (colorGenerator2 === 2) {
-      color = 'blue';
-    }
-  } else if (colorGenerator1 === 2) {
-    if (colorGenerator2 === 0) {
-      color = 'yellow';
-    } else if (colorGenerator2 === 1) {
-      color = 'cyan';
-    } else if (colorGenerator2 === 2) {
-      color = 'magenta';
-    }
   }
 
   //フォントの決定
-
-  if (fontGenerator1 === 0) {
-    font = 'none';
-  } else if (fontGenerator1 === 1) {
-    if (fontGenerator2 === 0) {
-      font = 'italic';
-    } else if (fontGenerator2 === 1) {
-      font = 'bold';
-    }else if(fontGenerator2 === 2){
-      font = 'italic_bold';
+  if(fontSw) {
+    if (fontGenerator1 === 0) {
+      font = 'none';
+    } else if (fontGenerator1 === 1) {
+      if (fontGenerator2 === 0) {
+        font = 'italic';
+      } else if (fontGenerator2 === 1) {
+        font = 'bold';
+      }else if(fontGenerator2 === 2){
+        font = 'italic_bold';
+      }
     }
-  }
 
-  //装飾線の決定
-  if (lineGenerator1 === 0) {
-    lineText = lineText + ' underline';
-    lineList.push('underline');
+    //装飾線の決定
+    if (lineGenerator1 === 0) {
+      lineText = lineText + ' underline';
+      lineList.push('underline');
+    }
+    if (lineGenerator2 === 0) {
+      lineText = lineText + ' line-through';
+      lineList.push('line-through');
+    }
+    if (lineGenerator3 === 0) {
+      lineText = lineText + ' overline';
+      lineList.push('overline');
+    }
+    line = lineText;
+  } else {
+    font = 'none';
+    line = '';
   }
-  if (lineGenerator2 === 0) {
-    lineText = lineText + ' line-through';
-    lineList.push('line-through');
-  }
-  if (lineGenerator3 === 0) {
-    lineText = lineText + ' overline';
-    lineList.push('overline');
-  }
-  line = lineText;
 
 
   
@@ -295,6 +305,8 @@ function newGame() {
   startTime = Date.now();
   limitTime = initialLimitTime;
   timehis = [];
+  colorSw = false;
+  fontSw = false;
 
   timeoutID = null;
   examtimeoutID = null;
@@ -655,6 +667,26 @@ function genDeckList() {
             }
           } else {
             deck.pick(card);
+          }
+          
+          switch(card.no) {
+          case '100':
+          case '101':
+          case '102':
+          case '103':
+          case '105':
+            colorSw = true;
+            break;
+          case '200':
+          case '201':
+          case '202':
+          case '300':
+          case '301':
+          case '302':
+          case '303':
+          case '304':
+            fontSw = true;
+            break;
           }
           
           const cardelm = document.createElement('div');
