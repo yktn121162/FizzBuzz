@@ -427,7 +427,7 @@ const getScore = (list, random, color, font, time, timeReduce, maxHand) =>{
       if(PerfectFlag){
         score = score ** 3;
       } else {
-        score = score ** 2;
+        score = score * 2;
       }
     }
   }
@@ -632,11 +632,11 @@ const showScore = (list, random, color, font, time, timeReduce, maxHand) =>{
   //全使用の判定
   if(maxHand == useCardValue){
     if(setMisstake(list, random, color) <= 0){
-      if(!PerfectFlag){
-        addText = '* PERFECT!(' + random + ' ^ 2)';
-        scoreText = scoreText + addText;
+      if(PerfectFlag){
+        addText = 'PERFECTNUMBER!( ^3)';
+        scoreText = '( ' + scoreText + ' )' + addText;
       } else {
-        addText = '* PERFECTNUMBER!(' + random + ' ^ 3)';
+        addText = '* PERFECT!(2)';
         scoreText = scoreText + addText;
       }
     }
