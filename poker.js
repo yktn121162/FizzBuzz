@@ -26,6 +26,7 @@ const cardMst = [
     {type: 'underline', label: 'UnderLine', no: '301', rarity: 'R', cardtext: '下線', ratetext: 'スコア2倍' },
     {type: 'line-through', label: 'Line-through', no: '302', rarity: 'R', cardtext: '打消し線', ratetext: 'スコア2倍' },
     {type: 'overline', label: 'OverLine', no: '303', rarity: 'R', cardtext: '上線', ratetext: 'スコア2倍' },
+    {type: 'hamburger', label: 'Hamburger', no: '304', rarity: 'R', cardtext: '装飾線', ratetext: 'スコア2倍' },
     {type: 'base100', label: 'Base+100'  , no: '1000', rarity: 'S', cardtext: '出題される数の上限+100', ratetext: '' },
     {type: 'base200', label: 'Base+200'  , no: '1001', rarity: 'S', cardtext: '出題される数の上限+200', ratetext: '' },
     {type: 'base500', label: 'Base+500'  , no: '1002', rarity: 'S', cardtext: '出題される数の上限+500', ratetext: '' },
@@ -65,6 +66,7 @@ var cardList = [
   getCrad('buzz'),
   getCrad('fizz'),
   getCrad('buzz'),
+  getCrad('hamburger'),
 ];
 
 
@@ -257,6 +259,10 @@ const isLineThrough = (line) => {
 const isOverLine = (line) => {
   return (line.includes('overline'));
 }
+const isHamburger = (line) => {
+  return (isUnderLine(line) || isLineThrough(line) || isOverLine(line));
+}
+
 
 
 
@@ -434,6 +440,11 @@ const getScore = (list, random, color, font, line, time, timeReduce, maxHand) =>
     }
     if(v.type === "overline" && v.count > 0){
       if(isOverLine(line)){
+        score = score * (2 + (v.count -1) * 0.1);
+      }
+    }
+    if(v.type === "hamburger" && v.count > 0){
+      if(isHamburger(line)){
         score = score * (2 + (v.count -1) * 0.1);
       }
     }
@@ -662,6 +673,12 @@ const showScore = (list, random, color, font, line, time, timeReduce, maxHand) =
         scoreText = scoreText + addText;
       }
     }
+    if(v.type === "hamburger" && v.count > 0){
+      if(isHamburger(line)){
+        addText = '* Hamburger!(' +  (2 + (v.count -1) * 0.1) +')';
+        scoreText = scoreText + addText;
+      }
+    }
 
   }
 
@@ -852,6 +869,9 @@ function setMisstake(cardList, random, color, line) {
           break;
         case `overline`:
             card.isMiss = xor( card.isUse, isOverLine(line));
+            break;
+        case `hamburger`:
+            card.isMiss = xor( card.isUse, isHamburger(line));
             break;
   	  }
   	  
