@@ -696,7 +696,7 @@ const showScore = (list, random, color, font, line, time, timeReduce, maxHand) =
 
   //全使用の判定
   if(maxHand == useCardValue){
-    if(setMisstake(list, random, color) <= 0){
+    if(setMisstake(list, random, color, list) <= 0){
       if(PerfectFlag){
         addText = 'PERFECTNUMBER!(^2)';
         scoreText = '( ' + scoreText + ' )' + addText;
