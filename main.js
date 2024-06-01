@@ -721,6 +721,11 @@ function genDeckList() {
     // 現在のゲームフェーズを見て処理を変える
     if (state.phase === 'done') {
       
+      scoreTextLabel = document.createElement('div');
+      scoreTextLabel.id = 'scoreText';
+      scoreTextLabel.innerText = scoreText;
+      renderTarget.appendChild(scoreTextLabel);
+      
       // スコア計算済み
       //const score = getScore(state.cardList, targetnum, color);
       const scoreLabel = document.createElement('div');
@@ -728,10 +733,6 @@ function genDeckList() {
       scoreLabel.innerText = score.toFixed(2);
       renderTarget.appendChild(scoreLabel);
 
-      scoreTextLabel = document.createElement('div');
-      scoreTextLabel.id = 'scoreText';
-      scoreTextLabel.innerText = scoreText;
-      renderTarget.appendChild(scoreTextLabel);
 
       
 
