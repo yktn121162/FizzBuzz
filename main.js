@@ -235,7 +235,6 @@ function genExam() {
       font = 'bold';
     }
   }
-  alert(font);
   
   examhis.push( { num: targetnum, color: color, font: font } );
   
