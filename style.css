@@ -175,6 +175,9 @@ body {
 button {
   margin: 3em auto;
   display: block;
+  width: 10em;
+  height:5em;
+ 
 }
 
 #score {
