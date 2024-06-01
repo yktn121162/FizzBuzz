@@ -752,11 +752,11 @@ const showScore = (list, random, color, font, time, timeReduce, maxHand) =>{
   //全使用の判定
   if(maxHand == useCardValue){
     if(successFlag){
-      if(PerfectFlag){
-        addText = '* PERFECT!(' + random + '^ 2';
+      if(!PerfectFlag){
+        addText = '* PERFECT!(' + random + ' ^ 2)';
         scoreText = scoreText + addText;
       } else {
-        addText = '* PERFECTNUMBER!(' + random + '^ 3';
+        addText = '* PERFECTNUMBER!(' + random + ' ^ 3)';
         scoreText = scoreText + addText;
       }
     }
