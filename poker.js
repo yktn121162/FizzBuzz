@@ -66,7 +66,6 @@ var cardList = [
   getCrad('buzz'),
   getCrad('fizz'),
   getCrad('buzz'),
-  getCrad('hamburger'),
 ];
 
 
