@@ -21,6 +21,8 @@ const cardMst = [
     {type: 'yellow' , label: 'Yellow' , no: '103', rarity: 'R', cardtext: '赤か緑を含む色', ratetext: 'スコア2倍。両方含むなら4倍' },
     {type: 'cyan'   , label: 'Cyan'   , no: '104', rarity: 'R', cardtext: '緑か青を含む色', ratetext: 'スコア2倍。両方含むなら4倍' },
     {type: 'magenta', label: 'Magenta', no: '105', rarity: 'R', cardtext: '青か赤を含む色', ratetext: 'スコア2倍。両方含むなら4倍' },
+    {type: 'italic', label: 'Italic', no: '201', rarity: 'R', cardtext: '斜体', ratetext: 'スコア2倍' },
+    {type: 'bold', label: 'Bold', no: '202', rarity: 'R', cardtext: '太字', ratetext: 'スコア2倍' },
     {type: 'base100', label: 'Base+100'  , no: '1000', rarity: 'S', cardtext: '出題される数の上限+100', ratetext: '' },
     {type: 'base200', label: 'Base+200'  , no: '1001', rarity: 'S', cardtext: '出題される数の上限+200', ratetext: '' },
     {type: 'base500', label: 'Base+500'  , no: '1002', rarity: 'S', cardtext: '出題される数の上限+500', ratetext: '' },
@@ -60,6 +62,7 @@ var cardList = [
   getCrad('buzz'),
   getCrad('fizz'),
   getCrad('buzz'),
+  getCrad('bold'),
 ];
 
 
@@ -247,7 +250,7 @@ const isBold = (font) => {
 
 
 //スコアを計算する
-const getScore = (list, random, color, time, timeReduce, maxHand) =>{
+const getScore = (list, random, color, font, time, timeReduce, maxHand) =>{
   let cardList = cardListParser(list);
   let score = random;
   let FIZZflag = false;
@@ -453,6 +456,22 @@ const getScore = (list, random, color, time, timeReduce, maxHand) =>{
       }
     }
 
+    if(v.type === "italic" && v.count > 0){
+      if(isItalic(font)){
+        score = score * (2 + (v.count -1) * 0.1);
+      } else {
+        successFlag = false;
+      }
+    }
+
+    if(v.type === "bold" && v.count > 0){
+      if(isBold(font)){
+        score = score * (2 + (v.count -1) * 0.1);
+      } else {
+        successFlag = false;
+      }
+    }
+
   }
 
 
@@ -627,14 +646,11 @@ function setMisstake(cardList, random, color) {
   	  	case `magenta`:
   	  	  card.isMiss = xor( card.isUse, isMagenta(color));
   	  	  break;
-        case `magenta`:
-  	  	  card.isMiss = xor( card.isUse, isMagenta(color));
-  	  	  break;
         case `italic`:
-          card.isMiss = xor( card.isUse, isItalic(color));
+          card.isMiss = xor( card.isUse, isItalic(font));
           break;
         case `bold`:
-          card.isMiss = xor( card.isUse, isBUZZ(color));
+          card.isMiss = xor( card.isUse, isBold(font));
           break;
   	  }
   	  
