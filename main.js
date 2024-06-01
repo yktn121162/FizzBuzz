@@ -299,8 +299,9 @@ function genDeckList() {
     titleElem.innerText = `Asender's FizzBuzz`;
     renderTarget.appendChild(titleElem);
     
+    
     const rsElem = document.createElement('div');
-    rsElem.id = 'RecordScore';
+    rsElem.id = 'recordScore';
     rsElem.innerText = `RecordScore: ${recordscore.toFixed(2)}`;
     renderTarget.appendChild(rsElem);
     
@@ -308,7 +309,7 @@ function genDeckList() {
     if (state.phase === 'start') {
       //state.phase = 'play';
       const GameStartButton = document.createElement('button');
-      GameStartButton.innerText = 'ゲームスタート';
+      GameStartButton.innerText = 'Ascending start';
       GameStartButton.addEventListener('click', () => {
         genExam();
         render(renderTarget, {
@@ -354,13 +355,18 @@ function genDeckList() {
 
     
     const hsElem = document.createElement('div');
-    hsElem.id = 'highscore';
+    hsElem.id = 'highScore';
     hsElem.innerText = `HighScore: ${highscore.toFixed(2)}`;
     renderTarget.appendChild(hsElem);
     
-    if (state.phase === 'play' || state.phase === 'done') {
+    if (state.phase === 'play' || state.phase === 'done' || state.phase === `pick` || state.phase === `expick`) {
       const scoreGrid = document.createElement('div');
       scoreGrid.classList.add('score-grid');
+      
+      const asElm = document.createElement('div');
+      asElm.classList.add('score-grid-ascending');
+      asElm.innerText = `Ascending: ${cycle}`;
+      scoreGrid.appendChild(asElm);
       
       const tElm = document.createElement('div');
       tElm.classList.add('score-grid-head');
@@ -487,18 +493,41 @@ function genDeckList() {
       scoreGrid.appendChild(totalMissElm);
       
       renderTarget.appendChild(scoreGrid);
+      
+      const infoBox = document.createElement('div');
+      infoBox.classList.add('info-box');
+      
+      const maxNumElm = document.createElement('div');
+      maxNumElm.innerText = `MaxNumber: ${maxtargetnum}`;
+      infoBox.appendChild(maxNumElm);
+      const LimitTimeElm = document.createElement('div');
+      LimitTimeElm.innerText = `LimitTime: ${limitTime}Sec`;
+      infoBox.appendChild(LimitTimeElm);
+      const maxHandElm = document.createElement('div');
+      maxHandElm.innerText = `MaxHnad: ${maxinplay}`;
+      infoBox.appendChild(maxHandElm);
+      
+      renderTarget.appendChild(infoBox);
     }
 
+    
+    const stateBox = document.createElement('div');
+    stateBox.classList.add('state-box');
 
     const lifeElem = document.createElement('div');
     lifeElem.id = 'life';
     lifeElem.innerText = `Life: ${life}`;
-    renderTarget.appendChild(lifeElem);
-    
+    stateBox.appendChild(lifeElem);
+    if (state.phase === 'play' || state.phase === 'done') {
     const timeElem = document.createElement('div');
     arrangeTimeElement(timeElem);
     timeElem.innerText = genTime(ansTime, false);
-    renderTarget.appendChild(timeElem);
+    stateBox.appendChild(timeElem);
+    }
+    
+    renderTarget.appendChild(stateBox);
+    
+    
 
     //数字を表示するためのコンテナを作成
     const numContainer = document.createElement('div');
@@ -542,7 +571,7 @@ function genDeckList() {
       if (state.phase === `pick`) {
         // pick実行ボタン表示
         const nextGameButton = document.createElement('button');
-        nextGameButton.innerText = 'ピック';
+        nextGameButton.innerText = 'Pick these card';
         nextGameButton.addEventListener('click', () => {
         
           render(renderTarget, {
@@ -564,8 +593,10 @@ function genDeckList() {
       // 何枚でもピックできるようにしてしまう。このゲームではプレイヤーは基本的に自由
       const pickContainer = document.createElement('div');
       
+      let doPick = false;
       for(const card of state.pickList){
         if(card.isPick) {
+          doPick = true;
           if(card.rarity === 'S') {
             switch(card.type) {
             case 'base100':
@@ -599,11 +630,14 @@ function genDeckList() {
           pickContainer.appendChild(cardelm);
         }
       }
-
-      
+      if(!doPick) {
+        const cardelm = document.createElement('div');
+        cardelm.innerText = `Pick nothing`;
+        pickContainer.appendChild(cardelm);
+      }
       
       const nextGameButton = document.createElement('button');
-      nextGameButton.innerText = 'ゲームへ';
+      nextGameButton.innerText = 'Next Ascending';
       nextGameButton.addEventListener('click', () => {
         // ここでカードの処理
         ///alert('new deal');
@@ -614,15 +648,17 @@ function genDeckList() {
         timehis.splice(0, timehis.length );
         misshis.splice(0, misshis.length );
         examhis.splice(0, examhis.length );
+        cycle = cycle + 1;
         render(renderTarget, {
           cardList: cards,
           pickList: state.pickList,
           phase: 'play'
         });
       });
-      renderTarget.appendChild(nextGameButton);
       
       renderTarget.appendChild(pickContainer);
+      renderTarget.appendChild(nextGameButton);
+      
 
 
 
@@ -670,26 +706,39 @@ function genDeckList() {
       //ライフがないならゲームオーバー
       if(life <= 0){
       	// 最高記録チェック
-      	let isRecord = false;
+      	let isNewRecord = false;
       	if(recordscore < highscore) {
       	  recordscore = highscore;
-      	  isRecord = true;
+      	  isNewRecord = true;
       	}
       	
         renderTarget.innerText = ''; // 描画内容をクリア
-        const gameOverElem = document.createElement('h1');
-        gameOverElem.innerText = `Game Over`;
-        renderTarget.appendChild(gameOverElem);
+        
+        // タイトル再表示
+        renderTarget.appendChild(titleElem);
+        
 
         //リザルトの表示
         const resultElem = document.createElement('div');
         resultElem.id = 'result';
         resultElem.innerText = `High Score: ${highscore.toFixed(2)}`;
         renderTarget.appendChild(resultElem);
+        if(isNewRecord) {
+          const nrElem = document.createElement('div');
+          nrElem.id = 'NewRecord';
+          nrElem.innerText = `New Record!!`;
+          renderTarget.appendChild(nrElem);
+        }
+        
+        
+        const gameOverElem = document.createElement('div');
+        gameOverElem.id = 'gameover';
+        gameOverElem.innerText = `Descended`;
+        renderTarget.appendChild(gameOverElem);
     
         //ニューゲームボタンの表示
         const newGameButton = document.createElement('button');
-        newGameButton.innerText = 'ニューゲーム';
+        newGameButton.innerText = 'New Ascending';
         newGameButton.addEventListener('click', () => {
           newGame();
           render(renderTarget, {
@@ -703,11 +752,10 @@ function genDeckList() {
       }
 
       if(turn >= 5) {
-      	turn = 1;
-        cycle = cycle + 1;
+        turn = 1;
         // ピックへ移動するボタンの表示
         const nextGameButton = document.createElement('button');
-        nextGameButton.innerText = 'ピックへ';
+        nextGameButton.innerText = 'Card pick';
         nextGameButton.addEventListener('click', () => {
           // ここでピックリストの生成
           let pickCards = getPickOption(maxpick).map((c) => ({ isPick: false, ...c }));
@@ -744,7 +792,7 @@ function genDeckList() {
       // クリックすると保持フラグのついていないカードを交換し
       // 再描画する
       const changeButton = document.createElement('button');
-      changeButton.innerText = '使用する';
+      changeButton.innerText = 'Ascend';
       changeButton.addEventListener('click', () => {
 
         render(renderTarget, {
