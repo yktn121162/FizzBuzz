@@ -23,6 +23,9 @@ const cardMst = [
     {type: 'magenta', label: 'Magenta', no: '105', rarity: 'R', cardtext: '青か赤を含む色', ratetext: 'スコア2倍。両方含むなら4倍' },
     {type: 'italic', label: 'Italic', no: '201', rarity: 'R', cardtext: '斜体', ratetext: 'スコア2倍' },
     {type: 'bold', label: 'Bold', no: '202', rarity: 'R', cardtext: '太字', ratetext: 'スコア2倍' },
+    {type: 'underline', label: 'UnderLine', no: '301', rarity: 'R', cardtext: '下線', ratetext: 'スコア2倍' },
+    {type: 'line-through', label: 'Line-through', no: '302', rarity: 'R', cardtext: '打消し線', ratetext: 'スコア2倍' },
+    {type: 'overline', label: 'OverLine', no: '303', rarity: 'R', cardtext: '上線', ratetext: 'スコア2倍' },
     {type: 'base100', label: 'Base+100'  , no: '1000', rarity: 'S', cardtext: '出題される数の上限+100', ratetext: '' },
     {type: 'base200', label: 'Base+200'  , no: '1001', rarity: 'S', cardtext: '出題される数の上限+200', ratetext: '' },
     {type: 'base500', label: 'Base+500'  , no: '1002', rarity: 'S', cardtext: '出題される数の上限+500', ratetext: '' },
@@ -62,8 +65,9 @@ var cardList = [
   getCrad('buzz'),
   getCrad('fizz'),
   getCrad('buzz'),
-  getCrad('sq'),
-  getCrad('cubic'),
+  getCrad('overline'),
+  getCrad('underline'),
+  getCrad('line-through'),
 ];
 
 
@@ -240,18 +244,28 @@ const isMagenta = (color) => {
 
 //フォントの判定
 const isItalic = (font) => {
-  return (font === 'italic' );
+  return (font === 'italic' || font ==='italic_bold');
 }
 const isBold = (font) => {
-  return (font === 'bold' );
+  return (font === 'bold' || font ==='italic_bold');
 }
 
+//装飾線の判定
+const isUnderLine = (line) => {
+  return (line.includes('underline'));
+}
+const isLineThrough = (line) => {
+  return (line.includes('line-through'));
+}
+const isOverLine = (line) => {
+  return (line.includes('overline'));
+}
 
 
 
 
 //スコアを計算する
-const getScore = (list, random, color, font, time, timeReduce, maxHand) =>{
+const getScore = (list, random, color, font, line, time, timeReduce, maxHand) =>{
   let cardList = cardListParser(list);
   let score = random;
   let FIZZflag = false;
@@ -411,6 +425,22 @@ const getScore = (list, random, color, font, time, timeReduce, maxHand) =>{
       }
     }
 
+    if(v.type === "underline" && v.count > 0){
+      if(isUnderLine(line)){
+        score = score * (2 + (v.count -1) * 0.1);
+      }
+    }
+    if(v.type === "line-through" && v.count > 0){
+      if(isLineThrough(line)){
+        score = score * (2 + (v.count -1) * 0.1);
+      }
+    }
+    if(v.type === "overline" && v.count > 0){
+      if(isOverLine(line)){
+        score = score * (2 + (v.count -1) * 0.1);
+      }
+    }
+
   }
 
 
@@ -425,7 +455,7 @@ const getScore = (list, random, color, font, time, timeReduce, maxHand) =>{
 
   //全使用の判定
   if(maxHand == useCardValue){
-    if(setMisstake(list, random, color) <= 0){
+    if(setMisstake(list, random, color, line) <= 0){
       if(PerfectFlag){
         score = score ** 3;
       } else {
@@ -435,7 +465,7 @@ const getScore = (list, random, color, font, time, timeReduce, maxHand) =>{
   }
 
   //残り時間補正の計算
-  if(setMisstake(list, random, color) <= 0){
+  if(setMisstake(list, random, color, line) <= 0){
     if(time === 0){
       return score;
     } else{
@@ -446,7 +476,7 @@ const getScore = (list, random, color, font, time, timeReduce, maxHand) =>{
   return score;
 }
 
-const showScore = (list, random, color, font, time, timeReduce, maxHand) =>{
+const showScore = (list, random, color, font, line, time, timeReduce, maxHand) =>{
 
   let scoreText = 'Base' + '(' + random + ')';
 
@@ -617,6 +647,25 @@ const showScore = (list, random, color, font, time, timeReduce, maxHand) =>{
       }
     }
 
+    if(v.type === "underline" && v.count > 0){
+      if(isUnderLine(line)){
+        addText = '* UnderLine(' +  (2 + (v.count -1) * 0.1) +')';
+        scoreText = scoreText + addText;
+      }
+    }
+    if(v.type === "line-through" && v.count > 0){
+      if(isLineThrough(line)){
+        addText = '* LineThrough(' +  (2 + (v.count -1) * 0.1) +')';
+        scoreText = scoreText + addText;
+      }
+    }
+    if(v.type === "overline" && v.count > 0){
+      if(isOverLine(line)){
+        addText = '* OverLine(' +  (2 + (v.count -1) * 0.1) +')';
+        scoreText = scoreText + addText;
+      }
+    }
+
   }
 
 
@@ -645,7 +694,7 @@ const showScore = (list, random, color, font, time, timeReduce, maxHand) =>{
   }
 
   //残り時間補正の計算
-  if(setMisstake(list, random, color) <= 0){
+  if(setMisstake(list, random, color, line) <= 0){
     if(time !== 0){
       addText = '* Time Bonus!(' + (1 + time + timeReduce*2 ) + ')';
       scoreText = scoreText + addText;
@@ -734,7 +783,7 @@ const cardListParser = (list) => {
   return countList;
 }
 
-function setMisstake(cardList, random, color) {
+function setMisstake(cardList, random, color, line) {
   let misstake = 0;
   for(const card of cardList) {
   	  switch(card.type) {
@@ -798,6 +847,15 @@ function setMisstake(cardList, random, color) {
         case `bold`:
           card.isMiss = xor( card.isUse, isBold(font));
           break;
+        case `underline`:
+          card.isMiss = xor( card.isUse, isUnderLine(line));
+          break;
+        case `line-through`:
+          card.isMiss = xor( card.isUse, isLineThrough(line));
+          break;
+        case `overline`:
+            card.isMiss = xor( card.isUse, isOverLine(line));
+            break;
   	  }
   	  
   	  if(card.isMiss) {

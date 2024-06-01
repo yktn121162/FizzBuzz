@@ -71,7 +71,7 @@ const createCardElement = (card, puttext) => {
 };
 
 // 数字を表す要素を作成する関数
-const createNumElement = (number, color, font) => {
+const createNumElement = (number, color, font, line) => {
   const elem = document.createElement('div');
   elem.classList.add('number');
   const numLabel = document.createElement('div');
@@ -80,6 +80,8 @@ const createNumElement = (number, color, font) => {
 
   elem.classList.add(color);
   if(font !== 'none') elem.classList.add(font);
+
+  elem.style.textDecoration = line;
   return elem;
 }
 
@@ -109,6 +111,8 @@ const createNumElement = (number, color, font) => {
   let targetnum = 0;
   let color = 'none';
   let font = 'none';
+  let line = 'none';
+  let lineList = [];
   
   let startTime = Date.now();
   const initialLimitTime = 10;
@@ -201,7 +205,13 @@ function genExam() {
   let colorGenerator2 = Math.floor(Math.random() * 3);
 
   let fontGenerator1 = Math.floor(Math.random() * 2);
-  let fontGenerator2 = Math.floor(Math.random() * 2);
+  let fontGenerator2 = Math.floor(Math.random() * 3);
+
+  let lineGenerator1 = Math.floor(Math.random() * 5);
+  let lineGenerator2 = Math.floor(Math.random() * 5);
+  let lineGenerator3 = Math.floor(Math.random() * 5);
+
+  let lineText = '';
 
 
   //色の決定
@@ -234,14 +244,32 @@ function genExam() {
       font = 'italic';
     } else if (fontGenerator2 === 1) {
       font = 'bold';
+    }else if(fontGenerator2 === 2){
+      font = 'italic_bold';
     }
   }
+
+  //装飾線の決定
+  if (lineGenerator1 === 0) {
+    lineText = lineText + ' underline';
+    lineList.push('underline');
+  }
+  if (lineGenerator2 === 0) {
+    lineText = lineText + ' line-through';
+    lineList.push('line-through');
+  }
+  if (lineGenerator3 === 0) {
+    lineText = lineText + ' overline';
+    lineList.push('overline');
+  }
+  line = lineText;
+
+
   
-  examhis.push( { num: targetnum, color: color, font: font } );
+  examhis.push( { num: targetnum, color: color, font: font, line: line } );
   
   startTime = new Date();
   displayTime();
-  targetnum = 27;
 }
 
 function newGame() {
@@ -336,14 +364,15 @@ function genDeckList() {
       ansTime = CalcDiff();
       timehis.push(ansTime)
       const ansTimeS = +(ansTime/1000).toFixed(1);
-      score = getScore(state.cardList, targetnum, color, font, ansTimeS, Math.max(initialLimitTime - limitTime, 0), maxinplay); //制限時間を伸ばす可能性を考慮して0と比較しておく
-      scoreText = showScore(state.cardList, targetnum, color, font, ansTimeS, Math.max(initialLimitTime - limitTime, 0), maxinplay);
+      //alert(...lineList);
+      score = getScore(state.cardList, targetnum, color, font, lineList, ansTimeS, Math.max(initialLimitTime - limitTime, 0), maxinplay); //制限時間を伸ばす可能性を考慮して0と比較しておく
+      scoreText = showScore(state.cardList, targetnum, color, font, lineList, ansTimeS, Math.max(initialLimitTime - limitTime, 0), maxinplay);
 
       
       scorehis.push(score);
       
       // ミスチェック
-      misstake = setMisstake(state.cardList, targetnum, color);
+      misstake = setMisstake(state.cardList, targetnum, color, lineList);
       misshis.push(misstake);
       // ミスの数だけライフを減らす
       life = life - misstake;
@@ -415,7 +444,7 @@ function genDeckList() {
           elm.innerText = '';
           scoreGrid.appendChild(elm);
         } else {
-          let elm = createNumElement(examhis[i].num, examhis[i].color, examhis[i].font);
+          let elm = createNumElement(examhis[i].num, examhis[i].color, examhis[i].font, examhis[i].line);
           elm.classList.remove('number');
           elm.classList.add('score-grid-number');
           scoreGrid.appendChild(elm);
@@ -539,7 +568,7 @@ function genDeckList() {
     if (state.phase === 'pick' || state.phase === 'expick') {
       numContainer.appendChild(createNumElement('pick', 'none'));
     } else {
-      numContainer.appendChild(createNumElement(targetnum, color, font));
+      numContainer.appendChild(createNumElement(targetnum, color, font, line));
     }
 
 
