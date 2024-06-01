@@ -550,7 +550,7 @@ function genDeckList() {
       LimitTimeElm.innerText = `LimitTime: ${limitTime}Sec`;
       infoBox.appendChild(LimitTimeElm);
       const maxHandElm = document.createElement('div');
-      maxHandElm.innerText = `MaxHnad: ${maxinplay}`;
+      maxHandElm.innerText = `MaxHand: ${maxinplay}`;
       infoBox.appendChild(maxHandElm);
       
       renderTarget.appendChild(infoBox);
