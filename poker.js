@@ -267,7 +267,7 @@ const isHamburger = (line) => {
 
 
 //スコアを計算する
-const getScore = (list, random, color, font, line, time, timeReduce, maxHand) =>{
+const getScore = (list, random, color, font, line, time, timeReduce, maxHand, maxNum) =>{
   let cardList = cardListParser(list);
   let score = random;
   let FIZZflag = false;
@@ -339,8 +339,7 @@ const getScore = (list, random, color, font, line, time, timeReduce, maxHand) =>
     }
     if(v.type === "prime" && v.count > 0){
       if(isPrime(random)){
-        score++;
-
+        score = score * (getMaxPrime(maxNum) + (v.count -1) * 0.1);
       }
     }
     if(v.type === "perfect" && v.count > 0){
@@ -483,7 +482,7 @@ const getScore = (list, random, color, font, line, time, timeReduce, maxHand) =>
   return score;
 }
 
-const showScore = (list, random, color, font, line, time, timeReduce, maxHand) =>{
+const showScore = (list, random, color, font, line, time, timeReduce, maxHand, maxNum) =>{
 
   let scoreText = 'Base' + '(' + random + ')';
 
@@ -567,7 +566,7 @@ const showScore = (list, random, color, font, line, time, timeReduce, maxHand) =
     }
     if(v.type === "prime" && v.count > 0){
       if(isPrime(random)){
-        addText = '* Prime(' +  (random + (v.count -1) * 0.1) +')';
+        addText = '* Prime(' +  (getMaxPrime(maxNum) + (v.count -1) * 0.1) +')';
         scoreText = scoreText + addText;
 
       }
@@ -983,4 +982,10 @@ const isMistake = (list, random, color) =>{
     return false;
 }
 
+const getMaxPrime = (max) => {
+  for(let i = max; i > 0; i--) {
+    if(isPrime(i)) return i;
+  }
+  return 1; //本当は1ではないがスコア計算に使う都合上1を返す
+}
 

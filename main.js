@@ -365,8 +365,8 @@ function genDeckList() {
       timehis.push(ansTime)
       const ansTimeS = +(ansTime/1000).toFixed(1);
       //alert(...lineList);
-      score = getScore(state.cardList, targetnum, color, font, lineList, ansTimeS, Math.max(initialLimitTime - limitTime, 0), maxinplay); //制限時間を伸ばす可能性を考慮して0と比較しておく
-      scoreText = showScore(state.cardList, targetnum, color, font, lineList, ansTimeS, Math.max(initialLimitTime - limitTime, 0), maxinplay);
+      score = getScore(state.cardList, targetnum, color, font, lineList, ansTimeS, Math.max(initialLimitTime - limitTime, 0), maxinplay,maxtargetnum); //制限時間を伸ばす可能性を考慮して0と比較しておく
+      scoreText = showScore(state.cardList, targetnum, color, font, lineList, ansTimeS, Math.max(initialLimitTime - limitTime, 0), maxinplay,maxtargetnum);
 
       
       scorehis.push(score);
