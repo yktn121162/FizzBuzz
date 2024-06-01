@@ -3,7 +3,30 @@ body {
   background-color: WhiteSmoke;
 }
 
+.info-box {
+  width: 30%;
+  margin-top: 1em;
+  margin-left: 0;
+  margin-right: auto;
+  border-size: 1px;
+  border-style: inset;
+}
+
+.state-box {
+  width: 30%;
+  text-align: center;
+  margin-top: 1em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .score-grid {
+  display: grid;
+  grid-template-columns: 5em 10em 10em 10em 10em 10em 10em;
+  text-align: center;
+}
+
+.record-score-grid {
   display: grid;
   grid-template-columns: 5em 10em 10em 10em 10em 10em 10em;
   text-align: center;
@@ -11,6 +34,12 @@ body {
 
 .score-grid-head {
   border: 1px solid;
+}
+
+.score-grid-ascending {
+  border: 1px solid;
+  grid-column: 1 / 8;
+  grid-row: 1 / 2;
 }
 
 .score-grid-data {
@@ -132,12 +161,39 @@ body {
 }
 
 button {
-  margin: 1em auto;
+  margin: 3em auto;
+  display: block;
 }
 
 #score {
   font-size: 2rem;
   margin: 1em auto;
+  text-align: center;
+}
+
+#highScore {
+  border-size: 3px;
+  border-style: outset;
+  width: 50%
+}
+
+#recordScore {
+  border-size: 3px;
+  border-style: outset;
+  width: 50%
+}
+
+#life {
+  
+}
+
+#time {
+  
+}
+
+#gameover {
+  font-size: 3rem;
+  color: rgb(255, 0, 0);
   text-align: center;
 }
 
