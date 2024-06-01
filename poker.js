@@ -238,7 +238,7 @@ const isMagenta = (color) => {
 
 
 //スコアを計算する
-const getScore = (list, random, color, time, timeReduce) =>{
+const getScore = (list, random, color, time, timeReduce, maxHand) =>{
   let cardList = cardListParser(list);
   let score = random;
   let FIZZflag = false;
@@ -246,8 +246,15 @@ const getScore = (list, random, color, time, timeReduce) =>{
   let SevenFlag = false;
   let ElevenFlag = false;
   let PerfectFlag = false;
-
   let successFlag = true;
+
+  let useCardValue = 0;
+
+  for(const c of cardList) {
+    if(c.count > 0){
+      useCardValue = useCardValue + c.count;
+    }
+  }
 
 
 
@@ -337,6 +344,7 @@ const getScore = (list, random, color, time, timeReduce) =>{
     }
     if(v.type === "perfect" && v.count > 0){
       if(isPerfect(random)){
+        PerfectFlag = true;
         score = score * (random + (v.count -1) * 0.1);
 
       } else {
@@ -439,15 +447,25 @@ const getScore = (list, random, color, time, timeReduce) =>{
   }
 
 
+  //複合の判定
   if(FIZZflag && BUZZflag){
     score= score * 15;
   }
 
   if(SevenFlag && ElevenFlag){
     score= score * 711;
+  }
 
-
-}
+  //全使用の判定
+  if(maxHand == useCardValue){
+    if(successFlag){
+      if(PerfectFlag){
+        score = score ** 3;
+      } else {
+        score = score ** 2;
+      }
+    }
+  }
 
   //残り時間補正の計算
   if(successFlag){
