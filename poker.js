@@ -257,7 +257,6 @@ const getScore = (list, random, color, font, time, timeReduce, maxHand) =>{
   let SevenFlag = false;
   let ElevenFlag = false;
   let PerfectFlag = false;
-  let successFlag = true;
 
   let useCardValue = 0;
 
@@ -276,44 +275,29 @@ const getScore = (list, random, color, font, time, timeReduce, maxHand) =>{
       if(isFIZZ(random)){
         FIZZflag = true;
         score = score * (3 + (v.count -1) * 0.1);
-      } else {
-        successFlag = false;
-
       }
     }
     if(v.type === "buzz" && v.count > 0){
       if(isBUZZ(random)){
         BUZZflag = true;
         score = score * (5 + (v.count -1) * 0.1);
-      } else {
-        successFlag = false;
-
       }
     }
     if(v.type === "7" && v.count > 0){
       if(isSeven(random)){
         SevenFlag = true;
         score = score * (7 + (v.count -1) * 0.1);
-      } else {
-        successFlag = false;
-
       }
     }
     if(v.type === "11" && v.count > 0){
       if(isEleven(random)){
         ElevenFlag = true;
         score = score * (11 + (v.count -1) * 0.1);
-    } else {
-        successFlag = false;
-
-      }
+    }
     }
     if(v.type === "13" && v.count > 0){
       if(isJason(random)){
         score = score * (13 + (v.count -1) * 0.1);
-
-      } else {
-        successFlag = false;
 
       }
     }
@@ -321,17 +305,11 @@ const getScore = (list, random, color, font, time, timeReduce, maxHand) =>{
       if(isGauss(random)){
         score = score * (17 + (v.count -1) * 0.1);
 
-      } else {
-        successFlag = false;
-
       }
     }
     if(v.type === "odd" && v.count > 0){
       if(isOdd(random)){
         score = score * (2 + (v.count -1) * 0.1);
-
-      } else {
-        successFlag = false;
 
       }
     }
@@ -339,17 +317,11 @@ const getScore = (list, random, color, font, time, timeReduce, maxHand) =>{
       if(isEven(random)){
         score = score * (2 + (v.count -1) * 0.1);
 
-      } else {
-        successFlag = false;
-
       }
     }
     if(v.type === "prime" && v.count > 0){
       if(isPrime(random)){
         score++;
-
-      } else {
-        successFlag = false;
 
       }
     }
@@ -358,26 +330,17 @@ const getScore = (list, random, color, font, time, timeReduce, maxHand) =>{
         PerfectFlag = true;
         score = score * (random + (v.count -1) * 0.1);
 
-      } else {
-        successFlag = false;
-
       }
     }
     if(v.type === "sq" && v.count > 0){
       if(isSquare(random)){
         score = score * (random + (v.count -1) * 0.1);
 
-      } else {
-        successFlag = false;
-
       }
     }
     if(v.type === "cubic" && v.count > 0){
       if(isCubic(random)){
         score = score * (random + (v.count -1) * 0.1);
-
-      } else {
-        successFlag = false;
 
       }
     }
@@ -387,18 +350,12 @@ const getScore = (list, random, color, font, time, timeReduce, maxHand) =>{
       if(isRed(color)){
         score = score * (2 + (v.count -1) * 0.1);
 
-      } else {
-        successFlag = false;
-
       }
     }
 
     if(v.type === "green" && v.count > 0){
       if(isGreen(color)){
         score = score * (2 + (v.count -1) * 0.1);
-
-      } else {
-        successFlag = false;
 
       }
     }
@@ -407,17 +364,11 @@ const getScore = (list, random, color, font, time, timeReduce, maxHand) =>{
       if(isBlue(color)){
         score = score * (2 + (v.count -1) * 0.1);
 
-      } else {
-        successFlag = false;
-
       }
     }
     if(v.type === "yellow" && v.count > 0){
       if(isYellow(color)){
         score = score * (2 + (v.count -1) * 0.1);
-
-      } else {
-        successFlag = false;
 
       }
     }
@@ -425,49 +376,36 @@ const getScore = (list, random, color, font, time, timeReduce, maxHand) =>{
       if(isCyan(color)){
         score = score * (2 + (v.count -1) * 0.1);
 
-      } else {
-        successFlag = false;
-
       }
     }
 
     if(v.type === "yellow" && v.count > 0){
       if(isYellow(color)){
         score = score * (2 + (v.count -1) * 0.1);
-      } else {
-        successFlag = false;
       }
     }
 
     if(v.type === "cyan" && v.count > 0){
       if(isCyan(color)){
         score = score * (2 + (v.count -1) * 0.1);
-      } else {
-        successFlag = false;
       }
     }
 
     if(v.type === "magenta" && v.count > 0){
       if(isMagenta(color)){
         score = score * (2 + (v.count -1) * 0.1);
-      } else {
-        successFlag = false;
       }
     }
 
     if(v.type === "italic" && v.count > 0){
       if(isItalic(font)){
         score = score * (2 + (v.count -1) * 0.1);
-      } else {
-        successFlag = false;
       }
     }
 
     if(v.type === "bold" && v.count > 0){
       if(isBold(font)){
         score = score * (2 + (v.count -1) * 0.1);
-      } else {
-        successFlag = false;
       }
     }
 
@@ -485,7 +423,7 @@ const getScore = (list, random, color, font, time, timeReduce, maxHand) =>{
 
   //全使用の判定
   if(maxHand == useCardValue){
-    if(successFlag){
+    if(setMisstake(list, random, color) <= 0){
       if(PerfectFlag){
         score = score ** 3;
       } else {
@@ -495,7 +433,7 @@ const getScore = (list, random, color, font, time, timeReduce, maxHand) =>{
   }
 
   //残り時間補正の計算
-  if(successFlag){
+  if(setMisstake(list, random, color) <= 0){
     if(time === 0){
       return score;
     } else{
@@ -517,7 +455,7 @@ const showScore = (list, random, color, font, time, timeReduce, maxHand) =>{
   let SevenFlag = false;
   let ElevenFlag = false;
   let PerfectFlag = false;
-  let successFlag = true;
+ 
 
   let useCardValue = 0;
 
@@ -537,29 +475,20 @@ const showScore = (list, random, color, font, time, timeReduce, maxHand) =>{
         FIZZflag = true;
         addText = '* FIZZ(' +  (3 + (v.count -1) * 0.1) +')';
         scoreText = scoreText + addText;
-      } else {
-        successFlag = false;
-
-      }
+      } 
     }
     if(v.type === "buzz" && v.count > 0){
       if(isBUZZ(random)){
         BUZZflag = true;
         addText = '* BUZZ(' +  (5 + (v.count -1) * 0.1) +')';
         scoreText = scoreText + addText;
-      } else {
-        successFlag = false;
-
-      }
+      } 
     }
     if(v.type === "7" && v.count > 0){
       if(isSeven(random)){
         SevenFlag = true;
         addText = '* Seven(' +  (7 + (v.count -1) * 0.1) +')';
         scoreText = scoreText + addText;
-      } else {
-        successFlag = false;
-
       }
     }
     if(v.type === "11" && v.count > 0){
@@ -567,18 +496,12 @@ const showScore = (list, random, color, font, time, timeReduce, maxHand) =>{
         ElevenFlag = true;
         addText = '* Eleven(' +  (11 + (v.count -1) * 0.1) +')';
         scoreText = scoreText + addText;
-    } else {
-        successFlag = false;
-
-      }
+    } 
     }
     if(v.type === "13" && v.count > 0){
       if(isJason(random)){
         addText = '* Jason(' +  (13 + (v.count -1) * 0.1) +')';
         scoreText = scoreText + addText;
-
-      } else {
-        successFlag = false;
 
       }
     }
@@ -587,18 +510,12 @@ const showScore = (list, random, color, font, time, timeReduce, maxHand) =>{
         addText = '* Gauss(' +  (17 + (v.count -1) * 0.1) +')';
         scoreText = scoreText + addText;
 
-      } else {
-        successFlag = false;
-
       }
     }
     if(v.type === "odd" && v.count > 0){
       if(isOdd(random)){
         addText = '* Odd(' +  (2 + (v.count -1) * 0.1) +')';
         scoreText = scoreText + addText;
-
-      } else {
-        successFlag = false;
 
       }
     }
@@ -607,18 +524,12 @@ const showScore = (list, random, color, font, time, timeReduce, maxHand) =>{
         addText = '* Even(' +  (2 + (v.count -1) * 0.1) +')';
         scoreText = scoreText + addText;
 
-      } else {
-        successFlag = false;
-
       }
     }
     if(v.type === "prime" && v.count > 0){
       if(isPrime(random)){
         addText = '* Prime(' +  (random + (v.count -1) * 0.1) +')';
         scoreText = scoreText + addText;
-
-      } else {
-        successFlag = false;
 
       }
     }
@@ -628,28 +539,18 @@ const showScore = (list, random, color, font, time, timeReduce, maxHand) =>{
         addText = '* Perfect(' +  (random + (v.count -1) * 0.1) +')';
         scoreText = scoreText + addText;
 
-      } else {
-        successFlag = false;
-
       }
     }
     if(v.type === "sq" && v.count > 0){
       if(isSquare(random)){
         addText = '* Square(' +  (random + (v.count -1) * 0.1) +')';
         scoreText = scoreText + addText;
-
-      } else {
-        successFlag = false;
-
       }
     }
     if(v.type === "cubic" && v.count > 0){
       if(isCubic(random)){
         addText = '* Cubic(' +  (random**2 + (v.count -1) * 0.1) +')';
         scoreText = scoreText + addText;
-
-      } else {
-        successFlag = false;
 
       }
     }
@@ -660,9 +561,6 @@ const showScore = (list, random, color, font, time, timeReduce, maxHand) =>{
         addText = '* Red(' +  (2 + (v.count -1) * 0.1) +')';
         scoreText = scoreText + addText;
 
-      } else {
-        successFlag = false;
-
       }
     }
 
@@ -670,9 +568,6 @@ const showScore = (list, random, color, font, time, timeReduce, maxHand) =>{
       if(isGreen(color)){
         addText = '* Green(' +  (2 + (v.count -1) * 0.1) +')';
         scoreText = scoreText + addText;
-
-      } else {
-        successFlag = false;
 
       }
     }
@@ -682,18 +577,12 @@ const showScore = (list, random, color, font, time, timeReduce, maxHand) =>{
         addText = '* Blue(' +  (2 + (v.count -1) * 0.1) +')';
         scoreText = scoreText + addText;
 
-      } else {
-        successFlag = false;
-
       }
     }
     if(v.type === "yellow" && v.count > 0){
       if(isYellow(color)){
         addText = '* Yellow(' +  (2 + (v.count -1) * 0.1) +')';
         scoreText = scoreText + addText;
-
-      } else {
-        successFlag = false;
 
       }
     }
@@ -702,9 +591,6 @@ const showScore = (list, random, color, font, time, timeReduce, maxHand) =>{
         addText = '* Cyan(' +  (2 + (v.count -1) * 0.1) +')';
         scoreText = scoreText + addText;
 
-      } else {
-        successFlag = false;
-
       }
     }
 
@@ -712,8 +598,6 @@ const showScore = (list, random, color, font, time, timeReduce, maxHand) =>{
       if(isMagenta(color)){
         addText = '* Magenta(' +  (2 + (v.count -1) * 0.1) +')';
         scoreText = scoreText + addText;
-      } else {
-        successFlag = false;
       }
     }
 
@@ -721,8 +605,6 @@ const showScore = (list, random, color, font, time, timeReduce, maxHand) =>{
       if(isItalic(font)){
         addText = '* Italic(' +  (2 + (v.count -1) * 0.1) +')';
         scoreText = scoreText + addText;
-      } else {
-        successFlag = false;
       }
     }
 
@@ -730,8 +612,6 @@ const showScore = (list, random, color, font, time, timeReduce, maxHand) =>{
       if(isBold(font)){
         addText = '* Bold(' +  (2 + (v.count -1) * 0.1) +')';
         scoreText = scoreText + addText;
-      } else {
-        successFlag = false;
       }
     }
 
@@ -751,7 +631,7 @@ const showScore = (list, random, color, font, time, timeReduce, maxHand) =>{
 
   //全使用の判定
   if(maxHand == useCardValue){
-    if(successFlag){
+    if(setMisstake(list, random, color) <= 0){
       if(!PerfectFlag){
         addText = '* PERFECT!(' + random + ' ^ 2)';
         scoreText = scoreText + addText;
@@ -763,7 +643,7 @@ const showScore = (list, random, color, font, time, timeReduce, maxHand) =>{
   }
 
   //残り時間補正の計算
-  if(successFlag){
+  if(setMisstake(list, random, color) <= 0){
     if(time !== 0){
       addText = '* Time Bonus!(' + (1 + time + timeReduce*2 ) + ')';
       scoreText = scoreText + addText;
