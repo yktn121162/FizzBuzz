@@ -902,13 +902,13 @@ function setMisstake(cardList, random, color) {
   	  	  card.isMiss = xor( card.isUse, isBlue(color));
   	  	  break;
   	  	case `yellow`:
-  	  	  card.isMiss = xor( card.isUse, isYellow(color));
+  	  	  card.isMiss = xor( card.isUse, isRed(color) || isGreen(color));
   	  	  break;
   	  	case `cyan`:
-  	  	  card.isMiss = xor( card.isUse, isCyan(color));
+  	  	  card.isMiss = xor( card.isUse, isBlue(color) || isGreen(color));
   	  	  break;
   	  	case `magenta`:
-  	  	  card.isMiss = xor( card.isUse, isMagenta(color));
+  	  	  card.isMiss = xor( card.isUse, isBlue(color) || isRed(color));
   	  	  break;
         case `italic`:
           card.isMiss = xor( card.isUse, isItalic(font));
