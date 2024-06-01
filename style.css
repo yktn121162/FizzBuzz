@@ -102,6 +102,14 @@ body {
   color: rgb(0, 0, 0);
 }
 
+.italic{
+  font-style: italic;
+}
+
+.bold {
+  font-weight: bold;
+}
+
 .card {
   margin: 1em auto;
   border-radius: 3px;
@@ -117,7 +125,6 @@ body {
   padding: 1em;
   width: 10em;
 }
-
 
 .card > div {
   text-align: center;

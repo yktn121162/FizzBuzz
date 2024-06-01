@@ -234,6 +234,15 @@ const isMagenta = (color) => {
 }
 
 
+//フォントの判定
+const isItalic = (font) => {
+  return (font === 'italic' );
+}
+const isBold = (font) => {
+  return (font === 'bold' );
+}
+
+
 
 
 
@@ -618,6 +627,15 @@ function setMisstake(cardList, random, color) {
   	  	case `magenta`:
   	  	  card.isMiss = xor( card.isUse, isMagenta(color));
   	  	  break;
+        case `magenta`:
+  	  	  card.isMiss = xor( card.isUse, isMagenta(color));
+  	  	  break;
+        case `italic`:
+          card.isMiss = xor( card.isUse, isItalic(color));
+          break;
+        case `bold`:
+          card.isMiss = xor( card.isUse, isBUZZ(color));
+          break;
   	  }
   	  
   	  if(card.isMiss) {

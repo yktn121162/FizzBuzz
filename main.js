@@ -78,8 +78,8 @@ const createNumElement = (number, color, font) => {
   numLabel.innerText = `${number}`;
   elem.appendChild(numLabel);
 
-
   elem.classList.add(color);
+  if(font !== 'none') elem.classList.add(font);
   return elem;
 }
 
@@ -235,6 +235,7 @@ function genExam() {
       font = 'bold';
     }
   }
+  alert(font);
   
   examhis.push( { num: targetnum, color: color, font: font } );
   
