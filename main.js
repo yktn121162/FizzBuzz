@@ -214,6 +214,7 @@ function genExam() {
   let lineGenerator3 = Math.floor(Math.random() * 5);
 
   let lineText = '';
+  lineList = [];
 
 
   //色の決定
@@ -273,6 +274,7 @@ function genExam() {
     font = 'none';
     line = '';
   }
+
 
 
   
