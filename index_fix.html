@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Ascender's FizzBuzz</title>
     <link rel="stylesheet" href="style_fix.css">
+    <script src="fizzbuzz.js"></script>
   </head>
   <body>
     <header>
@@ -12,12 +13,12 @@
     <div class="playarea">
       <div class="container">
         <div class="number">25</div>
-        <div class="hands">
-          <div class="card">FIZZ</div>
-          <div class="card selected">BUZZ</div>
-          <div class="card">FIZZ</div>
-          <div class="card selected">BUZZ</div>
-          <div class="card">FIZZ</div>
+        <div id="hand" class="hands">
+          <div id="hand01" onclick="flipSelect(this);" class="card">FIZZ</div>
+          <div id="hand02" onclick="flipSelect(this);" class="card selected">BUZZ</div>
+          <div id="hand03" onclick="flipSelect(this);" class="card">FIZZ</div>
+          <div id="hand04" onclick="flipSelect(this);" class="card selected">BUZZ</div>
+          <div id="hand05" onclick="flipSelect(this);" class="card">FIZZ</div>
         </div>
         <div class="ascend-button">Ascend!</div>
       </div>
