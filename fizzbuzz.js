@@ -12,3 +12,12 @@ function flipSelect(e) {
 	}
 }
 
+
+function GameStart() {
+	// スタートボタンを隠す
+	document.getElementById('startbutton').hidden = true;
+	// プレイエリアとデッキリストエリアを見せる
+	// コンティニューを見据えると、これをやる前に各種初期化が必要
+	document.getElementById('playarea').hidden = false;
+	document.getElementById('decklistarea').hidden = false;
+}

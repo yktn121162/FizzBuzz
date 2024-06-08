@@ -10,7 +10,8 @@
     <header>
       <img src="img/logo.png">
     </header>
-    <div class="playarea">
+    <button class="start" id="startbutton" onclick="GameStart();">START(動作確認に必要な最小限度のスタイルを設定したボタンです)</button>
+    <div class="playarea" id="playarea" hidden>
       <div class="container">
         <div class="number">25</div>
         <div id="hands" class="hands">
@@ -23,7 +24,7 @@
         <div class="ascend-button">Ascend!</div>
       </div>
     </div>
-    <div class="decklistarea">
+    <div class="decklistarea" id="decklistarea" hidden>
       <div class="container">
         <div class="decklist">
           <div class="deck-card-box">
