@@ -21,3 +21,7 @@ function GameStart() {
 	document.getElementById('playarea').hidden = false;
 	document.getElementById('decklistarea').hidden = false;
 }
+
+function getSelected(e){
+	return e.classList.contains('selected')
+}
