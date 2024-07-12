@@ -13,15 +13,15 @@
     <button class="start" id="startbutton" onclick="GameStart();">START(動作確認に必要な最小限度のスタイルを設定したボタンです)</button>
     <div class="playarea" id="playarea" hidden>
       <div class="container">
-        <div class="number">25</div>
+        <div class="number" id="number">25</div>
         <div id="hands" class="hands">
-          <div id="hand01" onclick="flipSelect(this);" class="card">FIZZ</div>
+          <div id="hand01" onclick="flipSelect(this);" class="card selected">FIZZ</div>
           <div id="hand02" onclick="flipSelect(this);" class="card selected">BUZZ</div>
           <div id="hand03" onclick="flipSelect(this);" class="card">FIZZ</div>
           <div id="hand04" onclick="flipSelect(this);" class="card selected">BUZZ</div>
           <div id="hand05" onclick="flipSelect(this);" class="card">FIZZ</div>
         </div>
-        <div class="ascend-button">Ascend!</div>
+        <div class="ascend-button" onclick=" judge();">Ascend!</div>
       </div>
     </div>
     <div class="decklistarea" id="decklistarea" hidden>
