@@ -17,6 +17,7 @@ function GameStart() {
 	// スタートボタンを隠す
 	document.getElementById('startbutton').hidden = true;
 
+	//初期化
 	initialize();
 
 
@@ -26,8 +27,16 @@ function GameStart() {
 	document.getElementById('decklistarea').hidden = false;
 }
 
-function getSelected(e) {
-	return e.classList.contains('selected')
+function getPickList() {
+	let pickList = [];
+
+	pickList.push([document.getElementById('hand01').textContent,document.getElementById('hand01').classList.contains("selected")]);
+	pickList.push([document.getElementById('hand02').textContent,document.getElementById('hand02').classList.contains("selected")]);
+	pickList.push([document.getElementById('hand03').textContent,document.getElementById('hand03').classList.contains("selected")]);
+	pickList.push([document.getElementById('hand04').textContent,document.getElementById('hand04').classList.contains("selected")]);
+	pickList.push([document.getElementById('hand05').textContent,document.getElementById('hand05').classList.contains("selected")]);
+
+	return pickList;
 }
 
 function getRandomNum() {
@@ -40,7 +49,30 @@ function initialize() {
 
 
 function judge(){
-	alert("done");
+	let number = document.getElementById("number").textContent;
+	let pickList = getPickList();
+	let card;
+	let isPick;
+
+	let score = 0;
+
+	for(let element of pickList){
+		card = element[0];
+		isPick = element[1];
+
+		switch(card){
+			case "FIZZ":
+				if(isPick && isFIZZ(number)) score++;
+				break;
+			case "BUZZ":
+				if(isPick && isBUZZ(number)) score++;
+				break;
+		}
+
+	}
+
+
+	alert(score);
 }
 
 
