@@ -78,6 +78,22 @@ const getCradList = (rarity) => {
   return CradList;
 }
 
+// 山札クラス
+class Deck {
+  constructor(options = {}) {
+  	this._cardList = [...cardMst]; // マスタをコピー（！？）
+  	this._cardList.map((c) => c.count = 0);
+    this._deck = [...cardList]; // deckBaseをコピー
+    this._inplay = [];
+    this._trash = [];
+    
+    
+
+    // シャッフル
+    this._deck.sort((a, b) => Math.random() - 0.5);
+  }
+}
+
 /*初期手札定義*/
 var cardList = [
   getCrad('fizz'),
