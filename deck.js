@@ -80,30 +80,75 @@ const getCradList = (rarity) => {
 
 // 山札クラス
 class Deck {
-  constructor(options = {}) {
-  	this._cardList = [...cardMst]; // マスタをコピー（！？）
-  	this._cardList.map((c) => c.count = 0);
-    this._deck = [...cardList]; // deckBaseをコピー
-    this._inplay = [];
-    this._trash = [];
-    
-    
+	constructor(options = {}) {
+		this._cardList = [...cardMst]; // マスタをコピー（！？）
+		this._cardList.map((c) => c.count = 0);
+		this._deck = [...cardList]; // deckBaseをコピー
+		this._inplay = [];
+		this._trash = [];
+		
+		// 初期デッキの枚数を数える
+		for(const deckCard of this._deck){
+			this.add2CradList(deckCard);
+		}
 
-    // シャッフル
-    this._deck.sort((a, b) => Math.random() - 0.5);
-  }
+		// シャッフル
+		this._deck.sort((a, b) => Math.random() - 0.5);
+	}
+
+	// 山札からカードを取り出すメソッド
+	deal(num) {
+		this._trash.push( ...this._inplay.splice(0, this._inplay.length ) ); // 0番目から配列の個数分削除して、削除したものをすべて展開してpushすると、つまり場のカードを全部捨て札へ移動するようなことができる
+		let d = num - this._deck.length;
+
+		if( d > 0 ) {
+			this._inplay.push( ...this._deck.splice(0, this._deck.length ) );
+			this._deck.push( ...this._trash.splice(0, this._trash.length ) );
+			this._deck.sort((a, b) => Math.random() - 0.5);
+
+			if( d > this._deck.length ) {
+				this._inplay.push( ...this._deck.splice(0, this._deck.length ) );
+			} else {
+				this._inplay.push( ...this._deck.splice(0, d ) );
+			}
+		} else {
+			this._inplay.push( ...this._deck.splice(0, num ) );
+		}
+		
+    //alert('deck' + this._deck.length + 'inplay' + this._inplay.length + 'trash' + this._trash.length);
+		
+		return this._inplay;
+	}
+  
+	// カードピック
+	pick(card) {
+		if(false) {
+		// なんか特別なことをやる時用
+		} else {
+			this._trash.push( getCrad(card.type) );
+			this.add2CradList(card);
+		}
+	}
+	
+	add2CradList(card) {
+		for(const listCard of this._cardList){
+			if(listCard.type == card.type){
+				listCard.count = listCard.count + 1;
+			}
+		}
+	}
 }
 
-/*初期手札定義*/
+/*初期デッキ定義*/
 var cardList = [
-  getCrad('fizz'),
-  getCrad('buzz'),
-  getCrad('fizz'),
-  getCrad('fizz'),
-  getCrad('buzz'),
-  getCrad('fizz'),
-  getCrad('fizz'),
-  getCrad('buzz'),
-  getCrad('fizz'),
-  getCrad('buzz'),
+	getCrad('fizz'),
+	getCrad('buzz'),
+	getCrad('fizz'),
+	getCrad('fizz'),
+	getCrad('buzz'),
+	getCrad('fizz'),
+	getCrad('fizz'),
+	getCrad('buzz'),
+	getCrad('fizz'),
+	getCrad('buzz'),
 ];

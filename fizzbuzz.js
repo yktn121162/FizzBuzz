@@ -1,4 +1,4 @@
-
+let deck = new Deck();
 
 // これにエレメントを渡すと選択状態を切り替えることができる
 function flipSelect(e) {
