@@ -1,3 +1,4 @@
+let deck = new Deck();
 
 //大きい数字のためのクラス
 class QuestionNum{
