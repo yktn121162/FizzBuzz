@@ -1,7 +1,11 @@
 let deck = new Deck();
+let maxQuestionNum = 100;
+let maxHand = 5;
+
 
 //大きい数字のためのクラス
 class QuestionNum{
+	maxNumber;
 	number;
 	color;
 	line;
@@ -11,11 +15,21 @@ class QuestionNum{
 		this.initialize(100);
 	}
 
+	
 	initialize(n){
-		this.setNumber(n);
+		this.maxNumber = n;
+		this.setQuestion();
+	}
+	
+	setQuestion(){
+		this.setNumber(this.maxNumber);
 		this.setColor();
 		this.setLine();
 		this.setFont();
+	}
+	
+	nextQuestion(){
+		this.setQuestion();
 	}
 
 	setNumber(n){
@@ -107,7 +121,7 @@ function GameStart() {
 	document.getElementById('startbutton').hidden = true;
 
 	//初期化
-	initialize(100);
+	initialize(maxQuestionNum); // 初期値100
 
 
 	// プレイエリアとデッキリストエリアを見せる
@@ -151,18 +165,77 @@ function getRandomNum() {
 	return Math.floor(Math.random() * 100) + 1;
 }
 
+// 手札のエレメントをインデックスから取得する
+function getHandElement(n) {
+	let ElementName;
+	// 01から始めてたわガハハ
+	// 後で直すかも
+	n++;
+	
+	// Formatみたいな便利なものがないらしい？　if文で簡単に書けるので良いとする。整数以外が来ることは考えない。
+	if(n < 10) {
+		ElementName = `hand0${n}`;
+	} else {
+		ElementName = `hand${n}`;
+	}
+	// HTMLで用意している範囲を超えるとNULLが返される。どのように必要分を追加するかは宿題
+	// このタイミングでNULLチェックをして追加する方法や、最大値を渡してそこまで揃っているか確認するメソッドを別に書くか
+	return document.getElementById(ElementName);
+}
+
+function dealHand(handElement, hand) {
+	// カードラベルを設定
+	handElement.textContent = hand.label;
+	
+	// 選択を解除
+	// 選択状態かをclassList.containsで確認する（しなくてもいける？）
+	if (handElement.classList.contains('selected')) {
+		// 選択状態なら'selected'をクラスリストから削除
+		handElement.classList.remove('selected');
+	}
+}
+
 //nは大きい数字の最大値
 function initialize(n) { 
 	questionNum.initialize(n);
 	document.getElementById('number').textContent = questionNum.number;
+	
+	// デッキから最初の手札を引く
+	let handList = deck.deal(maxHand);	// 初期値5
+	
+	// 表示へ反映する
+	for (let i = 0; i < maxHand; i++) {
+		let handElement = getHandElement(i);
+		let hand = handList[i];
+		dealHand(handElement, hand);
+	}
+}
+
+function nextQuestion(){
+	questionNum.nextQuestion();
+	document.getElementById('number').textContent = questionNum.number;
+
+	// デッキから次の手札を引く
+	let handList = deck.deal(maxHand);
+	
+	// 表示へ反映する
+	for (let i = 0; i < maxHand; i++) {
+		let handElement = getHandElement(i);
+		let hand = handList[i];
+		dealHand(handElement, hand);
+	}
+	
+	
 }
 
 
 function judge(){
 	let pickList = getPickList();
 
+	// getScore内で残り時間を参照する部分があり、まだこのバージョンでは使用できないので、0を渡しておく
+	console.log(getScore(pickList, 0));
 	
-	console.log(getScore(pickList));
+	nextQuestion();
 }
 
 
@@ -374,7 +447,7 @@ function setMistake(cardList) {
 	return mistake;
   }
 
-function getScore(cardList) {
+function getScore(cardList, time) {
 	let score = questionNum.number;
 
 	setMistake(cardList);
