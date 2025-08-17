@@ -759,7 +759,9 @@ function getScore(cardList, time) {
 		if (time === 0) {
 			return score;
 		} else {
-			score = score * (1 + time + timeReduce * 2);
+			score = score * (1 + time);
+			// timeReduceなんだっけ。制限時間短縮レリック？
+			//score = score * (1 + time + timeReduce * 2);
 			return score;
 		}
 	}
