@@ -297,8 +297,9 @@ function judge(){
 
 	let pickList = getPickList();
 
-	// getScore内で残り時間を参照する部分があり、まだこのバージョンでは使用できないので、0を渡しておく
-	console.log(getScore(pickList, 0));
+	// getScore内で残り時間を参照する部分があり、そこへCalcDiff()から返ってきた値をそのまま投げれば行けそうな気がする
+	let ansTime = CalcDiff();
+	console.log(getScore(pickList, ansTime));
 	
 	nextQuestion();
 }
