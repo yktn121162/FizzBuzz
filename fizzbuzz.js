@@ -2,6 +2,11 @@ let deck = new Deck();
 let maxQuestionNum = 100;
 let maxHand = 5;
 
+let startTime = Date.now();
+const initialLimitTime = 10;
+let limitTime = initialLimitTime;
+let timeoutID = null;
+
 
 //大きい数字のためのクラス
 class QuestionNum{
@@ -115,6 +120,58 @@ function flipSelect(e) {
 	}
 }
 
+// 残り時間のテキストを生成
+function genTime(diff) {
+	if( diff > 0 ){
+		const calcSec = Math.floor(diff / 1000) % 60;
+		const calcMSec = diff % 1000;
+
+		const s = String(calcSec).padStart(2, '0');
+		const ms = String(calcMSec).padStart(3, '0');
+
+		const timeText = `Time 00:${s}.${ms}`;
+
+		return timeText;
+	} else {
+		const timeText = `Time 00:00.000`;
+
+		return timeText;
+	}
+}
+
+// 残り時間を計算
+function CalcDiff() {
+	let targetTime = new Date( startTime );
+	targetTime.setSeconds( targetTime.getSeconds() + limitTime );
+	const now = new Date();
+	const diff = targetTime.getTime() - now.getTime();
+
+	return diff;
+}
+
+// 時間表示のテキストを設定
+function arrangeTimeElement(elem) {
+	elem.innerText = genTime(CalcDiff());
+}
+
+// 制限時間の表示制御
+function displayTime() {
+	const time = document.getElementById('timer');
+	if(time != null) {
+		arrangeTimeElement(time);
+
+		// 制限時間を使い切っていたら回答チェックへ
+		const diff = CalcDiff();
+		if( diff <= 0 ) {
+			judge();
+
+			return;
+		}
+	}
+	// 10ミリ秒後に自身を呼び出すタイマーをセット
+	timeoutID = setTimeout(displayTime, 10);
+}
+
 
 function GameStart() {
 	// スタートボタンを隠す
@@ -209,6 +266,10 @@ function initialize(n) {
 		let hand = handList[i];
 		dealHand(handElement, hand);
 	}
+	
+	// 制限時間カウントを開始
+	startTime = Date.now();
+	displayTime();
 }
 
 function nextQuestion(){
@@ -225,11 +286,15 @@ function nextQuestion(){
 		dealHand(handElement, hand);
 	}
 	
-	
+	// 制限時間をリセット
+	startTime = Date.now();
+	displayTime();
 }
 
-
+// Ascend!もしくは時間切れで呼ばれる
 function judge(){
+	clearTimeout(timeoutID);
+
 	let pickList = getPickList();
 
 	// getScore内で残り時間を参照する部分があり、まだこのバージョンでは使用できないので、0を渡しておく
