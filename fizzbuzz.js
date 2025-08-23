@@ -382,7 +382,6 @@ function getScore(cardList) {
 	let sec = parseFloat(document.getElementById('seconds').innerText);
 	let mSec = parseFloat(document.getElementById('milliseconds').innerText);
 	let score = questionNum.number;
-	console.log("first: "+ score);
 
 	setMistake(cardList);
 
@@ -599,8 +598,6 @@ function getScore(cardList) {
 
 
 
-console.log("second:" + score);
-
 
 	//複合の判定
 	if (FIZZflag && BUZZflag) {
@@ -621,14 +618,11 @@ console.log("second:" + score);
 			}
 		}
 	}
-console.log("third:" + score);
-console.log(sec + ":" + mSec);
 	//残り時間補正の計算
 	if (missValue <= 0) {
 		if (sec + mSec  == 0) {
 			return score;
 		} else {
-			console.log(sec + ":" + score);
 			score = score * (1 + (sec + mSec) + limitReduce * 2);
 			return score;
 		}
