@@ -1,50 +1,64 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <meta charset="utf-8">
-    <title>Ascender's FizzBuzz</title>
-    <link rel="stylesheet" href="style_fix.css">
-    <script src="fizzbuzz.js"></script>
-  </head>
-  <body>
-    <header>
-      <img src="img/logo.png">
-    </header>
-    <button class="start" id="startbutton" onclick="GameStart();">START(動作確認に必要な最小限度のスタイルを設定したボタンです)</button>
-    <div class="playarea" id="playarea" hidden>
-      <div class="container">
-        <div class="number" id="number">25</div>
-        <div id="hands" class="hands">
-          <div id="hand01" onclick="flipSelect(this);" class="card selected">FIZZ</div>
-          <div id="hand02" onclick="flipSelect(this);" class="card selected">BUZZ</div>
-          <div id="hand03" onclick="flipSelect(this);" class="card">FIZZ</div>
-          <div id="hand04" onclick="flipSelect(this);" class="card selected">BUZZ</div>
-          <div id="hand05" onclick="flipSelect(this);" class="card">FIZZ</div>
+
+<head>
+  <meta charset="utf-8">
+  <title>Ascender's FizzBuzz</title>
+  <link rel="stylesheet" href="style_fix.css">
+  <script src="fizzbuzz.js"></script>
+</head>
+
+<body>
+  <header>
+    <img src="img/logo.png">
+  </header>
+  <button class="start" id="startbutton" onclick="GameStart();">START(動作確認に必要な最小限度のスタイルを設定したボタンです)</button>
+  <div class="playarea" id="playarea" hidden>
+    <div class="container">
+      <div class="number" id="number">25</div>
+      <!-- タイマー確認用に無理やりねじ込んであるので要修正 -->
+      <div id="countdown" class="countdown">
+        <div class="time-card">
+          <span id="seconds">0</span>
+          <div class="label">秒</div>
         </div>
-        <div class="ascend-button" onclick=" judge();">Ascend!</div>
-      </div>
-    </div>
-    <div class="decklistarea" id="decklistarea" hidden>
-      <div class="container">
-        <div class="decklist">
-          <div class="deck-card-box">
-            <div class="deck-card">
-              <div class="deck-card-header">FIZZ</div>
-              <div class="card-condition">3の倍数</div>
-              <div class="card-score">スコア3倍</div>
-            </div>
-            <div class="deck-card-nums">×6</div>
-          </div>
-          <div class="deck-card-box">
-            <div class="deck-card">
-              <div class="deck-card-header">BUZZ</div>
-              <div class="card-condition">5の倍数</div>
-              <div class="card-score">スコア5倍</div>
-            </div>
-            <div class="deck-card-nums">×4</div>
-          </div>
+        <div class="time-card milliseconds-card"> <span id="milliseconds">00</span>
+          <div class="label"></div>
         </div>
       </div>
+      <!-- タイマー確認用に無理やりねじ込んであるので要修正 ここまで-->
+      <div id="hands" class="hands">
+        <div id="hand01" onclick="flipSelect(this);" class="card selected">FIZZ</div>
+        <div id="hand02" onclick="flipSelect(this);" class="card selected">BUZZ</div>
+        <div id="hand03" onclick="flipSelect(this);" class="card">FIZZ</div>
+        <div id="hand04" onclick="flipSelect(this);" class="card selected">BUZZ</div>
+        <div id="hand05" onclick="flipSelect(this);" class="card">FIZZ</div>
+      </div>
+      <div class="ascend-button" onclick=" judge();">Ascend!</div>
     </div>
-  </body>
+  </div>
+  <div class="decklistarea" id="decklistarea" hidden>
+    <div class="container">
+      <div class="decklist">
+        <div class="deck-card-box">
+          <div class="deck-card">
+            <div class="deck-card-header">FIZZ</div>
+            <div class="card-condition">3の倍数</div>
+            <div class="card-score">スコア3倍</div>
+          </div>
+          <div class="deck-card-nums">×6</div>
+        </div>
+        <div class="deck-card-box">
+          <div class="deck-card">
+            <div class="deck-card-header">BUZZ</div>
+            <div class="card-condition">5の倍数</div>
+            <div class="card-score">スコア5倍</div>
+          </div>
+          <div class="deck-card-nums">×4</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
 </html>

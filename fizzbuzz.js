@@ -87,6 +87,9 @@ class card{
 
 let questionNum = new QuestionNum(); 
 
+let limitTime = 5; //制限時間
+let limitReduce = 2; //制限時間の減少量
+
 
 // これにエレメントを渡すと選択状態を切り替えることができる
 function flipSelect(e) {
@@ -107,6 +110,7 @@ function GameStart() {
 
 	//初期化
 	initialize(100);
+	startCountdown(limitTime);
 
 
 	// プレイエリアとデッキリストエリアを見せる
@@ -374,7 +378,10 @@ function setMistake(cardList) {
   }
 
 function getScore(cardList) {
+	let sec = parseFloat(document.getElementById('seconds').innerText);
+	let mSec = parseFloat(document.getElementById('milliseconds').innerText);
 	let score = questionNum.number;
+	console.log("first: "+ score);
 
 	setMistake(cardList);
 
@@ -497,11 +504,11 @@ function getScore(cardList) {
 			}
 		}
 
-		if (c.isUsed) {
+		if (c.isMiss) {
 			missValue++;
 		}
 
-		if (c.isMiss) {
+		if (c.isUsed) {
 			usedCardValue++;
 		}
 
@@ -591,7 +598,7 @@ function getScore(cardList) {
 
 
 
-
+console.log("second:" + score);
 
 
 	//複合の判定
@@ -613,16 +620,51 @@ function getScore(cardList) {
 			}
 		}
 	}
-
+console.log("third:" + score);
+console.log(sec + ":" + mSec);
 	//残り時間補正の計算
 	if (missValue <= 0) {
-		if (time === 0) {
+		if (sec + mSec  == 0) {
 			return score;
 		} else {
-			score = score * (1 + time + timeReduce * 2);
+			console.log(sec + ":" + score);
+			score = score * (1 + (sec + mSec) + limitReduce * 2);
 			return score;
 		}
 	}
 	return score;
 
+}
+
+function startCountdown(seconds) {
+    const now = new Date().getTime();
+    const targetDate = now + seconds * 1000;
+
+    if (window.countdownInterval) {
+        clearInterval(window.countdownInterval);
+    }
+
+    // 更新間隔を10ミリ秒（0.01秒）に設定
+    window.countdownInterval = setInterval(() => {
+        const currentTime = new Date().getTime();
+        const distance = targetDate - currentTime;
+
+        if (distance < 0) {
+            clearInterval(window.countdownInterval);
+            document.getElementById('seconds').innerHTML = "0";
+			document.getElementById('milliseconds').innerHTML = "0";
+            return;
+        }
+
+        // 時間の計算
+        const secs = Math.floor((distance % (1000 * 60)) / 1000);
+        
+        // ミリ秒を計算して、0.01秒単位に変換
+        const milliseconds = String(Math.floor((distance % 1000) / 10)).padStart(2, '0');
+
+        // HTMLに表示
+        document.getElementById('seconds').innerText = String(secs).padStart(2, '0');
+        document.getElementById('milliseconds').innerText = milliseconds;
+
+    }, 10);
 }
