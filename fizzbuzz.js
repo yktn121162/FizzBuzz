@@ -1,7 +1,16 @@
 let deck = new Deck();
+let maxQuestionNum = 100;
+let maxHand = 5;
+
+let startTime = Date.now();
+const initialLimitTime = 10;
+let limitTime = initialLimitTime;
+let timeoutID = null;
+
 
 //大きい数字のためのクラス
 class QuestionNum{
+	maxNumber;
 	number;
 	color;
 	line;
@@ -11,11 +20,21 @@ class QuestionNum{
 		this.initialize(100);
 	}
 
+	
 	initialize(n){
-		this.setNumber(n);
+		this.maxNumber = n;
+		this.setQuestion();
+	}
+	
+	setQuestion(){
+		this.setNumber(this.maxNumber);
 		this.setColor();
 		this.setLine();
 		this.setFont();
+	}
+	
+	nextQuestion(){
+		this.setQuestion();
 	}
 
 	setNumber(n){
@@ -104,12 +123,65 @@ function flipSelect(e) {
 	}
 }
 
+// 残り時間のテキストを生成
+function genTime(diff) {
+	if( diff > 0 ){
+		const calcSec = Math.floor(diff / 1000) % 60;
+		const calcMSec = diff % 1000;
+
+		const s = String(calcSec).padStart(2, '0');
+		const ms = String(calcMSec).padStart(3, '0');
+
+		const timeText = `Time 00:${s}.${ms}`;
+
+		return timeText;
+	} else {
+		const timeText = `Time 00:00.000`;
+
+		return timeText;
+	}
+}
+
+// 残り時間を計算
+function CalcDiff() {
+	let targetTime = new Date( startTime );
+	targetTime.setSeconds( targetTime.getSeconds() + limitTime );
+	const now = new Date();
+	const diff = targetTime.getTime() - now.getTime();
+
+	return diff;
+}
+
+// 時間表示のテキストを設定
+function arrangeTimeElement(elem) {
+	elem.innerText = genTime(CalcDiff());
+}
+
+// 制限時間の表示制御
+function displayTime() {
+	const time = document.getElementById('timer');
+	if(time != null) {
+		arrangeTimeElement(time);
+
+		// 制限時間を使い切っていたら回答チェックへ
+		const diff = CalcDiff();
+		if( diff <= 0 ) {
+			judge();
+
+			return;
+		}
+	}
+	// 10ミリ秒後に自身を呼び出すタイマーをセット
+	timeoutID = setTimeout(displayTime, 10);
+}
+
 
 function GameStart() {
 	// スタートボタンを隠す
 	document.getElementById('startbutton').hidden = true;
 
 	//初期化
+
 	initialize(100);
 	startCountdown(limitTime);
 
@@ -155,18 +227,86 @@ function getRandomNum() {
 	return Math.floor(Math.random() * 100) + 1;
 }
 
+// 手札のエレメントをインデックスから取得する
+function getHandElement(n) {
+	let ElementName;
+	// 01から始めてたわガハハ
+	// 後で直すかも
+	n++;
+	
+	// Formatみたいな便利なものがないらしい？　if文で簡単に書けるので良いとする。整数以外が来ることは考えない。
+	if(n < 10) {
+		ElementName = `hand0${n}`;
+	} else {
+		ElementName = `hand${n}`;
+	}
+	// HTMLで用意している範囲を超えるとNULLが返される。どのように必要分を追加するかは宿題
+	// このタイミングでNULLチェックをして追加する方法や、最大値を渡してそこまで揃っているか確認するメソッドを別に書くか
+	return document.getElementById(ElementName);
+}
+
+function dealHand(handElement, hand) {
+	// カードラベルを設定
+	handElement.textContent = hand.label;
+	
+	// 選択を解除
+	// 選択状態かをclassList.containsで確認する（しなくてもいける？）
+	if (handElement.classList.contains('selected')) {
+		// 選択状態なら'selected'をクラスリストから削除
+		handElement.classList.remove('selected');
+	}
+}
+
 //nは大きい数字の最大値
 function initialize(n) { 
 	questionNum.initialize(n);
 	document.getElementById('number').textContent = questionNum.number;
+	
+	// デッキから最初の手札を引く
+	let handList = deck.deal(maxHand);	// 初期値5
+	
+	// 表示へ反映する
+	for (let i = 0; i < maxHand; i++) {
+		let handElement = getHandElement(i);
+		let hand = handList[i];
+		dealHand(handElement, hand);
+	}
+	
+	// 制限時間カウントを開始
+	startTime = Date.now();
+	displayTime();
 }
 
+function nextQuestion(){
+	questionNum.nextQuestion();
+	document.getElementById('number').textContent = questionNum.number;
 
+	// デッキから次の手札を引く
+	let handList = deck.deal(maxHand);
+	
+	// 表示へ反映する
+	for (let i = 0; i < maxHand; i++) {
+		let handElement = getHandElement(i);
+		let hand = handList[i];
+		dealHand(handElement, hand);
+	}
+	
+	// 制限時間をリセット
+	startTime = Date.now();
+	displayTime();
+}
+
+// Ascend!もしくは時間切れで呼ばれる
 function judge(){
+	clearTimeout(timeoutID);
+
 	let pickList = getPickList();
 
+	// getScore内で残り時間を参照する部分があり、そこへCalcDiff()から返ってきた値をそのまま投げれば行けそうな気がする
+	let ansTime = CalcDiff();
+	console.log(getScore(pickList, ansTime));
 	
-	console.log(getScore(pickList));
+	nextQuestion();
 }
 
 
