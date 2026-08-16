@@ -105,8 +105,346 @@ class card{
 	isMiss;
 }
 
-let questionNum = new QuestionNum(); 
+// Ascend結果
+class ascendResult{
+	questionNum;
+	cardList;
+	ansTimeS;
+	timeReduce;
+	limitTime;
+	score;
+	scoreText;
+	
+	constructor(){
+		this.questionNum = new QuestionNum();
+		this.limitTime = limitTime;
+		this.ansTimeS = 0;
+		this.timeReduce = 0;
+		this.score = 0;
+		this.scoreText = "-";
+	}
+	
+	addScoreText(text){
+		this.scoreText = this.scoreText + text;
+	}
+	
+	getScore() {
+		this.score = questionNum.number;
+		this.scoreText = 'Base' + '(' + this.score + ')';
 
+		setMistake(this.cardList);
+
+		// そのうち固定じゃなくなる
+		let maxHand = 5;
+
+
+		let FIZZflag = false;
+		let BUZZflag = false;
+		let SevenFlag = false;
+		let ElevenFlag = false;
+		let PerfectFlag = false;
+
+		//それぞれのカード種類の正解数のカウント
+		let usedFIZZ = 0;
+		let usedBUZZ = 0;
+		let used7 = 0;
+		let used11 = 0;
+		let used13 = 0;
+		let used17 = 0;
+		let usedODD = 0;
+		let usedEVEN = 0;
+		let usedPRIME = 0;
+		let usedPERFECT = 0;
+		let usedSQ = 0;
+		let usedCUBIC = 0;
+		let usedRED = 0;
+		let usedGREEN = 0;
+		let usedBLUE = 0;
+		let usedYELLOW = 0;
+		let usedCYAN = 0;
+		let usedMAGENTA = 0;
+		let usedITALIC = 0;
+		let usedBOLD = 0;
+		let usedUNDERLINE = 0;
+		let usedLINETHROUGH = 0;
+		let usedOVERLINE = 0;
+		let usedHAMBURGER = 0;
+
+		let missValue = 0;
+
+
+		let usedCardValue = 0;
+
+		for (const c of this.cardList) {
+
+			if (c.isUsed && !c.isMiss) {
+				switch (c.type) {
+					case `FIZZ`:
+						usedFIZZ++;
+						break;
+					case `BUZZ`:
+						usedBUZZ++;
+						break;
+					case `7`:
+						used7++;
+						break;
+					case `11`:
+						used11++;
+						break;
+					case `13`:
+						used13++;
+						break;
+					case `17`:
+						used17++;
+						break;
+					case `odd`:
+						usedODD++;
+						break;
+					case `even`:
+						usedEVEN++;
+						break;
+					case `prime`:
+						usedPRIME++;
+						break;
+					case `perfect`:
+						usedPERFECT++;
+						break;
+					case `sq`:
+						usedSQ++;
+						break;
+					case `cubic`:
+						usedCUBIC++;
+						break;
+					case `red`:
+						usedRED++;
+						break;
+					case `green`:
+						usedGREEN++;
+						break;
+					case `blue`:
+						usedBLUE++;
+						break;
+					case `yellow`:
+						usedYELLOW++;
+						break;
+					case `cyan`:
+						usedCYAN++;
+						break;
+					case `magenta`:
+						usedMAGENTA++;
+						break;
+					case `italic`:
+						usedITALIC++;
+						break;
+					case `bold`:
+						usedBOLD++;
+						break;
+					case `underline`:
+						usedUNDERLINE++;
+						break;
+					case `line-through`:
+						usedLINETHROUGH++;
+						break;
+					case `overline`:
+						usedOVERLINE++;
+						break;
+					case `hamburger`:
+						usedHAMBURGER++;
+						break;
+				}
+			}
+
+			if (c.isUsed) {
+				missValue++;
+			}
+
+			if (c.isMiss) {
+				usedCardValue++;
+			}
+		}
+
+		//スコアの計算
+		let addText;
+		if (usedFIZZ > 0) {
+			FIZZflag = true;
+			this.score = this.score * (3 + (usedFIZZ - 1) * 0.1);
+			addText = '* FIZZ(' +  (3 + (usedFIZZ -1) * 0.1) +')';
+			this.addScoreText(addText);
+		}
+		if (usedBUZZ >  0) {
+			BUZZflag = true;
+			this.score = this.score * (5 + (usedBUZZ - 1) * 0.1);
+			addText = '* BUZZ(' +  (5 + (usedBUZZ -1) * 0.1) +')';
+			this.addScoreText(addText);
+		}
+		if (used7 > 0) {
+			SevenFlag = true;
+			this.score = this.score * (7 + (used7 - 1) * 0.1);
+			addText = '* Seven(' +  (7 + (used7 -1) * 0.1) +')';
+			this.addScoreText(addText);
+		}
+		if (used11 > 0) {
+			ElevenFlag = true;
+			this.score = this.score * (11 + (used11 - 1) * 0.1);
+			addText = '* Eleven(' +  (11 + (used11 -1) * 0.1) +')';
+			this.addScoreText(addText);
+		}
+		if (used13 > 0) {
+			this.score = this.score * (13 + (used13 - 1) * 0.1);
+			addText = '* Jason(' +  (13 + (used13 -1) * 0.1) +')';
+			this.addScoreText(addText);
+		}
+		if (used17 > 0) {
+			this.score = this.score * (17 + (used17- 1) * 0.1);
+			addText = '* Gauss(' +  (17 + (used17 -1) * 0.1) +')';
+			this.addScoreText(addText);
+		}
+		if (usedODD > 0) {
+			this.score = this.score * (2 + (usedODD - 1) * 0.1);
+			addText = '* Even(' +  (2 + (usedODD -1) * 0.1) +')';
+			this.addScoreText(addText);
+		}
+		if (usedEVEN > 0) {
+			this.score = this.score * (2 + (usedEVEN - 1) * 0.1);
+			addText = '* Even(' +  (2 + (usedEVEN -1) * 0.1) +')';
+			this.addScoreText(addText);
+		}
+		if (usedPRIME > 0) {
+			this.score = this.score * (getMaxPrime(maxNum) + (usedPRIME - 1) * 0.1);
+			addText = '* Prime(' +  (getMaxPrime(maxNum) + (usedPRIME -1) * 0.1) +')';
+			this.addScoreText(addText);
+		}
+		if (usedPERFECT > 0) {
+			PerfectFlag = true;
+			this.score = this.score * (questionNum.number + (usedPERFECT - 1) * 0.1);
+			addText = '* Perfect(' +  (questionNum.number + (usedPERFECT -1) * 0.1) +')';
+			this.addScoreText(addText);
+		}
+		if (usedSQ > 0) {
+			this.score = this.score * (16 + (usedSQ - 1) * 0.1);
+			addText = '* Square(' +  (16 + (usedSQ -1) * 0.1) +')';
+			this.addScoreText(addText);
+		}
+		if (usedCUBIC > 0) {
+			score = score * (216 + (usedCUBIC - 1) * 0.1);
+			addText = '* Cubic(' +  (216 + (usedCUBIC -1) * 0.1) +')';
+			this.addScoreText(addText);
+		}
+		if (usedRED > 0) {
+			this.score = this.score * (2 + (usedRED - 1) * 0.1);
+			addText = '* Red(' +  (2 + (usedRED -1) * 0.1) +')';
+			this.addScoreText(addText);
+		}
+		if (usedGREEN > 0) {
+			this.score = this.score * (2 + (usedGREEN - 1) * 0.1);
+			addText = '* Green(' +  (2 + (usedGREEN -1) * 0.1) +')';
+			this.addScoreText(addText);
+		}
+		if (usedBLUE > 0) {
+			this.score = this.score * (2 + (usedBLUE - 1) * 0.1);
+			addText = '* Blue(' +  (2 + (usedBLUE -1) * 0.1) +')';
+			this.addScoreText(addText);
+		}
+		if (usedYELLOW > 0) {
+			this.score = this.score * (2 + (usedYELLOW - 1) * 0.1);
+			addText = '* Yellow(' +  (2 + (usedYELLOW -1) * 0.1) +')';
+			this.addScoreText(addText);
+		}
+		if (usedCYAN > 0) {
+			this.score = this.score * (2 + (usedCYAN - 1) * 0.1);
+			addText = '* Cyan(' +  (2 + (usedCYAN -1) * 0.1) +')';
+			this.addScoreText(addText);
+		}
+		if (usedMAGENTA > 0) {
+			this.score = this.score * (2 + (usedMAGENTA - 1) * 0.1);
+			addText = '* Magenta(' +  (2 + (usedMAGENTA -1) * 0.1) +')';
+			this.addScoreText(addText);
+		}
+		if (usedITALIC > 0) {
+			this.score = this.score * (2 + (usedITALIC - 1) * 0.1);
+			addText = '* Italic(' +  (2 + (usedITALIC -1) * 0.1) +')';
+			this.addScoreText(addText);
+		}
+		if (usedBOLD > 0) {
+			score = score * (2 + (usedBOLD - 1) * 0.1);
+	        addText = '* Bold(' +  (2 + (usedBOLD -1) * 0.1) +')';
+			this.addScoreText(addText);
+		}
+		if (usedUNDERLINE > 0) {
+			this.score = this.score * (2 + (usedUNDERLINE - 1) * 0.1);
+			addText = '* UnderLine(' +  (2 + (usedUNDERLINE -1) * 0.1) +')';
+			this.addScoreText(addText);
+		}
+		if (usedLINETHROUGH > 0) {
+			this.score = this.score * (2 + (usedLINETHROUGH - 1) * 0.1);
+			addText = '* LineThrough(' +  (2 + (usedLINETHROUGH -1) * 0.1) +')';
+			this.addScoreText(addText);
+		}
+		if (usedOVERLINE > 0) {
+			this.score = this.score * (2 + (usedOVERLINE - 1) * 0.1);
+			addText = '* OverLine(' +  (2 + (usedOVERLINE -1) * 0.1) +')';
+			this.addScoreText(addText);
+		}
+		if (usedHAMBURGER > 0) {
+			this.score = this.score * (2 + (usedHAMBURGER - 1) * 0.1);
+			addText = '* Hamburger!(' +  (2 + (usedHAMBURGER -1) * 0.1) +')';
+			this.addScoreText(addText);
+		}
+
+		//複合の判定
+		if (FIZZflag && BUZZflag) {
+			this.score = this.score * 15;
+			addText = '* FIZZBUZZ!(15)';
+			this.addScoreText(addText);
+		}
+
+		if (SevenFlag && ElevenFlag) {
+			this.score = this.score * 711;
+			addText = '* SEVENELEVEN!(15)';
+			this.addScoreText(addText);
+		}
+
+		//全使用の判定
+		if (maxHand == usedCardValue) {
+			if (missValue <= 0) {
+				if (PerfectFlag) {
+					this.score = this.score ** 3;
+					addText = 'PERFECTNUMBER!(^2)';
+					scoreText = '( ' + scoreText + ' )' + addText;
+				} else {
+					this.score = this.score * 2;
+					addText = '* PERFECT!(2)';
+					this.addScoreText(addText);
+				}
+			}
+		}
+
+		//残り時間補正の計算
+		if (missValue <= 0) {
+			if (this.ansTimeS === 0) {
+				return score;
+			} else {
+				this.timeReduce = Math.max(initialLimitTime - this.limitTime, 0);
+				if(this.timeReduce > 0) {
+					this.score = this.score * (1 + this.ansTimeS + this.timeReduce * 2);
+					addText = '* Time Bonus!(' + (1 + this.ansTimeS + this.timeReduce*2 ) + ')';
+					this.addScoreText(addText);
+					return this.score;
+				} else {
+					this.score = this.score * (1 + this.ansTimeS);
+					addText = '* Time Bonus!(' + (1 + this.ansTimeS) + ')';
+					this.addScoreText(addText);
+					return this.score;
+				}
+			}
+		}
+		return this.score;
+	}
+}
+
+//let questionNum = new QuestionNum();
+let questionNum;
+let resultList;
 
 // これにエレメントを渡すと選択状態を切り替えることができる
 function flipSelect(e) {
@@ -156,9 +494,9 @@ function arrangeTimeElement(elem) {
 
 // 制限時間の表示制御
 function displayTime() {
-	const time = document.getElementById('timer');
-	if(time != null) {
-		arrangeTimeElement(time);
+	const timeElm = document.getElementById('timer');
+	if(timeElm != null) {
+		arrangeTimeElement(timeElm);
 
 		// 制限時間を使い切っていたら回答チェックへ
 		const diff = CalcDiff();
@@ -170,6 +508,31 @@ function displayTime() {
 	}
 	// 10ミリ秒後に自身を呼び出すタイマーをセット
 	timeoutID = setTimeout(displayTime, 10);
+}
+
+// スコア表示のテキストを設定
+function arrangeScoreElement(elem, score) {
+	elem.innerText = score;
+}
+
+// スコア詳細表示のテキストを設定
+function arrangeScoreTextElement(elem, scoreText) {
+	elem.innerText = scoreText;
+}
+
+// スコア表示制御
+function displayScore(targetResult) {
+	const scoreElm = document.getElementById('score');
+	
+	if(scoreElm != null) {
+		arrangeScoreElement(scoreElm, targetResult.score);
+	}
+	
+	const scoreTextElm = document.getElementById('scoreText');
+	
+	if(scoreTextElm != null) {
+		arrangeScoreTextElement(scoreTextElm, targetResult.scoreText);
+	}
 }
 
 
@@ -185,6 +548,10 @@ function GameStart() {
 	// コンティニューを見据えると、これをやる前に各種初期化が必要
 	document.getElementById('playarea').hidden = false;
 	document.getElementById('decklistarea').hidden = false;
+	
+	// Nextボタンを隠す
+	// インターバル用のエリアを別に作って、プレイエリアを交互に表示すると良い？
+	document.getElementById('next-button').hidden = true;
 }
 
 function getPickList() {
@@ -254,6 +621,12 @@ function dealHand(handElement, hand) {
 
 //nは大きい数字の最大値
 function initialize(n) { 
+	resultList = [];
+	let result1 = new ascendResult();
+	resultList.push(new ascendResult());
+	
+	questionNum = resultList[0].questionNum;
+	
 	questionNum.initialize(n);
 	document.getElementById('number').textContent = questionNum.number;
 	
@@ -272,7 +645,10 @@ function initialize(n) {
 	displayTime();
 }
 
+
 function nextQuestion(){
+	questionNum = resultList[0].questionNum;
+	
 	questionNum.nextQuestion();
 	document.getElementById('number').textContent = questionNum.number;
 
@@ -289,19 +665,30 @@ function nextQuestion(){
 	// 制限時間をリセット
 	startTime = Date.now();
 	displayTime();
+	
+	document.getElementById('next-button').hidden = true;
+	document.getElementById('ascend-button').hidden = false;
 }
 
 // Ascend!もしくは時間切れで呼ばれる
 function judge(){
 	clearTimeout(timeoutID);
 
-	let pickList = getPickList();
+	resultList[0].cardList = getPickList();
 
-	// getScore内で残り時間を参照する部分があり、そこへCalcDiff()から返ってきた値をそのまま投げれば行けそうな気がする
 	let ansTime = CalcDiff();
-	console.log(getScore(pickList, ansTime));
+	resultList[0].ansTimeS = +(ansTime/1000).toFixed(1);
 	
-	nextQuestion();
+	resultList[0].limitTime = limitTime;
+	
+	
+	let score = resultList[0].getScore();
+	console.log(score);
+	displayScore(resultList[0]);
+	
+	//nextQuestion();
+	document.getElementById('next-button').hidden = false;
+	document.getElementById('ascend-button').hidden = true;
 }
 
 
@@ -346,7 +733,7 @@ function isEleven(number) {
 }
 
 function isJason(number) {
-	return (number % 13 === 0); e;
+	return (number % 13 === 0);
 }
 
 function isGauss(number) {
@@ -515,6 +902,7 @@ function setMistake(cardList) {
 
 function getScore(cardList, time) {
 	let score = questionNum.number;
+	let scoreText = 'Base' + '(' + score + ')';
 
 	setMistake(cardList);
 
@@ -653,79 +1041,128 @@ function getScore(cardList, time) {
 	if (usedFIZZ > 0) {
 		FIZZflag = true;
 		score = score * (3 + (usedFIZZ - 1) * 0.1);
+		addText = '* FIZZ(' +  (3 + (usedFIZZ -1) * 0.1) +')';
+		scoreText = scoreText + addText;
 	}
 	if (usedBUZZ >  0) {
 		BUZZflag = true;
-			score = score * (5 + (usedBUZZ - 1) * 0.1);
+		score = score * (5 + (usedBUZZ - 1) * 0.1);
+		addText = '* BUZZ(' +  (5 + (usedBUZZ -1) * 0.1) +')';
+		scoreText = scoreText + addText;
 	}
 	if (used7 > 0) {
 		SevenFlag = true;
 		score = score * (7 + (used7 - 1) * 0.1);
+        addText = '* Seven(' +  (7 + (used7 -1) * 0.1) +')';
+        scoreText = scoreText + addText;
 	}
 	if (used11 > 0) {
 		ElevenFlag = true;
 		score = score * (11 + (used11 - 1) * 0.1);
+        addText = '* Eleven(' +  (11 + (used11 -1) * 0.1) +')';
+        scoreText = scoreText + addText;
 	}
 	if (used13 > 0) {
 		score = score * (13 + (used13 - 1) * 0.1);
+        addText = '* Jason(' +  (13 + (used13 -1) * 0.1) +')';
+        scoreText = scoreText + addText;
 	}
 	if (used17 > 0) {
 		score = score * (17 + (used17- 1) * 0.1);
+        addText = '* Gauss(' +  (17 + (used17 -1) * 0.1) +')';
+        scoreText = scoreText + addText;
 	}
 	if (usedODD > 0) {
 		score = score * (2 + (usedODD - 1) * 0.1);
+        addText = '* Even(' +  (2 + (usedODD -1) * 0.1) +')';
+        scoreText = scoreText + addText;
 	}
 	if (usedEVEN > 0) {
 		score = score * (2 + (usedEVEN - 1) * 0.1);
+        addText = '* Even(' +  (2 + (usedEVEN -1) * 0.1) +')';
+        scoreText = scoreText + addText;
 	}
 	if (usedPRIME > 0) {
 		score = score * (getMaxPrime(maxNum) + (usedPRIME - 1) * 0.1);
+        addText = '* Prime(' +  (getMaxPrime(maxNum) + (usedPRIME -1) * 0.1) +')';
+        scoreText = scoreText + addText;
 	}
 	if (usedPERFECT > 0) {
 		PerfectFlag = true;
-		score = score * (random + (usedPERFECT - 1) * 0.1);
+		score = score * (questionNum.number + (usedPERFECT - 1) * 0.1);
+        addText = '* Perfect(' +  (questionNum.number + (usedPERFECT -1) * 0.1) +')';
+        scoreText = scoreText + addText;
+
 	}
 	if (usedSQ > 0) {
 		score = score * (16 + (usedSQ - 1) * 0.1);
+        addText = '* Square(' +  (16 + (usedSQ -1) * 0.1) +')';
+        scoreText = scoreText + addText;
 	}
 	if (usedCUBIC > 0) {
 		score = score * (216 + (usedCUBIC - 1) * 0.1);
+        addText = '* Cubic(' +  (216 + (usedCUBIC -1) * 0.1) +')';
+        scoreText = scoreText + addText;
 	}
 	if (usedRED > 0) {
 		score = score * (2 + (usedRED - 1) * 0.1);
+        addText = '* Red(' +  (2 + (usedRED -1) * 0.1) +')';
+        scoreText = scoreText + addText;
 	}
 	if (usedGREEN > 0) {
 		score = score * (2 + (usedGREEN - 1) * 0.1);
+        addText = '* Green(' +  (2 + (usedGREEN -1) * 0.1) +')';
+        scoreText = scoreText + addText;
 	}
 	if (usedBLUE > 0) {
 		score = score * (2 + (usedBLUE - 1) * 0.1);
+        addText = '* Blue(' +  (2 + (usedBLUE -1) * 0.1) +')';
+        scoreText = scoreText + addText;
 	}
 	if (usedYELLOW > 0) {
 		score = score * (2 + (usedYELLOW - 1) * 0.1);
+        addText = '* Yellow(' +  (2 + (usedYELLOW -1) * 0.1) +')';
+        scoreText = scoreText + addText;
 	}
 	if (usedCYAN > 0) {
 		score = score * (2 + (usedCYAN - 1) * 0.1);
+        addText = '* Cyan(' +  (2 + (usedCYAN -1) * 0.1) +')';
+        scoreText = scoreText + addText;
 	}
 	if (usedMAGENTA > 0) {
 		score = score * (2 + (usedMAGENTA - 1) * 0.1);
+        addText = '* Magenta(' +  (2 + (usedMAGENTA -1) * 0.1) +')';
+        scoreText = scoreText + addText;
 	}
 	if (usedITALIC > 0) {
 		score = score * (2 + (usedITALIC - 1) * 0.1);
+        addText = '* Italic(' +  (2 + (usedITALIC -1) * 0.1) +')';
+        scoreText = scoreText + addText;
 	}
 	if (usedBOLD > 0) {
 		score = score * (2 + (usedBOLD - 1) * 0.1);
+        addText = '* Bold(' +  (2 + (usedBOLD -1) * 0.1) +')';
+        scoreText = scoreText + addText;
 	}
 	if (usedUNDERLINE > 0) {
 		score = score * (2 + (usedUNDERLINE - 1) * 0.1);
+        addText = '* UnderLine(' +  (2 + (usedUNDERLINE -1) * 0.1) +')';
+        scoreText = scoreText + addText;
 	}
 	if (usedLINETHROUGH > 0) {
 		score = score * (2 + (usedLINETHROUGH - 1) * 0.1);
+        addText = '* LineThrough(' +  (2 + (usedLINETHROUGH -1) * 0.1) +')';
+        scoreText = scoreText + addText;
 	}
 	if (usedOVERLINE > 0) {
 		score = score * (2 + (usedOVERLINE - 1) * 0.1);
+        addText = '* OverLine(' +  (2 + (usedOVERLINE -1) * 0.1) +')';
+        scoreText = scoreText + addText;
 	}
 	if (usedHAMBURGER > 0) {
 		score = score * (2 + (usedHAMBURGER - 1) * 0.1);
+        addText = '* Hamburger!(' +  (2 + (usedHAMBURGER -1) * 0.1) +')';
+        scoreText = scoreText + addText;
 	}
 
 
@@ -737,10 +1174,14 @@ function getScore(cardList, time) {
 	//複合の判定
 	if (FIZZflag && BUZZflag) {
 		score = score * 15;
+    addText = '* FIZZBUZZ!(15)';
+    scoreText = scoreText + addText;
 	}
 
 	if (SevenFlag && ElevenFlag) {
 		score = score * 711;
+    addText = '* SEVENELEVEN!(15)';
+    scoreText = scoreText + addText;
 	}
 
 	//全使用の判定
@@ -750,6 +1191,8 @@ function getScore(cardList, time) {
 				score = score ** 3;
 			} else {
 				score = score * 2;
+				addText = '* PERFECT!(2)';
+				scoreText = scoreText + addText;
 			}
 		}
 	}
@@ -759,9 +1202,10 @@ function getScore(cardList, time) {
 		if (time === 0) {
 			return score;
 		} else {
-			score = score * (1 + time);
-			// timeReduceなんだっけ。制限時間短縮レリック？
-			//score = score * (1 + time + timeReduce * 2);
+			let timeReduce = Math.max(initialLimitTime - limitTime, 0);
+			score = score * (1 + time + timeReduce * 2);
+			addText = '* Time Bonus!(' + (1 + time + timeReduce*2 ) + ')';
+			scoreText = scoreText + addText;
 			return score;
 		}
 	}
