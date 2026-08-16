@@ -6,7 +6,10 @@ let startTime = Date.now();
 const initialLimitTime = 10;
 let limitTime = initialLimitTime;
 let timeoutID = null;
-
+let limitReduce = 2; //制限時間の減少量
+//let questionNum = new QuestionNum();
+let questionNum;
+let resultList;
 
 //大きい数字のためのクラス
 class QuestionNum{
@@ -442,10 +445,6 @@ class ascendResult{
 	}
 }
 
-//let questionNum = new QuestionNum();
-let questionNum;
-let resultList;
-
 // これにエレメントを渡すと選択状態を切り替えることができる
 function flipSelect(e) {
 	// 選択状態かをclassList.containsで確認する
@@ -541,7 +540,9 @@ function GameStart() {
 	document.getElementById('startbutton').hidden = true;
 
 	//初期化
-	initialize(maxQuestionNum); // 初期値100
+
+	initialize(100);
+	//startCountdown(limitTime);
 
 
 	// プレイエリアとデッキリストエリアを見せる
@@ -898,317 +899,38 @@ function setMistake(cardList) {
 	} 
 	
 	return mistake;
-  }
-
-function getScore(cardList, time) {
-	let score = questionNum.number;
-	let scoreText = 'Base' + '(' + score + ')';
-
-	setMistake(cardList);
-
-	let maxHand = 5;
+}
 
 
-	let FIZZflag = false;
-	let BUZZflag = false;
-	let SevenFlag = false;
-	let ElevenFlag = false;
-	let PerfectFlag = false;
+function startCountdown(seconds) {
+    const now = new Date().getTime();
+    const targetDate = now + seconds * 1000;
 
-	//それぞれのカード種類の正解数のカウント
-	let usedFIZZ = 0;
-	let usedBUZZ = 0;
-	let used7 = 0;
-	let used11 = 0;
-	let used13 = 0;
-	let used17 = 0;
-	let usedODD = 0;
-	let usedEVEN = 0;
-	let usedPRIME = 0;
-	let usedPERFECT = 0;
-	let usedSQ = 0;
-	let usedCUBIC = 0;
-	let usedRED = 0;
-	let usedGREEN = 0;
-	let usedBLUE = 0;
-	let usedYELLOW = 0;
-	let usedCYAN = 0;
-	let usedMAGENTA = 0;
-	let usedITALIC = 0;
-	let usedBOLD = 0;
-	let usedUNDERLINE = 0;
-	let usedLINETHROUGH = 0;
-	let usedOVERLINE = 0;
-	let usedHAMBURGER = 0;
+    if (window.countdownInterval) {
+        clearInterval(window.countdownInterval);
+    }
 
-	let missValue = 0;
+    // 更新間隔を10ミリ秒（0.01秒）に設定
+    window.countdownInterval = setInterval(() => {
+        const currentTime = new Date().getTime();
+        const distance = targetDate - currentTime;
 
+        if (distance < 0) {
+            clearInterval(window.countdownInterval);
+            document.getElementById('seconds').innerHTML = "0";
+			document.getElementById('milliseconds').innerHTML = "0";
+            return;
+        }
 
-	let usedCardValue = 0;
+        // 時間の計算
+        const secs = Math.floor((distance % (1000 * 60)) / 1000);
+        
+        // ミリ秒を計算して、0.01秒単位に変換
+        const milliseconds = String(Math.floor((distance % 1000) / 10)).padStart(2, '0');
 
-	for (const c of cardList) {
+        // HTMLに表示
+        document.getElementById('seconds').innerText = String(secs).padStart(2, '0');
+        document.getElementById('milliseconds').innerText = milliseconds;
 
-		if (c.isUsed && !c.isMiss) {
-			switch (c.type) {
-				case `FIZZ`:
-					usedFIZZ++;
-					break;
-				case `BUZZ`:
-					usedBUZZ++;
-					break;
-				case `7`:
-					used7++;
-					break;
-				case `11`:
-					used11++;
-					break;
-				case `13`:
-					used13++;
-					break;
-				case `17`:
-					used17++;
-					break;
-				case `odd`:
-					usedODD++;
-					break;
-				case `even`:
-					usedEVEN++;
-					break;
-				case `prime`:
-					usedPRIME++;
-					break;
-				case `perfect`:
-					usedPERFECT++;
-					break;
-				case `sq`:
-					usedSQ++;
-					break;
-				case `cubic`:
-					usedCUBIC++;
-					break;
-				case `red`:
-					usedRED++;
-					break;
-				case `green`:
-					usedGREEN++;
-					break;
-				case `blue`:
-					usedBLUE++;
-					break;
-				case `yellow`:
-					usedYELLOW++;
-					break;
-				case `cyan`:
-					usedCYAN++;
-					break;
-				case `magenta`:
-					usedMAGENTA++;
-					break;
-				case `italic`:
-					usedITALIC++;
-					break;
-				case `bold`:
-					usedBOLD++;
-					break;
-				case `underline`:
-					usedUNDERLINE++;
-					break;
-				case `line-through`:
-					usedLINETHROUGH++;
-					break;
-				case `overline`:
-					usedOVERLINE++;
-					break;
-				case `hamburger`:
-					usedHAMBURGER++;
-					break;
-			}
-		}
-
-		if (c.isUsed) {
-			missValue++;
-		}
-
-		if (c.isMiss) {
-			usedCardValue++;
-		}
-
-
-	}
-
-	//スコアの計算
-
-	if (usedFIZZ > 0) {
-		FIZZflag = true;
-		score = score * (3 + (usedFIZZ - 1) * 0.1);
-		addText = '* FIZZ(' +  (3 + (usedFIZZ -1) * 0.1) +')';
-		scoreText = scoreText + addText;
-	}
-	if (usedBUZZ >  0) {
-		BUZZflag = true;
-		score = score * (5 + (usedBUZZ - 1) * 0.1);
-		addText = '* BUZZ(' +  (5 + (usedBUZZ -1) * 0.1) +')';
-		scoreText = scoreText + addText;
-	}
-	if (used7 > 0) {
-		SevenFlag = true;
-		score = score * (7 + (used7 - 1) * 0.1);
-        addText = '* Seven(' +  (7 + (used7 -1) * 0.1) +')';
-        scoreText = scoreText + addText;
-	}
-	if (used11 > 0) {
-		ElevenFlag = true;
-		score = score * (11 + (used11 - 1) * 0.1);
-        addText = '* Eleven(' +  (11 + (used11 -1) * 0.1) +')';
-        scoreText = scoreText + addText;
-	}
-	if (used13 > 0) {
-		score = score * (13 + (used13 - 1) * 0.1);
-        addText = '* Jason(' +  (13 + (used13 -1) * 0.1) +')';
-        scoreText = scoreText + addText;
-	}
-	if (used17 > 0) {
-		score = score * (17 + (used17- 1) * 0.1);
-        addText = '* Gauss(' +  (17 + (used17 -1) * 0.1) +')';
-        scoreText = scoreText + addText;
-	}
-	if (usedODD > 0) {
-		score = score * (2 + (usedODD - 1) * 0.1);
-        addText = '* Even(' +  (2 + (usedODD -1) * 0.1) +')';
-        scoreText = scoreText + addText;
-	}
-	if (usedEVEN > 0) {
-		score = score * (2 + (usedEVEN - 1) * 0.1);
-        addText = '* Even(' +  (2 + (usedEVEN -1) * 0.1) +')';
-        scoreText = scoreText + addText;
-	}
-	if (usedPRIME > 0) {
-		score = score * (getMaxPrime(maxNum) + (usedPRIME - 1) * 0.1);
-        addText = '* Prime(' +  (getMaxPrime(maxNum) + (usedPRIME -1) * 0.1) +')';
-        scoreText = scoreText + addText;
-	}
-	if (usedPERFECT > 0) {
-		PerfectFlag = true;
-		score = score * (questionNum.number + (usedPERFECT - 1) * 0.1);
-        addText = '* Perfect(' +  (questionNum.number + (usedPERFECT -1) * 0.1) +')';
-        scoreText = scoreText + addText;
-
-	}
-	if (usedSQ > 0) {
-		score = score * (16 + (usedSQ - 1) * 0.1);
-        addText = '* Square(' +  (16 + (usedSQ -1) * 0.1) +')';
-        scoreText = scoreText + addText;
-	}
-	if (usedCUBIC > 0) {
-		score = score * (216 + (usedCUBIC - 1) * 0.1);
-        addText = '* Cubic(' +  (216 + (usedCUBIC -1) * 0.1) +')';
-        scoreText = scoreText + addText;
-	}
-	if (usedRED > 0) {
-		score = score * (2 + (usedRED - 1) * 0.1);
-        addText = '* Red(' +  (2 + (usedRED -1) * 0.1) +')';
-        scoreText = scoreText + addText;
-	}
-	if (usedGREEN > 0) {
-		score = score * (2 + (usedGREEN - 1) * 0.1);
-        addText = '* Green(' +  (2 + (usedGREEN -1) * 0.1) +')';
-        scoreText = scoreText + addText;
-	}
-	if (usedBLUE > 0) {
-		score = score * (2 + (usedBLUE - 1) * 0.1);
-        addText = '* Blue(' +  (2 + (usedBLUE -1) * 0.1) +')';
-        scoreText = scoreText + addText;
-	}
-	if (usedYELLOW > 0) {
-		score = score * (2 + (usedYELLOW - 1) * 0.1);
-        addText = '* Yellow(' +  (2 + (usedYELLOW -1) * 0.1) +')';
-        scoreText = scoreText + addText;
-	}
-	if (usedCYAN > 0) {
-		score = score * (2 + (usedCYAN - 1) * 0.1);
-        addText = '* Cyan(' +  (2 + (usedCYAN -1) * 0.1) +')';
-        scoreText = scoreText + addText;
-	}
-	if (usedMAGENTA > 0) {
-		score = score * (2 + (usedMAGENTA - 1) * 0.1);
-        addText = '* Magenta(' +  (2 + (usedMAGENTA -1) * 0.1) +')';
-        scoreText = scoreText + addText;
-	}
-	if (usedITALIC > 0) {
-		score = score * (2 + (usedITALIC - 1) * 0.1);
-        addText = '* Italic(' +  (2 + (usedITALIC -1) * 0.1) +')';
-        scoreText = scoreText + addText;
-	}
-	if (usedBOLD > 0) {
-		score = score * (2 + (usedBOLD - 1) * 0.1);
-        addText = '* Bold(' +  (2 + (usedBOLD -1) * 0.1) +')';
-        scoreText = scoreText + addText;
-	}
-	if (usedUNDERLINE > 0) {
-		score = score * (2 + (usedUNDERLINE - 1) * 0.1);
-        addText = '* UnderLine(' +  (2 + (usedUNDERLINE -1) * 0.1) +')';
-        scoreText = scoreText + addText;
-	}
-	if (usedLINETHROUGH > 0) {
-		score = score * (2 + (usedLINETHROUGH - 1) * 0.1);
-        addText = '* LineThrough(' +  (2 + (usedLINETHROUGH -1) * 0.1) +')';
-        scoreText = scoreText + addText;
-	}
-	if (usedOVERLINE > 0) {
-		score = score * (2 + (usedOVERLINE - 1) * 0.1);
-        addText = '* OverLine(' +  (2 + (usedOVERLINE -1) * 0.1) +')';
-        scoreText = scoreText + addText;
-	}
-	if (usedHAMBURGER > 0) {
-		score = score * (2 + (usedHAMBURGER - 1) * 0.1);
-        addText = '* Hamburger!(' +  (2 + (usedHAMBURGER -1) * 0.1) +')';
-        scoreText = scoreText + addText;
-	}
-
-
-
-
-
-
-
-	//複合の判定
-	if (FIZZflag && BUZZflag) {
-		score = score * 15;
-    addText = '* FIZZBUZZ!(15)';
-    scoreText = scoreText + addText;
-	}
-
-	if (SevenFlag && ElevenFlag) {
-		score = score * 711;
-    addText = '* SEVENELEVEN!(15)';
-    scoreText = scoreText + addText;
-	}
-
-	//全使用の判定
-	if (maxHand == usedCardValue) {
-		if (missValue <= 0) {
-			if (PerfectFlag) {
-				score = score ** 3;
-			} else {
-				score = score * 2;
-				addText = '* PERFECT!(2)';
-				scoreText = scoreText + addText;
-			}
-		}
-	}
-
-	//残り時間補正の計算
-	if (missValue <= 0) {
-		if (time === 0) {
-			return score;
-		} else {
-			let timeReduce = Math.max(initialLimitTime - limitTime, 0);
-			score = score * (1 + time + timeReduce * 2);
-			addText = '* Time Bonus!(' + (1 + time + timeReduce*2 ) + ')';
-			scoreText = scoreText + addText;
-			return score;
-		}
-	}
-	return score;
-
+    }, 10);
 }
