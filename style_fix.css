@@ -88,6 +88,19 @@ header img{
   font-size:28px;
   font-weight: bold;
 }
+.next-button{
+  width:200px;
+  color: #fff;
+  background: #ff002a;
+  border: 6px solid #efff41;
+  height: 70px;
+  border-radius: 35px;
+  margin: 32px auto 0;
+  text-align: center;
+  line-height: 58px;
+  font-size:28px;
+  font-weight: bold;
+}
 .decklistarea{
   background-color: #e8d9cd;
   padding: 20px 0;

@@ -18,7 +18,7 @@
     <div class="container">
       <div class="number" id="number">25</div>
       <!-- タイマー確認用に無理やりねじ込んであるので要修正 -->
-      <div id="countdown" class="countdown">
+      <!--<div id="countdown" class="countdown">
         <div class="time-card">
           <span id="seconds">0</span>
           <div class="label">秒</div>
@@ -26,7 +26,7 @@
         <div class="time-card milliseconds-card"> <span id="milliseconds">00</span>
           <div class="label"></div>
         </div>
-      </div>
+      </div>-->
       <!-- タイマー確認用に無理やりねじ込んであるので要修正 ここまで-->
       <div id="hands" class="hands">
         <div id="hand01" onclick="flipSelect(this);" class="card selected">FIZZ</div>
@@ -35,7 +35,11 @@
         <div id="hand04" onclick="flipSelect(this);" class="card selected">BUZZ</div>
         <div id="hand05" onclick="flipSelect(this);" class="card">FIZZ</div>
       </div>
-      <div class="ascend-button" onclick=" judge();">Ascend!</div>
+        <div class="ascend-button" id="ascend-button" onclick=" judge();">Ascend!</div>
+        <div class="timerdisplay"><div id="timer">10:00:00</div></div>
+        <div class="scoredisplay"><div id="score">-</div></div>
+        <div class="scoretextdisplay"><div id="scoreText">-</div></div>
+        <div class="next-button" id="next-button" onclick=" nextQuestion();">Next</div>
     </div>
   </div>
   <div class="decklistarea" id="decklistarea" hidden>
